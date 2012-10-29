@@ -1,0 +1,399 @@
+
+<SCRIPT LANUAGE="JavaScript">
+
+   AcceptableBrowser = document.images;
+
+   Height = 1;  Width = 1; // Image dimensions
+   if (AcceptableBrowser) {
+   // The name of the variable with the "Dn" suffix must match
+   // the first ReplaceImage parameter in the onMouseOver call
+   // The name of the variable with the "Up" suffix must match
+   // the first ReplaceImage parameter in the onMouseOut call
+
+    p1Dn     = new Image(Height, Width);
+    p1Dn.src = "figs/triangle_left_on.gif"; // mouse over graphic location
+    p1Up     = new Image(Height, Width);
+    p1Up.src = "figs/triangle_left_off.gif";  // mouse out graphic location
+    p2Dn     = new Image(Height, Width);
+    p2Dn.src = "figs/triangle_right_on.gif"; // mouse over graphic location
+    p2Up     = new Image(Height, Width);
+    p2Up.src = "figs/triangle_right_off.gif";  // mouse out graphic location
+    p3Dn     = new Image(Height, Width);
+    p3Dn.src = "figs/triangle_right_on.gif"; // mouse over graphic location
+    p3Up     = new Image(Height, Width);
+    p3Up.src = "figs/triangle_right_off.gif";  // mouse out graphic location
+
+} // if (AcceptableBrowser)
+
+function ReplaceImage(ImageObject, Subscript, StatusMessage)
+	{
+  	if (AcceptableBrowser)
+  		{
+	    	Graphic = eval(ImageObject + ".src");
+	    	document.images[Subscript].src = Graphic;
+  		}
+  	if (StatusMessage)
+  		{
+		    window.defaultStatus = StatusMessage;
+  		}
+	  		return true;
+	}
+
+	function changeOverActive(el)
+	{
+		el.style.color='#FFA500';
+		el.style.cursor='default';
+	}
+
+	function changeOutActive(el)
+	{
+		el.style.color='#4682B4';
+		el.style.cursor='default';
+	}
+	function changeOverInactive(el)
+	{
+		el.style.color='#FFA500';
+		el.style.cursor='default';
+	}
+
+	function changeOutInactive(el)
+	{
+		el.style.color='#000000';
+		el.style.cursor='default';
+	}
+
+	function changeClickedInactive(loc)
+	{
+		parent.frames['main'].location.href(loc);
+	}
+
+</script>
+
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<LINK REL=stylesheet HREF="ModuleReport.css" TYPE="text/css">
+<TITLE>WindSim - When the terrain gets rough</TITLE>
+</HEAD>
+<BODY link="#003377" vlink="#003377" alink="#AA0000" BACKGROUND="figs/transparent.gif">
+
+
+<TABLE cellpadding="0" cellspacing="0" border="0" width="580">
+<TR>
+  <TD WIDTH=" 20"><IMG SRC= "figs/transparent.gif" WIDTH=20  HEIGHT=1></TD>
+  <TD WIDTH="150"><IMG SRC= "figs/transparent.gif" WIDTH=150 HEIGHT=1></TD>
+  <TD WIDTH="  5"><IMG SRC= "figs/transparent.gif" WIDTH=5   HEIGHT=1></TD>
+  <TD WIDTH="150"><IMG SRC= "figs/transparent.gif" WIDTH=150 HEIGHT=1></TD>
+  <TD WIDTH="  5"><IMG SRC= "figs/transparent.gif" WIDTH=5   HEIGHT=1></TD>
+  <TD WIDTH="130"><IMG SRC= "figs/transparent.gif" WIDTH=130 HEIGHT=1></TD>
+  <TD WIDTH="  5"><IMG SRC= "figs/transparent.gif" WIDTH=5   HEIGHT=1></TD>
+  <TD WIDTH=" 95"><IMG SRC= "figs/transparent.gif" WIDTH=95  HEIGHT=1></TD>
+  <TD WIDTH=" 20"><IMG SRC= "figs/transparent.gif" WIDTH=20  HEIGHT=1></TD>
+</TR>
+
+<TR>
+  <TD COLSPAN=9><IMG SRC="figs/transparent.gif" WIDTH=580 HEIGHT=4></TD>
+</TR>
+<TR>
+  <TD><IMG SRC= "figs/transparent.gif" WIDTH=10  HEIGHT=14></TD>
+  <TD VALIGN=TOP CLASS=report_header>License:
+Microsoft
+  </TD>
+  <TD></TD>
+  <TD VALIGN=TOP CLASS=report_header>Project:
+MoninObukhov_ref
+  </TD>
+  <TD></TD>
+  <TD VALIGN=TOP CLASS=report_header>Version:
+510
+  </TD>
+  <TD></TD>
+  <TD ROWSPAN=3 VALIGN=CENTER ALIGN=RIGHT><IMG SRC= "figs/windsim_icon_report.gif"></TD>
+  <TD></TD>
+</TR>
+
+<TR>
+  <TD><IMG SRC= "figs/transparent.gif" WIDTH=10  HEIGHT=14></TD>
+  <TD VALIGN=TOP CLASS=report_header>Customer:
+
+  </TD>
+  <TD></TD>
+  <TD VALIGN=TOP CLASS=report_header>Layout:
+-
+  </TD>
+  <TD></TD>
+   <TD VALIGN=TOP CLASS=report_header>Date:
+01.10.12 10:01
+  </TD>
+  <TD></TD>
+</TR>
+
+<TR>
+  <TD COLSPAN=9><IMG SRC="figs/transparent.gif" WIDTH=580 HEIGHT=4></TD>
+</TR>
+<TR>
+  <TD></TD>
+  <TD COLSPAN=7><IMG SRC="figs/line_grey_01.gif" WIDTH=560 HEIGHT=1></TD>
+  <TD></TD>
+</TR>
+</TABLE>
+
+<H1 CLASS=header1>
+	Terrain
+</H1>
+
+<TABLE cellpadding="0" cellspacing="0" border=0 WIDTH=580>
+<TR>
+  <TD ALIGN=center WIDTH=" 20"><IMG SRC="figs/transparent.gif" WIDTH=" 20" HEIGHT="2"></TD>
+  <TD ALIGN=center WIDTH="  5"><IMG SRC="figs/transparent.gif" WIDTH="  5" HEIGHT="2"></TD>
+  <TD ALIGN=center WIDTH=" 35"><IMG SRC="figs/transparent.gif" WIDTH=" 35" HEIGHT="2"></TD>
+  <TD ALIGN=center WIDTH="470"><IMG SRC="figs/transparent.gif" WIDTH="470" HEIGHT="2"></TD>
+  <TD ALIGN=center WIDTH=" 35"><IMG SRC="figs/transparent.gif" WIDTH=" 35" HEIGHT="2"></TD>
+  <TD ALIGN=center WIDTH="  5"><IMG SRC="figs/transparent.gif" WIDTH="  5" HEIGHT="2"></TD>
+</TR>
+
+<TR>
+  <TD></TD>
+  <TD COLSPAN=4><IMG SRC="figs/line_grey_01.gif" WIDTH=560 HEIGHT=1></TD>
+  <TD></TD>
+</TR>
+
+<TR>
+  <TD></TD>
+  <TD bgcolor="#EEEEEE" COLSPAN=3>
+
+  <div style="margin-left:1px;float:left;">
+  	&nbsp;
+  </div>
+
+  <!--2D Field-->
+
+  <div style="
+  	background-color:#EEEEEE;
+  	height:16px;
+	color:#4682B4;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverActive(this);"
+  	onMouseOut ="changeOutActive(this);"
+    >
+    &nbsp;
+  	2D Field
+  </div>
+
+
+  <div style="float:left;width:15;">
+    &nbsp;
+  </div>
+
+  <!--3D model-->
+
+  <div style="
+ 	background-color:#EEEEEE;
+  	height:16px;
+	color:#000000;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverInactive(this);"
+  	onMouseOut ="changeOutInactive(this);"
+	onClick ="changeClickedInactive('terrain_gridxy.html');"
+	>
+	&nbsp;
+	3D Model
+  </div>
+
+
+  <div style="float:left;width:15;">
+    &nbsp;
+  </div>
+
+  <!--Extension-->
+
+  <div style="
+ 	background-color:#EEEEEE;
+  	height:16px;
+	color:#000000;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverInactive(this);"
+  	onMouseOut ="changeOutInactive(this);"
+	onClick ="changeClickedInactive('terrain_extension.html');"
+	>
+	&nbsp;
+	Extension
+  </div>
+
+
+  <div style="float:left;width:15;">
+    &nbsp;
+  </div>
+
+  <!--Obstacle-->
+
+<!--Obstacle
+
+  <div style="
+ 	background-color:#EEEEEE;
+  	height:16px;
+	color:#000000;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverInactive(this);"
+  	onMouseOut ="changeOutInactive(this);"
+	onClick ="changeClickedInactive('terrain_obstacle.html');"
+	>
+	&nbsp;
+	Obstacle
+  </div>
+
+Obstacle-->
+
+  <!--Forest-->
+
+
+
+  <div style="
+ 	background-color:#EEEEEE;
+  	height:16px;
+	color:#000000;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverInactive(this);"
+  	onMouseOut ="changeOutInactive(this);"
+	onClick ="changeClickedInactive('terrain_forest.html');"
+	>
+	&nbsp;
+	Forest
+  </div>
+
+
+
+  <div style="float:right;width:5;">
+    &nbsp;
+  </div>
+
+
+</TD>
+<TD bgcolor="#EEEEEE" ALIGN=CENTER>
+
+<!--3D comment-->
+
+  <div style="
+ 	background-color:#EEEEEE;
+  	height:16px;
+	color:#000000;
+  	line-height:14px;
+  	font-weight:bold;
+  	font-family:Tahoma;
+  	font-size:10px;
+  	float:left"
+  	onMouseOver="changeOverInactive(this);"
+  	onMouseOut ="changeOutInactive(this);"
+	onClick ="changeClickedInactive('terrain_second_derivative.glc');"
+	>
+	&nbsp;
+	3D
+  </div>
+
+<!--3D comment-->
+
+  </TD>
+</TR>
+
+<TR>
+  <TD></TD>
+  <TD bgcolor="#EEEEEE" COLSPAN=4><IMG SRC="figs/transparent.gif" WIDTH="10" HEIGHT="1"></TD>
+  <TD></TD>
+</TR>
+
+<TR>
+
+  <TD></TD>
+  <TD bgcolor="#EEEEEE"></TD>
+
+  <TD VALIGN="TOP" bgcolor="#EEEEEE">
+  <A TARGET="main" HREF="terrain_inclination.html"
+  onMouseOver="ReplaceImage('p1Dn','p1',''); return true"
+  onMouseOut="ReplaceImage('p1Up','p1',''); return true">
+  <IMG SRC="figs/triangle_left_off.gif" ALT="" BORDER="0" WIDTH="14" HEIGHT="13" NAME="p1"></A>
+  <A TARGET="main" HREF="terrain_smooth_delta_elevation.html"
+  onMouseOver="ReplaceImage('p2Dn','p2',''); return true"
+  onMouseOut="ReplaceImage('p2Up','p2',''); return true">
+  <IMG SRC="figs/triangle_right_off.gif" ALT="" BORDER="0" WIDTH="14" HEIGHT="13" NAME="p2"></A>
+  </TD>
+
+  <TD COLSPAN=2 VALIGN="TOP" bgcolor="#EEEEEE">
+  <div style="font-size:10px;font-weight:bold;font-family:Tahoma">
+   2D Field:
+   Second order derivative
+  </div>
+  </TD>
+
+  <TD></TD>
+
+</TR>
+
+<TR>
+  <TD></TD>
+  <TD COLSPAN=4><IMG SRC="figs/line_grey_01.gif" WIDTH=560 HEIGHT=1></TD>
+  <TD></TD>
+</TR>
+
+<TR>
+  <TD COLSPAN=6><IMG SRC="figs/transparent.gif" WIDTH="10" HEIGHT="5"></TD>
+</TR>
+
+<TR>
+  <TD></TD>
+  <TD COLSPAN=5><IMG SRC="figs/terrain_second_derivative.gif"></TD>
+</TR>
+
+</TABLE>
+
+
+<TABLE cellpadding="0" cellspacing="0" border=0 width=580>
+<TR>
+  <TD ALIGN=center WIDTH=" 20"><IMG SRC= "figs/transparent.gif" WIDTH=" 20" HEIGHT="1"></TD>
+  <TD ALIGN=center WIDTH=" 60"><IMG SRC= "figs/transparent.gif" WIDTH=" 60" HEIGHT="1"></TD>
+  <TD ALIGN=center WIDTH="500"><IMG SRC= "figs/transparent.gif" WIDTH="500" HEIGHT="1"></TD>
+</TR>
+<TR>
+  <TD></TD>
+  <TD VALIGN=TOP><i>
+  Fig 1.
+  </TD>
+  <TD ALIGN=LEFT VALIGN=TOP><i>
+  Digital terrain model - Second order derivative
+  </TD>
+</TR>
+</TABLE>
+
+<TABLE cellpadding="0" cellspacing="0" border=0 WIDTH=580>
+<TR>
+  <TD ALIGN=center WIDTH=" 20"><IMG SRC= "figs/transparent.gif" WIDTH=" 20" HEIGHT="20"></TD>
+  <TD ALIGN=center WIDTH="560"><IMG SRC= "figs/transparent.gif" WIDTH="560" HEIGHT="20"></TD>
+</TR>
+<TR>
+  <TD></TD>
+  <TD>
+	In case of large second order derivatives the grid should be smoothed. The displayed value is the absolute maximum of the second order derivative of the elevation in x and y-direction.
+  </TD>
+</TR>
+</TABLE>
+
+</HTML>

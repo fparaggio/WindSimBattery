@@ -1,0 +1,619 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6F09177A-20F3-4861-882D-213B9BF0C03C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WindSim.Batch.Core.Test</RootNamespace>
+    <AssemblyName>WindSim.Batch.Core.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="alglibnet2">
+      <HintPath>..\..\..\..\..\Desktop\Francesco\csharp\alglibnet2.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Test_RefinementGenerator.cs" />
+    <Compile Include="Test_XYZFile_270_red_5.cs" />
+    <Compile Include="Test_XYZFile_270_red_4.cs" />
+    <Compile Include="Test_XYZFile_270_red_3.cs" />
+    <Compile Include="Test_XYZFile_270_red_2.cs" />
+    <Compile Include="Test_XYZFile_270_red.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test_phifile_parser_030_red_temp.cs" />
+    <Compile Include="Test_phifile_parser_red_000.cs" />
+    <Compile Include="Test_phifile_parser_red_000_2.cs" />
+    <Compile Include="Test_project.cs" />
+    <Compile Include="Test_phifileclass.cs" />
+    <Compile Include="Test_MyMath.cs" />
+    <Compile Include="Test_XYZFile_small_field_test.cs" />
+    <Compile Include="Test_WindField.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WindSim.Batch.Core\WindSim.Batch.Core.csproj">
+      <Project>{A8B95E7F-6B05-44D6-B2E2-CD52356954F0}</Project>
+      <Name>WindSim.Batch.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\windsim_batch\windsim_batch.csproj">
+      <Project>{E4DF052C-6F5D-4503-9A54-DAA1188F391E}</Project>
+      <Name>windsim_batch</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestFiles\bws_test.bws" />
+    <None Include="TestFiles\Copy of project1\dtm\area.log" />
+    <None Include="TestFiles\Copy of project1\dtm\default.vif" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm.log" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm.pho" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm.vtf" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_box.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_height.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_height_delta_smooth.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_height_post_smooth.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_height_pre_smooth.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_max_derivative_second_post_smooth.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_max_derivative_second_pre_smooth.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_plane.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_roughness.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_roughness_log.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\dtm_sea.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\grid.gws" />
+    <None Include="TestFiles\Copy of project1\dtm\grid_box.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\grid_frame.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\grid_height.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\grid_plane.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\grid_sea.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\ini.pho" />
+    <None Include="TestFiles\Copy of project1\dtm\open_area_2d.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\open_area_x_max.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\open_area_x_min.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\open_area_y_max.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\open_area_y_min.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\simple_forest.bws" />
+    <None Include="TestFiles\Copy of project1\dtm\view.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_box.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_cylinder.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_height.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_inclination.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_max_derivative.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_max_derivative_second.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_open_area_x.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_open_area_y.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_plane.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_roughness.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_roughness_log.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\view_sea.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_sea_plane.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\view_trans.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\weighting.scl" />
+    <None Include="TestFiles\Copy of project1\dtm\z_distribution_2d.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\z_distribution_3d.geo" />
+    <None Include="TestFiles\Copy of project1\dtm\z_distribution_3d.scl" />
+    <None Include="TestFiles\Copy of project1\glview.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1.lws" />
+    <None Include="TestFiles\Copy of project1\Layout 1\log\report_html_status.log" />
+    <None Include="TestFiles\Copy of project1\Layout 1\log\translate.log" />
+    <None Include="TestFiles\Copy of project1\Layout 1\object\objects_elevation.vtf" />
+    <None Include="TestFiles\Copy of project1\Layout 1\object\objects_elevation_name.vtf" />
+    <None Include="TestFiles\Copy of project1\Layout 1\object\objects_elevation_name_3dobject.vtf" />
+    <None Include="TestFiles\Copy of project1\Layout 1\object\objects_rotation.vtf" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_elevation.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_extension.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_forest.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_gridxy.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_gridz.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_inclination.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_openarea_3d.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_roughness.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_roughness_log.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_second_derivative.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\report\terrain_smooth_delta_elevation.glc" />
+    <None Include="TestFiles\Copy of project1\Layout 1\scenario\template_wind_energy_dtm.in" />
+    <None Include="TestFiles\Copy of project1\log\dtmfig_status.log" />
+    <None Include="TestFiles\Copy of project1\log\dtm_status.log" />
+    <None Include="TestFiles\Copy of project1\log\windfield_status.log" />
+    <None Include="TestFiles\Copy of project1\MoninObukhov_ref.ws" />
+    <None Include="TestFiles\Copy of project1\Surfaces.lws" />
+    <None Include="TestFiles\Copy of project1\windfield\000.phi.Z" />
+    <None Include="TestFiles\Copy of project1\windfield\000.q1" />
+    <None Include="TestFiles\Copy of project1\windfield\000.result" />
+    <None Include="TestFiles\Copy of project1\windfield\000.xyz.Z" />
+    <None Include="TestFiles\Copy of project1\windfield\000_red.phi" />
+    <None Include="TestFiles\Copy of project1\windfield\000_red.xyz" />
+    <None Include="TestFiles\Copy of project1\windfield\270.phi.Z" />
+    <None Include="TestFiles\Copy of project1\windfield\270.q1" />
+    <None Include="TestFiles\Copy of project1\windfield\270.result" />
+    <None Include="TestFiles\Copy of project1\windfield\270.xyz.Z" />
+    <None Include="TestFiles\Copy of project1\windfield\270_red.phi" />
+    <None Include="TestFiles\Copy of project1\windfield\270_red.xyz" />
+    <None Include="TestFiles\Copy of project1\windfield\windfield.log" />
+    <None Include="TestFiles\gws_test.gws" />
+    <None Include="Test_WindField_z0_support_files\WindField_z0_1.xls" />
+    <None Include="Test_WindField_z0_support_files\WindField_z0_2.xls" />
+    <Shadow Include="Test References\windsim_batch.accessor" />
+    <Shadow Include="Test References\WindSim.Batch.Core.accessor" />
+    <None Include="TestFiles\000_red.phi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\000_red_2.phi" />
+    <None Include="TestFiles\030_red_temp.phi" />
+    <None Include="TestFiles\270_red.xyz" />
+    <None Include="TestFiles\270_red_2.xyz" />
+    <None Include="TestFiles\270_red_3.xyz" />
+    <None Include="TestFiles\270_red_4.xyz" />
+    <None Include="TestFiles\270_red_5.xyz" />
+    <None Include="TestFiles\small_field_test\dtm\area.log" />
+    <None Include="TestFiles\small_field_test\dtm\default.vif" />
+    <None Include="TestFiles\small_field_test\dtm\dtm.geo" />
+    <None Include="TestFiles\small_field_test\dtm\dtm.log" />
+    <None Include="TestFiles\small_field_test\dtm\dtm.pho" />
+    <None Include="TestFiles\small_field_test\dtm\dtm.vtf" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_box.geo" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_height.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_height_delta_smooth.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_height_post_smooth.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_height_pre_smooth.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_max_derivative_second_post_smooth.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_max_derivative_second_pre_smooth.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_plane.geo" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_roughness.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_roughness_log.scl" />
+    <None Include="TestFiles\small_field_test\dtm\dtm_sea.geo" />
+    <None Include="TestFiles\small_field_test\dtm\grid.gws" />
+    <None Include="TestFiles\small_field_test\dtm\grid_box.geo" />
+    <None Include="TestFiles\small_field_test\dtm\grid_frame.geo" />
+    <None Include="TestFiles\small_field_test\dtm\grid_height.scl" />
+    <None Include="TestFiles\small_field_test\dtm\grid_plane.geo" />
+    <None Include="TestFiles\small_field_test\dtm\grid_sea.geo" />
+    <None Include="TestFiles\small_field_test\dtm\ini.pho" />
+    <None Include="TestFiles\small_field_test\dtm\open_area_2d.geo" />
+    <None Include="TestFiles\small_field_test\dtm\open_area_x_max.geo" />
+    <None Include="TestFiles\small_field_test\dtm\open_area_x_min.geo" />
+    <None Include="TestFiles\small_field_test\dtm\open_area_y_max.geo" />
+    <None Include="TestFiles\small_field_test\dtm\open_area_y_min.geo" />
+    <None Include="TestFiles\small_field_test\dtm\simple_forest.bws" />
+    <None Include="TestFiles\small_field_test\dtm\simple_refinement.bws" />
+    <None Include="TestFiles\small_field_test\dtm\view.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_box.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_cylinder.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_height.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_inclination.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_max_derivative.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_max_derivative_second.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_open_area_x.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_open_area_y.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_plane.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_roughness.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_roughness_log.scl" />
+    <None Include="TestFiles\small_field_test\dtm\view_sea.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_sea_plane.geo" />
+    <None Include="TestFiles\small_field_test\dtm\view_trans.geo" />
+    <None Include="TestFiles\small_field_test\dtm\weighting.scl" />
+    <None Include="TestFiles\small_field_test\dtm\z_distribution_2d.geo" />
+    <None Include="TestFiles\small_field_test\dtm\z_distribution_3d.geo" />
+    <None Include="TestFiles\small_field_test\dtm\z_distribution_3d.scl" />
+    <None Include="TestFiles\small_field_test\glview.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1.lws" />
+    <None Include="TestFiles\small_field_test\Layout 1\log\report_html_status.log" />
+    <None Include="TestFiles\small_field_test\Layout 1\log\translate.log" />
+    <None Include="TestFiles\small_field_test\Layout 1\object\objects_elevation.vtf" />
+    <None Include="TestFiles\small_field_test\Layout 1\object\objects_elevation_name.vtf" />
+    <None Include="TestFiles\small_field_test\Layout 1\object\objects_elevation_name_3dobject.vtf" />
+    <None Include="TestFiles\small_field_test\Layout 1\object\objects_rotation.vtf" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_elevation.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_extension.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_forest.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_gridxy.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_gridz.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_inclination.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_openarea_3d.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_roughness.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_roughness_log.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_second_derivative.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\report\terrain_smooth_delta_elevation.glc" />
+    <None Include="TestFiles\small_field_test\Layout 1\scenario\template_wind_energy_dtm.in" />
+    <None Include="TestFiles\small_field_test\log\dtmfig_status.log" />
+    <None Include="TestFiles\small_field_test\log\dtm_status.log" />
+    <None Include="TestFiles\small_field_test\log\windfield_status.log" />
+    <None Include="TestFiles\small_field_test\MoninObukhov_ref.ws" />
+    <None Include="TestFiles\small_field_test\Surfaces.lws" />
+    <None Include="TestFiles\small_field_test\windfield\270.phi.Z" />
+    <None Include="TestFiles\small_field_test\windfield\270.q1" />
+    <None Include="TestFiles\small_field_test\windfield\270.result" />
+    <None Include="TestFiles\small_field_test\windfield\270.xyz.Z" />
+    <None Include="TestFiles\small_field_test\windfield\270_red.phi" />
+    <None Include="TestFiles\small_field_test\windfield\270_red.xyz" />
+    <None Include="TestFiles\small_field_test\windfield\Copy of 270_red.xyz" />
+    <None Include="TestFiles\small_field_test\windfield\windfield.log" />
+    <None Include="TestFiles\project1\dtm\area.log" />
+    <None Include="TestFiles\project1\dtm\default.vif" />
+    <None Include="TestFiles\project1\dtm\dtm.geo" />
+    <None Include="TestFiles\project1\dtm\dtm.log" />
+    <None Include="TestFiles\project1\dtm\dtm.pho" />
+    <None Include="TestFiles\project1\dtm\dtm.vtf" />
+    <None Include="TestFiles\project1\dtm\dtm_box.geo" />
+    <None Include="TestFiles\project1\dtm\dtm_height.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_height_delta_smooth.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_height_post_smooth.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_height_pre_smooth.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_max_derivative_second_post_smooth.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_max_derivative_second_pre_smooth.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_plane.geo" />
+    <None Include="TestFiles\project1\dtm\dtm_roughness.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_roughness_log.scl" />
+    <None Include="TestFiles\project1\dtm\dtm_sea.geo" />
+    <None Include="TestFiles\project1\dtm\grid.gws" />
+    <None Include="TestFiles\project1\dtm\grid_box.geo" />
+    <None Include="TestFiles\project1\dtm\grid_frame.geo" />
+    <None Include="TestFiles\project1\dtm\grid_height.scl" />
+    <None Include="TestFiles\project1\dtm\grid_plane.geo" />
+    <None Include="TestFiles\project1\dtm\grid_sea.geo" />
+    <None Include="TestFiles\project1\dtm\ini.pho" />
+    <None Include="TestFiles\project1\dtm\open_area_2d.geo" />
+    <None Include="TestFiles\project1\dtm\open_area_x_max.geo" />
+    <None Include="TestFiles\project1\dtm\open_area_x_min.geo" />
+    <None Include="TestFiles\project1\dtm\open_area_y_max.geo" />
+    <None Include="TestFiles\project1\dtm\open_area_y_min.geo" />
+    <None Include="TestFiles\project1\dtm\simple_forest.bws" />
+    <None Include="TestFiles\project1\dtm\view.geo" />
+    <None Include="TestFiles\project1\dtm\view_box.geo" />
+    <None Include="TestFiles\project1\dtm\view_cylinder.geo" />
+    <None Include="TestFiles\project1\dtm\view_height.scl" />
+    <None Include="TestFiles\project1\dtm\view_inclination.scl" />
+    <None Include="TestFiles\project1\dtm\view_max_derivative.scl" />
+    <None Include="TestFiles\project1\dtm\view_max_derivative_second.scl" />
+    <None Include="TestFiles\project1\dtm\view_open_area_x.scl" />
+    <None Include="TestFiles\project1\dtm\view_open_area_y.scl" />
+    <None Include="TestFiles\project1\dtm\view_plane.geo" />
+    <None Include="TestFiles\project1\dtm\view_roughness.scl" />
+    <None Include="TestFiles\project1\dtm\view_roughness_log.scl" />
+    <None Include="TestFiles\project1\dtm\view_sea.geo" />
+    <None Include="TestFiles\project1\dtm\view_sea_plane.geo" />
+    <None Include="TestFiles\project1\dtm\view_trans.geo" />
+    <None Include="TestFiles\project1\dtm\weighting.scl" />
+    <None Include="TestFiles\project1\dtm\z_distribution_2d.geo" />
+    <None Include="TestFiles\project1\dtm\z_distribution_3d.geo" />
+    <None Include="TestFiles\project1\dtm\z_distribution_3d.scl" />
+    <None Include="TestFiles\project1\glview.glc" />
+    <None Include="TestFiles\project1\Layout 1.lws" />
+    <None Include="TestFiles\project1\Layout 1\log\report_html_status.log" />
+    <None Include="TestFiles\project1\Layout 1\log\translate.log" />
+    <None Include="TestFiles\project1\Layout 1\object\objects_elevation.vtf" />
+    <None Include="TestFiles\project1\Layout 1\object\objects_elevation_name.vtf" />
+    <None Include="TestFiles\project1\Layout 1\object\objects_elevation_name_3dobject.vtf" />
+    <None Include="TestFiles\project1\Layout 1\object\objects_rotation.vtf" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_elevation.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_extension.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_forest.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_gridxy.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_gridz.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_inclination.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_openarea_3d.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_roughness.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_roughness_log.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_second_derivative.glc" />
+    <None Include="TestFiles\project1\Layout 1\report\terrain_smooth_delta_elevation.glc" />
+    <None Include="TestFiles\project1\Layout 1\scenario\template_wind_energy_dtm.in" />
+    <None Include="TestFiles\project1\log\dtmfig_status.log" />
+    <None Include="TestFiles\project1\log\dtm_status.log" />
+    <None Include="TestFiles\project1\log\windfield_status.log" />
+    <None Include="TestFiles\project1\MoninObukhov_ref.ws" />
+    <None Include="TestFiles\project1\Surfaces.lws" />
+    <None Include="TestFiles\project1\windfield\000.phi.Z" />
+    <None Include="TestFiles\project1\windfield\000.q1" />
+    <None Include="TestFiles\project1\windfield\000.result" />
+    <None Include="TestFiles\project1\windfield\000.xyz.Z" />
+    <None Include="TestFiles\project1\windfield\000_red.phi" />
+    <None Include="TestFiles\project1\windfield\000_red.xyz" />
+    <None Include="TestFiles\project1\windfield\270.phi.Z" />
+    <None Include="TestFiles\project1\windfield\270.q1" />
+    <None Include="TestFiles\project1\windfield\270.result" />
+    <None Include="TestFiles\project1\windfield\270.xyz.Z" />
+    <None Include="TestFiles\project1\windfield\270_red.phi" />
+    <None Include="TestFiles\project1\windfield\270_red.xyz" />
+    <None Include="TestFiles\project1\windfield\windfield.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestFiles\Copy of project1\climatology\" />
+    <Folder Include="TestFiles\Copy of project1\Layout 1\energy\" />
+    <Folder Include="TestFiles\Copy of project1\Layout 1\texture\" />
+    <Folder Include="TestFiles\Copy of project1\my_documentation\" />
+    <Folder Include="TestFiles\project1\climatology\" />
+    <Folder Include="TestFiles\project1\Layout 1\energy\" />
+    <Folder Include="TestFiles\project1\Layout 1\texture\" />
+    <Folder Include="TestFiles\project1\my_documentation\" />
+    <Folder Include="TestFiles\small_field_test\climatology\" />
+    <Folder Include="TestFiles\small_field_test\Layout 1\energy\" />
+    <Folder Include="TestFiles\small_field_test\Layout 1\texture\" />
+    <Folder Include="TestFiles\small_field_test\my_documentation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\divergence.png" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\energy_calculation_areas.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\legend_climatology.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\legend_climatology_transfer.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\legend_wecs.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\line_grey_01.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\line_grey_02.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_elevation.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_extension.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_forest.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_gridxy.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_gridz.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_inclination.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_openarea_2d.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_roughness.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_roughness_log.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_second_derivative.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\terrain_smooth_delta_elevation.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\transparent.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_left_inactive.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_left_off.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_left_on.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_right_inactive.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_right_off.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\triangle_right_on.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windfield_000_r.png" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windfield_000_s.png" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windfield_270_r.png" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windfield_270_s.png" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windrose_legend_155.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windrose_legend_160.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\windsim_icon_report.gif" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\ModuleReport.css" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\no_results.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\no_results.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_elevation.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_extension.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_forest.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_gridxy.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_gridz.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_inclination.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_openarea.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_roughness.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_roughness_log.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_second_derivative.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_000_m.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_000_r.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_000_s.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_270_m.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_270_r.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\template\windfield_270_s.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_elevation.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_extension.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_forest.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_gridxy.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_gridz.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_inclination.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_openarea.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_roughness.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_roughness_log.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_second_derivative.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_000_m.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_000_r.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_000_s.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_270_m.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_270_r.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\windfield_270_s.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_DTM.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_Energy.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_NormalisedResults.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_Objects.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_WindField.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_framesetdesc_WindResources.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_frameset_DTM.html" />
+    <Content Include="TestFiles\Copy of project1\Layout 1\report\_frameset_WindField.html" />
+    <Content Include="TestFiles\Copy of project1\LayoutList.xml" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\divergence.png" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\energy_calculation_areas.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\legend_climatology.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\legend_climatology_transfer.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\legend_wecs.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\line_grey_01.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\line_grey_02.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_elevation.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_extension.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_forest.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_gridxy.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_gridz.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_inclination.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_openarea_2d.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_roughness.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_roughness_log.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_second_derivative.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\terrain_smooth_delta_elevation.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\transparent.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_left_inactive.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_left_off.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_left_on.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_right_inactive.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_right_off.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\triangle_right_on.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windfield_000_r.png" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windfield_000_s.png" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windfield_270_r.png" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windfield_270_s.png" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windrose_legend_155.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windrose_legend_160.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\figs\windsim_icon_report.gif" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\ModuleReport.css" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\no_results.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\no_results.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_elevation.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_extension.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_forest.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_gridxy.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_gridz.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_inclination.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_openarea.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_roughness.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_roughness_log.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_second_derivative.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\windfield_270_m.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\windfield_270_r.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\template\windfield_270_s.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_elevation.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_extension.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_forest.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_gridxy.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_gridz.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_inclination.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_openarea.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_roughness.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_roughness_log.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_second_derivative.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\windfield.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\windfield_270_m.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\windfield_270_r.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\windfield_270_s.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_DTM.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_Energy.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_NormalisedResults.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_Objects.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_WindField.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_framesetdesc_WindResources.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_DTM.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_Energy.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_NormalisedResults.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_Objects.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_WindField.html" />
+    <Content Include="TestFiles\small_field_test\Layout 1\report\_frameset_WindResources.html" />
+    <Content Include="TestFiles\small_field_test\LayoutList.xml" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\divergence.png" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\energy_calculation_areas.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\legend_climatology.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\legend_climatology_transfer.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\legend_wecs.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\line_grey_01.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\line_grey_02.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_elevation.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_extension.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_forest.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_gridxy.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_gridz.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_inclination.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_openarea_2d.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_roughness.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_roughness_log.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_second_derivative.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\terrain_smooth_delta_elevation.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\transparent.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_left_inactive.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_left_off.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_left_on.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_right_inactive.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_right_off.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\triangle_right_on.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windfield_000_r.png" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windfield_000_s.png" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windfield_270_r.png" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windfield_270_s.png" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windrose_legend_155.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windrose_legend_160.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\figs\windsim_icon_report.gif" />
+    <Content Include="TestFiles\project1\Layout 1\report\ModuleReport.css" />
+    <Content Include="TestFiles\project1\Layout 1\report\no_results.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\no_results.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_elevation.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_extension.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_forest.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_gridxy.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_gridz.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_inclination.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_openarea.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_roughness.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_roughness_log.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_second_derivative.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_000_m.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_000_r.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_000_s.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_270_m.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_270_r.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\template\windfield_270_s.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_elevation.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_extension.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_forest.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_gridxy.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_gridz.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_inclination.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_openarea.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_roughness.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_roughness_log.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_second_derivative.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\terrain_smooth_delta_elevation.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_000_m.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_000_r.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_000_s.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_270_m.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_270_r.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\windfield_270_s.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_DTM.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_Energy.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_NormalisedResults.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_Objects.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_WindField.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_framesetdesc_WindResources.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_frameset_DTM.html" />
+    <Content Include="TestFiles\project1\Layout 1\report\_frameset_WindField.html" />
+    <Content Include="TestFiles\project1\LayoutList.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

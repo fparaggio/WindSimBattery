@@ -1,0 +1,1869 @@
+ ************************************************************
+ 
+ 
+   ----------------------------------------------------------  
+   PHOENICS November 2011 - EARTH                              
+   (C) Copyright 2011                                          
+   Concentration Heat and Momentum Limited                     
+   All rights reserved.                                        
+   Address:  Bakery House, 40 High Street                      
+   Wimbledon, London, SW19 5AU, England                        
+   tel:       +44 (0) 20-8947-7651                             
+   fax:       +44 (0) 20-8879-3497                             
+   e-mail:    phoenics@cham.co.uk                              
+   web:       www.cham.co.uk                                   
+   ----------------------------------------------------------  
+   Code expiry date is the end  : Dec 2013                     
+   ----------------------------------------------------------  
+   Running with 64-bit executable                              
+ 
+ ************************************************************
+ 
+ Initial estimated storage requirement is                  10000000
+ 
+ PRPS is not stored
+ Material properties used for phase 1 are
+ density
+ laminar viscosity
+ turbulent viscosity
+ mixing length
+ >>>   End of property-related data   <<<
+ ************************************************************
+ 
+ 
+ 
+ ========================================
+ 
+                  MIGAL
+ 
+   Coupled Multi-Grid Algebraic Solver
+         written by Michel Ferry
+ 
+                V 1.82.1
+ 
+          http://www.mfrdc.com
+ 
+ ========================================
+ 
+ 
+ Solutions that MIGAL must perform :
+ -----------------------------------
+ 
+ SOLVED  = HYDRO                                             
+ COEFF =1.
+ RESFAC =0.1
+ RELAX =0.95
+ LINRLX =0.8
+ LITER = 5
+ NBRELAX = 3
+ NBPRER = 1
+ NBGRID = 0
+ IGMRES = 0
+ IPRECO = 1
+ IGMS = 0
+ ICYCLE = 1
+ PRINT = T
+ 
+ 
+ ========================================
+ 
+ Number of F-array locations available is                  10000000
+ Number used before BFC allowance is                          39146
+ Number of BFC-geometry F-array locations is                  10464
+ Total number of F-array locations used is                    50195
+ Number of BFC-geometry F-array variables is                     85
+ Number of BFC-geometry variables on disk is                      0
+ Number used after BFC allowance is                           50195
+ 
+ >> Current turbulence model constants <<
+ They may be changed by inserting in Q1
+ SPEDAT(KECONST,name of constant,R,value)
+ 
+ CMU =0.5478 CD =0.1643
+ CMUCD =0.090004
+ C1E =0.555556 C2E =0.075
+ AK =0.41 EWAL =8.6
+ 
+ EARTH cannot read in information stored
+       at the bottom of PHI(DA) file!
+ ************************************************************
+  Group 1. Run Title and Number
+ ************************************************************
+ ************************************************************
+ 
+ TEXT(Wind Field, Sector =270                 )
+ 
+ ************************************************************
+ ************************************************************
+ 
+ IRUNN = 1 ;LIBREF = 0
+ ************************************************************
+  Group 2. Time dependence
+ STEADY = T
+ ************************************************************
+  Group 3. X-Direction Grid Spacing
+ CARTES = T
+ NX = 12
+ XULAST =1.
+ ************************************************************
+  Group 4. Y-Direction Grid Spacing
+ NY = 2
+ YVLAST =1.
+ ************************************************************
+  Group 5. Z-Direction Grid Spacing
+ PARAB = F
+ NZ = 4
+ ZWLAST =1.
+ ************************************************************
+  Group 6. Body-Fitted Coordinates
+ BFC = T ;NONORT = T
+ NCRT = 1
+ RSTGEO = F ;SAVGEO = F
+ UUP = F ;VUP = F ;WUP = F
+ NGEOM =CHAM
+ NAMXYZ =CHAM
+ ************************************************************
+  Group 7. Variables: STOREd,SOLVEd,NAMEd
+ ONEPHS = T
+ NAME(1)=P1 ;NAME(3)=U1                                                         
+ NAME(5)=V1 ;NAME(7)=W1                                                         
+ NAME(12)=KE ;NAME(33)=EPKE                                                     
+ NAME(34)=OMEG ;NAME(35)=GR                                                     
+ NAME(36)=WADD ;NAME(37)=TREF                                                   
+ NAME(38)=YCEN ;NAME(39)=XCEN                                                   
+ NAME(40)=ZCEN ;NAME(41)=RHO1                                                   
+ NAME(42)=VPOR ;NAME(43)=EPOR                                                   
+ NAME(44)=NPOR ;NAME(45)=HPOR                                                   
+ NAME(46)=ROUG ;NAME(47)=ENUT                                                   
+ NAME(48)=WCRT ;NAME(49)=VCRT                                                   
+ NAME(50)=UCRT                                                                  
+    * Y in SOLUTN argument list denotes:
+    * 1-stored 2-solved 3-whole-field
+    * 4-point-by-point 5-explicit 6-harmonic averaging 
+ SOLUTN(P1,Y,Y,Y,N,N,Y)
+ SOLUTN(U1,Y,Y,Y,N,N,Y)
+ SOLUTN(V1,Y,Y,Y,Y,N,Y)
+ SOLUTN(W1,Y,Y,Y,N,N,Y)
+ SOLUTN(KE,Y,Y,N,N,N,N)
+ SOLUTN(EPKE,Y,N,N,N,N,N)
+ SOLUTN(OMEG,Y,Y,N,N,N,Y)
+ SOLUTN(GR,Y,N,N,N,N,Y)
+ SOLUTN(WADD,Y,N,N,N,N,Y)
+ SOLUTN(TREF,Y,N,N,N,N,Y)
+ SOLUTN(YCEN,Y,N,N,N,N,Y)
+ SOLUTN(XCEN,Y,N,N,N,N,Y)
+ SOLUTN(ZCEN,Y,N,N,N,N,Y)
+ SOLUTN(RHO1,Y,N,N,N,N,Y)
+ SOLUTN(VPOR,Y,N,N,N,N,Y)
+ SOLUTN(EPOR,Y,N,N,N,N,Y)
+ SOLUTN(NPOR,Y,N,N,N,N,Y)
+ SOLUTN(HPOR,Y,N,N,N,N,Y)
+ SOLUTN(ROUG,Y,N,N,N,N,Y)
+ SOLUTN(ENUT,Y,N,N,N,N,Y)
+ SOLUTN(WCRT,Y,N,N,N,N,N)
+ SOLUTN(VCRT,Y,N,N,N,N,N)
+ SOLUTN(UCRT,Y,N,N,N,N,N)
+ DEN1 = 41
+ VIST = 47
+ EPOR = 43 ;HPOR = 45 ;NPOR = 44 ;VPOR = 42
+ ************************************************************
+  Group 8. Terms & Devices
+    * Y in TERMS argument list denotes:
+    * 1-built-in source 2-convection 3-diffusion 4-transient
+    * 5-first phase variable 6-interphase transport         
+ TERMS(P1,Y,Y,Y,N,Y,N)
+ TERMS(U1,Y,Y,Y,N,Y,N)
+ TERMS(V1,Y,Y,Y,N,Y,N)
+ TERMS(W1,Y,Y,Y,N,Y,N)
+ TERMS(KE,N,Y,Y,N,Y,N)
+ TERMS(OMEG,N,Y,Y,N,Y,N)
+ DIFCUT =0.5 ;ZDIFAC =1.
+ GALA = F ;ADDDIF = F
+ NEWENT = T
+ ISOLX = -1 ;ISOLY = -1 ;ISOLZ = -1
+ DENPCO = T
+ ************************************************************
+  Group 9. Properties used if PRPS is not
+  stored, and where PRPS = -1.0 if it is!
+ RHO1 =1.225 ;TMP1 =0.
+ EL1 = GRND5
+ TSURR =0. ;TEMP0 =0.
+ PRESS0 =0.
+ DVO1DT =0. ;DRH1DP =0.
+ EMISS =0. ;SCATT =0.
+ RADIA =0. ;RADIB =0.
+ EL1A =0.6 ;EL1B =0.
+ EL1C =0.
+ ENUL =1.544E-05 ;ENUT = GRND7
+ ENUTA =0. ;ENUTB =0.
+ ENUTC =0.
+ IENUTA = 10
+ PRNDTL(U1)=1. ;PRNDTL(V1)=1.
+ PRNDTL(W1)=1. ;PRNDTL(KE)=1.
+ PRNDTL(OMEG)=1.
+ PRT(U1)=1. ;PRT(V1)=1.
+ PRT(W1)=1. ;PRT(KE)=2.
+ PRT(OMEG)=2.
+ CP1 =1. ;CP2 =1.
+ ************************************************************
+  Group 10.Inter-Phase Transfer Processes
+ ************************************************************
+  Group 11.Initial field variables (PHIs)
+ FIINIT(P1)=1.0E-10 ;FIINIT(U1)=READFI
+ FIINIT(V1)=READFI ;FIINIT(W1)=READFI
+ FIINIT(KE)=READFI ;FIINIT(EPKE)=1.0E-10
+ FIINIT(OMEG)=READFI ;FIINIT(GR)=READFI
+ FIINIT(WADD)=1.0E-10 ;FIINIT(TREF)=1.0E-10
+ FIINIT(YCEN)=1.0E-10 ;FIINIT(XCEN)=1.0E-10
+ FIINIT(ZCEN)=1.0E-10 ;FIINIT(RHO1)=1.225
+ FIINIT(VPOR)=1. ;FIINIT(EPOR)=1.
+ FIINIT(NPOR)=1. ;FIINIT(HPOR)=1.
+ FIINIT(ROUG)=READFI ;FIINIT(ENUT)=1.0E-10
+ FIINIT(WCRT)=1.0E-10 ;FIINIT(VCRT)=1.0E-10
+ FIINIT(UCRT)=1.0E-10
+   No PATCHes yet used for this Group
+ INIADD = F
+ FSWEEP = 1
+ NAMFI =init
+ ************************************************************
+  Group 12. Patchwise adjustment of terms
+  Patches for this group are printed with those
+  for Group 13.
+  Their names begin either with GP12 or &
+ ************************************************************
+  Group 13. Boundary & Special Sources
+ 
+ PATCH(IN1 ,WEST , 1, 1, 1, 2, 1, 4, 1, 1)
+ COVAL(IN1 ,P1 , FIXFLU , GRND )
+ COVAL(IN1 ,U1 ,0. , GRND )
+ COVAL(IN1 ,V1 ,0. , GRND )
+ COVAL(IN1 ,W1 ,0. , GRND )
+ COVAL(IN1 ,KE ,0. , GRND )
+ COVAL(IN1 ,OMEG,0. , GRND )
+ 
+ PATCH(UT1 ,EAST , 12, 12, 1, 2, 1, 4, 1, 1)
+ COVAL(UT1 ,P1 ,1000. ,0. )
+ COVAL(UT1 ,U1 ,0. ,0. )
+ COVAL(UT1 ,V1 ,0. ,0. )
+ COVAL(UT1 ,W1 ,0. ,0. )
+ COVAL(UT1 ,KE ,0. , SAME )
+ COVAL(UT1 ,OMEG,0. , SAME )
+ 
+ PATCH(BUNN ,LWALL , 1, 12, 1, 2, 1, 1, 1, 1)
+ COVAL(BUNN ,U1 , GRND2 ,0. )
+ COVAL(BUNN ,V1 , GRND2 ,0. )
+ COVAL(BUNN ,KE , GRND2 , GRND2 )
+ COVAL(BUNN ,OMEG, GRND2 , GRND2 )
+ 
+ PATCH(KESOURCE,PHASEM, 1, 12, 1, 2, 1, 4, 1, 1)
+ COVAL(KESOURCE,KE , GRND4 , GRND4 )
+ COVAL(KESOURCE,OMEG, GRND4 , GRND4 )
+ 
+ PATCH(WHOLE ,PHASEM, 1, 12, 1, 2, 1, 4, 1, 1)
+ 
+ PATCH(I1 ,WEST , 1, 1, 1, 2, 1, 4, 1, 1)
+ 
+ PATCH(INA1 ,WEST , 1, 1, 1, 2, 1, 4, 1, 1)
+ XCYCLE = F
+ WALLA =1. ;WALLB =0.
+ EGWF = T
+ WALLCO = GRND2
+ BFCA =1.225
+ ************************************************************
+  Group 14. Downstream Pressure For PARAB
+ ************************************************************
+  Group 15. Terminate Sweeps
+ LSWEEP = 100 ;ISWC1 = 1
+ LITHYD = 1 ;LITFLX = 1 ;LITC = 1 ;ITHC1 = 1
+ SELREF = T
+ RESFAC =1.0E-02
+ ************************************************************
+  Group 16. Terminate Iterations
+ LITER(P1)=20 ;LITER(U1)=10
+ LITER(V1)=10 ;LITER(W1)=10
+ LITER(KE)=20 ;LITER(OMEG)=20
+ ENDIT(P1)=GRND4 ;ENDIT(U1)=GRND4
+ ENDIT(V1)=GRND4 ;ENDIT(W1)=GRND4
+ ENDIT(KE)=1.0E-03 ;ENDIT(OMEG)=1.0E-03
+ ************************************************************
+  Group 17. Relaxation
+ RELAX(P1,LINRLX,0.5)                                                           
+ RELAX(U1,FALSDT,250.)                                                          
+ RELAX(V1,FALSDT,250.)                                                          
+ RELAX(W1,FALSDT,250.)                                                          
+ RELAX(KE,LINRLX,0.5)                                                           
+ RELAX(EPKE,LINRLX,1.)                                                          
+ RELAX(OMEG,LINRLX,0.5)                                                         
+ RELAX(GR,LINRLX,1.)                                                            
+ RELAX(WADD,LINRLX,1.)                                                          
+ RELAX(TREF,LINRLX,1.)                                                          
+ RELAX(YCEN,LINRLX,1.)                                                          
+ RELAX(XCEN,LINRLX,1.)                                                          
+ RELAX(ZCEN,LINRLX,1.)                                                          
+ RELAX(RHO1,LINRLX,1.)                                                          
+ RELAX(ROUG,LINRLX,1.)                                                          
+ RELAX(ENUT,LINRLX,1.)                                                          
+ RELAX(WCRT,LINRLX,1.)                                                          
+ RELAX(VCRT,LINRLX,1.)                                                          
+ RELAX(UCRT,LINRLX,1.)                                                          
+ OVRRLX =0.
+ EXPERT = F ;NNORSL = F
+ ************************************************************
+  Group 18. Limits
+ VARMAX(P1)=1.0E+10 ;VARMIN(P1)=-1.0E+10                                        
+ VARMAX(U1)=1.0E+06 ;VARMIN(U1)=-1.0E+06                                        
+ VARMAX(V1)=1.0E+06 ;VARMIN(V1)=-1.0E+06                                        
+ VARMAX(W1)=1.0E+06 ;VARMIN(W1)=-1.0E+06                                        
+ VARMAX(KE)=1.0E+10 ;VARMIN(KE)=1.0E-08                                         
+ VARMAX(EPKE)=1.0E+10 ;VARMIN(EPKE)=0.                                          
+ VARMAX(OMEG)=1.0E+10 ;VARMIN(OMEG)=1.0E-08                                     
+ VARMAX(GR)=1.0E+10 ;VARMIN(GR)=-1.0E+10                                        
+ VARMAX(WADD)=1.0E+10 ;VARMIN(WADD)=-1.0E+10                                    
+ VARMAX(TREF)=1.0E+10 ;VARMIN(TREF)=-1.0E+10                                    
+ VARMAX(YCEN)=1.0E+10 ;VARMIN(YCEN)=-1.0E+10                                    
+ VARMAX(XCEN)=1.0E+10 ;VARMIN(XCEN)=-1.0E+10                                    
+ VARMAX(ZCEN)=1.0E+10 ;VARMIN(ZCEN)=-1.0E+10                                    
+ VARMAX(RHO1)=1.0E+10 ;VARMIN(RHO1)=-1.0E+10                                    
+ VARMAX(VPOR)=1.0E+10 ;VARMIN(VPOR)=-1.0E+10                                    
+ VARMAX(EPOR)=1.0E+10 ;VARMIN(EPOR)=-1.0E+10                                    
+ VARMAX(NPOR)=1.0E+10 ;VARMIN(NPOR)=-1.0E+10                                    
+ VARMAX(HPOR)=1.0E+10 ;VARMIN(HPOR)=-1.0E+10                                    
+ VARMAX(ROUG)=1.0E+10 ;VARMIN(ROUG)=-1.0E+10                                    
+ VARMAX(ENUT)=1.0E+10 ;VARMIN(ENUT)=-1.0E+10                                    
+ VARMAX(WCRT)=1.0E+10 ;VARMIN(WCRT)=-1.0E+10                                    
+ VARMAX(VCRT)=1.0E+10 ;VARMIN(VCRT)=-1.0E+10                                    
+ VARMAX(UCRT)=1.0E+10 ;VARMIN(UCRT)=-1.0E+10                                    
+ ************************************************************
+  Group 19. Data transmitted to GROUND
+ GENK = T
+ YPLS = T
+ PARSOL = F
+ IENUTA = 10
+ GEN1 = 281
+ SPEDAT(SET,MIGAL,SOLVED1,C,HYDRO)
+ SPEDAT(SET,MIGAL,LINRLX1,R,0.8)
+ RG( 2) =1.
+ RG( 31) =270.
+ RG( 32) =2.
+ ************************************************************
+  Group 20. Preliminary Printout
+ ************************************************************
+  Group 21. Print-out of Variables
+ INIFLD = F ;SUBWGR = F
+    * Y in OUTPUT argument list denotes:
+    * 1-field 2-correction-eq. monitor 3-selective dumping      
+    * 4-whole-field residual 5-spot-value table 6-residual table
+ OUTPUT(P1,Y,N,N,Y,Y,Y)
+ OUTPUT(U1,Y,N,N,Y,Y,Y)
+ OUTPUT(V1,Y,N,N,Y,Y,Y)
+ OUTPUT(W1,Y,N,N,Y,Y,Y)
+ OUTPUT(KE,Y,N,N,Y,Y,Y)
+ OUTPUT(EPKE,Y,N,Y,N,N,N)
+ OUTPUT(OMEG,Y,N,N,Y,Y,Y)
+ OUTPUT(GR,Y,N,Y,N,N,N)
+ OUTPUT(WADD,Y,N,Y,N,N,N)
+ OUTPUT(TREF,Y,N,Y,N,N,N)
+ OUTPUT(YCEN,Y,N,Y,N,N,N)
+ OUTPUT(XCEN,Y,N,Y,N,N,N)
+ OUTPUT(ZCEN,Y,N,Y,N,N,N)
+ OUTPUT(RHO1,Y,N,Y,N,N,N)
+ OUTPUT(VPOR,Y,N,Y,N,N,N)
+ OUTPUT(EPOR,Y,N,Y,N,N,N)
+ OUTPUT(NPOR,Y,N,Y,N,N,N)
+ OUTPUT(HPOR,Y,N,Y,N,N,N)
+ OUTPUT(ROUG,Y,N,Y,N,N,N)
+ OUTPUT(ENUT,N,N,N,Y,Y,Y)
+ OUTPUT(WCRT,Y,N,N,Y,Y,Y)
+ OUTPUT(VCRT,Y,N,N,Y,Y,Y)
+ OUTPUT(UCRT,Y,N,N,Y,Y,Y)
+ ************************************************************
+  Group 22. Monitor Print-Out
+ IXMON = 6 ;IYMON = 1 ;IZMON = 1
+ NPRMON = 100000 ;NPRMNT = 1 ;TSTSWP = 10001
+ UWATCH = F ;USTEER = F
+ HIGHLO = F
+ ************************************************************
+  Group 23.Field Print-Out & Plot Control
+ NPRINT = 100 ;NUMCLS = 5
+ NXPRIN = 2 ;IXPRF = 1 ;IXPRL = 12
+ NYPRIN = 1 ;IYPRF = 1 ;IYPRL = 2
+ NZPRIN = 1 ;IZPRF = 1 ;IZPRL = 10000
+ XZPR = F ;YZPR = F
+ IPLTF = 1 ;IPLTL = 100 ;NPLT = 5
+ ISWPRF = 1 ;ISWPRL = 100000
+ ITABL = 2 ;IPROF = 1
+ ABSIZ =0.5 ;ORSIZ =0.4
+ NTZPRF = 1 ;NCOLPF = 50
+ ICHR = 2 ;NCOLCO = 45 ;NROWCO = 20
+   No PATCHes yet used for this Group
+ ************************************************************
+  Group 24. Dumps For Restarts
+ SAVE = T ;NOWIPE = T
+ NSAVE =CHAM
+ Total number of F-array elements used is                     50212
+ --- INTEGRATION OF EQUATIONS BEGINS ---
+ 
+ 
+MIGAL V 1.82 : ISWEEP =     2   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2754E+00  0.1074E+00  0.1535E+00
+     1  0.2771E-01  0.8161E-02  0.1104E-01
+ 
+MIGAL V 1.82 : ISWEEP =     3   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2591E+00  0.9658E-01  0.1388E+00
+     1  0.2309E-01  0.6776E-02  0.8201E-02
+ 
+MIGAL V 1.82 : ISWEEP =     4   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.7995E-01  0.3068E-01  0.4113E-01
+     1  0.1974E-01  0.5390E-02  0.6494E-02
+     2  0.5315E-02  0.1589E-02  0.1790E-02
+ 
+MIGAL V 1.82 : ISWEEP =     5   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.6687E-01  0.1812E-01  0.2611E-01
+     1  0.1138E-01  0.2656E-02  0.3395E-02
+     2  0.2415E-02  0.8551E-03  0.9451E-03
+ 
+MIGAL V 1.82 : ISWEEP =     6   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.3998E-01  0.8164E-02  0.1207E-01
+     1  0.6492E-02  0.1500E-02  0.1858E-02
+     2  0.1413E-02  0.5166E-03  0.5545E-03
+ 
+MIGAL V 1.82 : ISWEEP =     7   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4439E-01  0.8342E-02  0.1327E-01
+     1  0.3003E-02  0.7184E-03  0.8441E-03
+ 
+MIGAL V 1.82 : ISWEEP =     8   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.3059E-01  0.6706E-02  0.9695E-02
+     1  0.1486E-02  0.4602E-03  0.4767E-03
+ 
+MIGAL V 1.82 : ISWEEP =     9   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2767E-01  0.6191E-02  0.8525E-02
+     1  0.6869E-03  0.3187E-03  0.2950E-03
+ 
+MIGAL V 1.82 : ISWEEP =    10   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2855E-01  0.6008E-02  0.8138E-02
+     1  0.6477E-03  0.2430E-03  0.2260E-03
+ 
+MIGAL V 1.82 : ISWEEP =    11   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2795E-01  0.6056E-02  0.8203E-02
+     1  0.6076E-03  0.2058E-03  0.1989E-03
+ 
+MIGAL V 1.82 : ISWEEP =    12   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2588E-01  0.6256E-02  0.8430E-02
+     1  0.5644E-03  0.1814E-03  0.1830E-03
+ 
+MIGAL V 1.82 : ISWEEP =    13   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2438E-01  0.6456E-02  0.8614E-02
+     1  0.5169E-03  0.1622E-03  0.1718E-03
+ 
+MIGAL V 1.82 : ISWEEP =    14   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2367E-01  0.6640E-02  0.8744E-02
+     1  0.4652E-03  0.1501E-03  0.1630E-03
+ 
+MIGAL V 1.82 : ISWEEP =    15   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2231E-01  0.6760E-02  0.8799E-02
+     1  0.4110E-03  0.1449E-03  0.1564E-03
+ 
+MIGAL V 1.82 : ISWEEP =    16   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2160E-01  0.6795E-02  0.8775E-02
+     1  0.3568E-03  0.1440E-03  0.1516E-03
+ 
+MIGAL V 1.82 : ISWEEP =    17   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2057E-01  0.6729E-02  0.8666E-02
+     1  0.3536E-03  0.1445E-03  0.1481E-03
+ 
+MIGAL V 1.82 : ISWEEP =    18   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1936E-01  0.6546E-02  0.8465E-02
+     1  0.3567E-03  0.1428E-03  0.1453E-03
+ 
+MIGAL V 1.82 : ISWEEP =    19   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1845E-01  0.6244E-02  0.8162E-02
+     1  0.3554E-03  0.1418E-03  0.1426E-03
+ 
+MIGAL V 1.82 : ISWEEP =    20   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1734E-01  0.5827E-02  0.7752E-02
+     1  0.3461E-03  0.1391E-03  0.1384E-03
+ 
+MIGAL V 1.82 : ISWEEP =    21   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1623E-01  0.5302E-02  0.7228E-02
+     1  0.3258E-03  0.1339E-03  0.1321E-03
+ 
+MIGAL V 1.82 : ISWEEP =    22   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1517E-01  0.4690E-02  0.6591E-02
+     1  0.2980E-03  0.1259E-03  0.1228E-03
+ 
+MIGAL V 1.82 : ISWEEP =    23   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1417E-01  0.4016E-02  0.5850E-02
+     1  0.2627E-03  0.1140E-03  0.1106E-03
+ 
+MIGAL V 1.82 : ISWEEP =    24   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1325E-01  0.3317E-02  0.5026E-02
+     1  0.2311E-03  0.1001E-03  0.9630E-04
+ 
+MIGAL V 1.82 : ISWEEP =    25   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1218E-01  0.2632E-02  0.4158E-02
+     1  0.1955E-03  0.8524E-04  0.8107E-04
+ 
+MIGAL V 1.82 : ISWEEP =    26   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1092E-01  0.1989E-02  0.3320E-02
+     1  0.1599E-03  0.6894E-04  0.6503E-04
+ 
+MIGAL V 1.82 : ISWEEP =    27   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.8733E-02  0.1453E-02  0.2489E-02
+     1  0.1259E-03  0.5644E-04  0.5244E-04
+ 
+MIGAL V 1.82 : ISWEEP =    28   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.6750E-02  0.9643E-03  0.1755E-02
+     1  0.1107E-03  0.4257E-04  0.3909E-04
+ 
+MIGAL V 1.82 : ISWEEP =    29   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4770E-02  0.5878E-03  0.1141E-02
+     1  0.9693E-04  0.3257E-04  0.2979E-04
+ 
+MIGAL V 1.82 : ISWEEP =    30   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.3303E-02  0.4339E-03  0.7916E-03
+     1  0.8409E-04  0.2882E-04  0.2596E-04
+ 
+MIGAL V 1.82 : ISWEEP =    31   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2002E-02  0.2322E-03  0.4460E-03
+     1  0.7228E-04  0.2220E-04  0.1993E-04
+ 
+MIGAL V 1.82 : ISWEEP =    32   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.8365E-03  0.7628E-04  0.1491E-03
+     1  0.6170E-04  0.1781E-04  0.1639E-04
+     2  0.4999E-04  0.1397E-04  0.1300E-04
+ 
+MIGAL V 1.82 : ISWEEP =    33   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.3430E-03  0.5402E-04  0.8292E-04
+     1  0.4416E-04  0.1372E-04  0.1208E-04
+     2  0.3513E-04  0.1022E-04  0.9556E-05
+     3  0.2760E-04  0.8457E-05  0.7973E-05
+ 
+MIGAL V 1.82 : ISWEEP =    34   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.3784E-03  0.8359E-04  0.1161E-03
+     1  0.2528E-04  0.9558E-05  0.8405E-05
+ 
+MIGAL V 1.82 : ISWEEP =    35   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2394E-03  0.5223E-04  0.7040E-04
+     1  0.2032E-04  0.7596E-05  0.6912E-05
+ 
+MIGAL V 1.82 : ISWEEP =    36   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2173E-03  0.3629E-04  0.5835E-04
+     1  0.1693E-04  0.6117E-05  0.5913E-05
+     2  0.1557E-04  0.4952E-05  0.4969E-05
+ 
+MIGAL V 1.82 : ISWEEP =    37   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2181E-03  0.3917E-04  0.6741E-04
+     1  0.1500E-04  0.4513E-05  0.4543E-05
+ 
+MIGAL V 1.82 : ISWEEP =    38   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2277E-03  0.3948E-04  0.6573E-04
+     1  0.1368E-04  0.4124E-05  0.4108E-05
+ 
+MIGAL V 1.82 : ISWEEP =    39   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2050E-03  0.3403E-04  0.5546E-04
+     1  0.1246E-04  0.3583E-05  0.3649E-05
+ 
+MIGAL V 1.82 : ISWEEP =    40   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1588E-03  0.2572E-04  0.4115E-04
+     1  0.1132E-04  0.3071E-05  0.3204E-05
+ 
+MIGAL V 1.82 : ISWEEP =    41   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1074E-03  0.1786E-04  0.2672E-04
+     1  0.1030E-04  0.2660E-05  0.2818E-05
+     2  0.8778E-05  0.2159E-05  0.2401E-05
+ 
+MIGAL V 1.82 : ISWEEP =    42   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.6146E-04  0.1100E-04  0.1493E-04
+     1  0.8103E-05  0.2081E-05  0.2231E-05
+     2  0.6735E-05  0.1741E-05  0.1901E-05
+     3  0.5514E-05  0.1528E-05  0.1626E-05
+     4  0.4458E-05  0.1348E-05  0.1390E-05
+ 
+MIGAL V 1.82 : ISWEEP =    43   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1577E-04  0.4305E-05  0.4882E-05
+     1  0.4278E-05  0.1577E-05  0.1461E-05
+     2  0.3366E-05  0.1221E-05  0.1206E-05
+     3  0.2729E-05  0.1064E-05  0.1028E-05
+     4  0.2567E-05  0.9219E-06  0.8780E-06
+     5  0.2370E-05  0.7999E-06  0.7513E-06
+ 
+MIGAL V 1.82 : ISWEEP =    44   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1265E-04  0.3905E-05  0.4601E-05
+     1  0.2502E-05  0.9342E-06  0.8319E-06
+     2  0.2291E-05  0.7311E-06  0.6853E-06
+     3  0.2059E-05  0.6218E-06  0.5877E-06
+     4  0.1823E-05  0.5263E-06  0.5053E-06
+     5  0.1592E-05  0.4439E-06  0.4356E-06
+ 
+MIGAL V 1.82 : ISWEEP =    45   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1741E-04  0.3988E-05  0.5510E-05
+     1  0.1824E-05  0.5392E-06  0.4919E-06
+ 
+MIGAL V 1.82 : ISWEEP =    46   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1745E-04  0.3543E-05  0.5334E-05
+     1  0.1626E-05  0.4493E-06  0.4244E-06
+ 
+MIGAL V 1.82 : ISWEEP =    47   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1514E-04  0.2998E-05  0.4524E-05
+     1  0.1440E-05  0.3885E-06  0.3765E-06
+ 
+MIGAL V 1.82 : ISWEEP =    48   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1838E-04  0.4708E-05  0.6142E-05
+     1  0.1232E-05  0.3827E-06  0.3631E-06
+ 
+MIGAL V 1.82 : ISWEEP =    49   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1062E-04  0.1973E-05  0.2548E-05
+     1  0.1038E-05  0.3306E-06  0.3056E-06
+     2  0.8455E-06  0.2747E-06  0.2611E-06
+     3  0.6832E-06  0.2424E-06  0.2273E-06
+ 
+MIGAL V 1.82 : ISWEEP =    50   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.2494E-05  0.7738E-06  0.8681E-06
+     1  0.6700E-06  0.2359E-06  0.2214E-06
+     2  0.5783E-06  0.2036E-06  0.1927E-06
+     3  0.4918E-06  0.1747E-06  0.1680E-06
+     4  0.4104E-06  0.1491E-06  0.1465E-06
+     5  0.3729E-06  0.1317E-06  0.1278E-06
+ 
+MIGAL V 1.82 : ISWEEP =    51   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1602E-05  0.5411E-06  0.5869E-06
+     1  0.4009E-06  0.1393E-06  0.1367E-06
+     2  0.3726E-06  0.1235E-06  0.1191E-06
+     3  0.3412E-06  0.1089E-06  0.1040E-06
+     4  0.3073E-06  0.9486E-07  0.9083E-07
+     5  0.2726E-06  0.8159E-07  0.7935E-07
+ 
+MIGAL V 1.82 : ISWEEP =    52   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.8374E-06  0.3290E-06  0.3377E-06
+     1  0.2962E-06  0.8652E-07  0.8508E-07
+     2  0.2582E-06  0.7468E-07  0.7431E-07
+     3  0.2223E-06  0.6503E-07  0.6498E-07
+     4  0.1885E-06  0.5595E-07  0.5683E-07
+     5  0.1575E-06  0.4832E-07  0.4972E-07
+ 
+MIGAL V 1.82 : ISWEEP =    53   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5430E-06  0.2120E-06  0.2212E-06
+     1  0.1654E-06  0.5097E-07  0.5322E-07
+     2  0.1443E-06  0.4612E-07  0.4643E-07
+     3  0.1315E-06  0.4153E-07  0.4067E-07
+     4  0.1178E-06  0.3692E-07  0.3562E-07
+     5  0.1039E-06  0.3243E-07  0.3120E-07
+ 
+MIGAL V 1.82 : ISWEEP =    54   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4893E-05  0.2593E-06  0.7249E-06
+     1  0.5103E-06  0.1139E-06  0.1222E-06
+     2  0.1880E-06  0.6380E-07  0.5836E-07
+ 
+MIGAL V 1.82 : ISWEEP =    55   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.9778E-05  0.6198E-06  0.1592E-05
+     1  0.3200E-06  0.1168E-06  0.1094E-06
+ 
+MIGAL V 1.82 : ISWEEP =    56   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.8232E-06  0.2307E-06  0.2095E-06
+     1  0.2392E-06  0.9091E-07  0.8152E-07
+     2  0.1688E-06  0.6373E-07  0.5696E-07
+     3  0.1238E-06  0.4791E-07  0.4263E-07
+     4  0.9271E-07  0.3615E-07  0.3205E-07
+     5  0.6932E-07  0.2826E-07  0.2434E-07
+ 
+MIGAL V 1.82 : ISWEEP =    57   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1087E-05  0.1768E-06  0.2260E-06
+     1  0.9246E-07  0.2837E-07  0.2481E-07
+     2  0.7651E-07  0.2190E-07  0.2020E-07
+ 
+MIGAL V 1.82 : ISWEEP =    58   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4680E-06  0.1441E-06  0.1572E-06
+     1  0.8474E-07  0.2102E-07  0.2066E-07
+     2  0.6552E-07  0.1762E-07  0.1703E-07
+     3  0.5017E-07  0.1441E-07  0.1396E-07
+ 
+MIGAL V 1.82 : ISWEEP =    59   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4896E-05  0.2105E-06  0.7151E-06
+     1  0.5270E-06  0.1087E-06  0.1213E-06
+     2  0.1380E-06  0.6161E-07  0.5437E-07
+ 
+MIGAL V 1.82 : ISWEEP =    60   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4915E-05  0.5892E-06  0.1424E-05
+     1  0.1119E-05  0.2395E-06  0.2679E-06
+     2  0.3336E-06  0.1171E-06  0.1089E-06
+ 
+MIGAL V 1.82 : ISWEEP =    61   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5731E-05  0.8293E-06  0.1701E-05
+     1  0.1175E-05  0.2270E-06  0.2680E-06
+     2  0.2350E-06  0.1096E-06  0.9449E-07
+ 
+MIGAL V 1.82 : ISWEEP =    62   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4732E-05  0.4339E-06  0.7595E-06
+     1  0.5422E-06  0.7048E-07  0.1056E-06
+     2  0.6814E-07  0.2384E-07  0.2192E-07
+ 
+MIGAL V 1.82 : ISWEEP =    63   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5011E-05  0.4851E-06  0.1249E-05
+     1  0.6852E-06  0.1972E-06  0.2065E-06
+     2  0.2679E-06  0.1076E-06  0.9702E-07
+ 
+MIGAL V 1.82 : ISWEEP =    64   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4943E-05  0.5721E-06  0.1237E-05
+     1  0.9625E-06  0.1732E-06  0.2170E-06
+     2  0.2391E-06  0.7802E-07  0.7338E-07
+ 
+MIGAL V 1.82 : ISWEEP =    65   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5835E-05  0.6976E-06  0.1546E-05
+     1  0.8045E-06  0.1650E-06  0.1924E-06
+     2  0.3116E-06  0.8722E-07  0.9278E-07
+ 
+MIGAL V 1.82 : ISWEEP =    66   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5789E-05  0.7085E-06  0.1449E-05
+     1  0.5039E-06  0.1132E-06  0.1251E-06
+ 
+MIGAL V 1.82 : ISWEEP =    67   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5184E-05  0.5986E-06  0.1421E-05
+     1  0.6713E-06  0.1215E-06  0.1583E-06
+     2  0.1829E-06  0.5035E-07  0.4887E-07
+ 
+MIGAL V 1.82 : ISWEEP =    68   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4953E-05  0.6256E-06  0.1430E-05
+     1  0.9177E-06  0.2036E-06  0.2327E-06
+     2  0.2889E-06  0.1053E-06  0.9334E-07
+ 
+MIGAL V 1.82 : ISWEEP =    69   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5090E-05  0.6638E-06  0.1439E-05
+     1  0.8852E-06  0.1716E-06  0.2034E-06
+     2  0.1806E-06  0.7170E-07  0.6408E-07
+ 
+MIGAL V 1.82 : ISWEEP =    70   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1173E-05  0.2786E-06  0.3185E-06
+     1  0.2708E-06  0.5173E-07  0.6011E-07
+     2  0.4642E-07  0.1807E-07  0.1595E-07
+ 
+MIGAL V 1.82 : ISWEEP =    71   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1140E-05  0.1908E-06  0.2589E-06
+     1  0.5012E-07  0.1602E-07  0.1497E-07
+ 
+MIGAL V 1.82 : ISWEEP =    72   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4895E-05  0.2806E-06  0.7462E-06
+     1  0.5041E-06  0.1124E-06  0.1195E-06
+     2  0.1540E-06  0.6336E-07  0.5620E-07
+ 
+MIGAL V 1.82 : ISWEEP =    73   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5635E-05  0.5522E-06  0.1283E-05
+     1  0.1030E-05  0.2042E-06  0.2385E-06
+     2  0.2739E-06  0.9533E-07  0.8831E-07
+ 
+MIGAL V 1.82 : ISWEEP =    74   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5171E-05  0.6682E-06  0.1434E-05
+     1  0.7419E-06  0.1529E-06  0.1954E-06
+     2  0.2115E-06  0.6270E-07  0.5800E-07
+ 
+MIGAL V 1.82 : ISWEEP =    75   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4940E-05  0.5611E-06  0.1254E-05
+     1  0.6382E-06  0.1438E-06  0.1738E-06
+     2  0.1881E-06  0.6596E-07  0.5721E-07
+ 
+MIGAL V 1.82 : ISWEEP =    76   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5065E-05  0.3294E-06  0.7462E-06
+     1  0.3387E-06  0.5642E-07  0.7030E-07
+ 
+MIGAL V 1.82 : ISWEEP =    77   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5041E-05  0.5319E-06  0.1332E-05
+     1  0.3713E-06  0.1236E-06  0.1258E-06
+ 
+MIGAL V 1.82 : ISWEEP =    78   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1180E-05  0.2986E-06  0.3029E-06
+     1  0.1959E-06  0.7300E-07  0.7050E-07
+     2  0.1264E-06  0.4424E-07  0.4388E-07
+     3  0.9162E-07  0.3362E-07  0.3354E-07
+     4  0.7164E-07  0.2637E-07  0.2572E-07
+ 
+MIGAL V 1.82 : ISWEEP =    79   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4048E-06  0.1511E-06  0.1500E-06
+     1  0.6570E-07  0.2486E-07  0.2409E-07
+     2  0.5291E-07  0.1814E-07  0.1731E-07
+     3  0.4079E-07  0.1465E-07  0.1359E-07
+ 
+MIGAL V 1.82 : ISWEEP =    80   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4114E-06  0.1213E-06  0.1357E-06
+     1  0.3603E-07  0.1336E-07  0.1273E-07
+ 
+MIGAL V 1.82 : ISWEEP =    81   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4108E-06  0.1088E-06  0.1285E-06
+     1  0.3502E-07  0.1157E-07  0.1105E-07
+ 
+MIGAL V 1.82 : ISWEEP =    82   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4111E-06  0.1131E-06  0.1351E-06
+     1  0.3499E-07  0.1005E-07  0.9812E-08
+ 
+MIGAL V 1.82 : ISWEEP =    83   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4117E-06  0.1062E-06  0.1296E-06
+     1  0.3255E-07  0.9234E-08  0.8652E-08
+ 
+MIGAL V 1.82 : ISWEEP =    84   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4122E-06  0.1065E-06  0.1296E-06
+     1  0.2875E-07  0.8140E-08  0.7743E-08
+ 
+MIGAL V 1.82 : ISWEEP =    85   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4126E-06  0.9334E-07  0.1161E-06
+     1  0.2769E-07  0.7429E-08  0.7079E-08
+ 
+MIGAL V 1.82 : ISWEEP =    86   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4117E-06  0.8469E-07  0.1097E-06
+     1  0.2245E-07  0.7606E-08  0.6858E-08
+ 
+MIGAL V 1.82 : ISWEEP =    87   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4849E-05  0.1476E-06  0.5110E-06
+     1  0.2690E-06  0.5621E-07  0.6219E-07
+     2  0.8991E-07  0.3108E-07  0.2839E-07
+ 
+MIGAL V 1.82 : ISWEEP =    88   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1141E-05  0.1730E-06  0.2322E-06
+     1  0.1596E-06  0.2115E-07  0.3203E-07
+     2  0.1256E-07  0.4001E-08  0.3786E-08
+ 
+MIGAL V 1.82 : ISWEEP =    89   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4113E-06  0.1078E-06  0.1256E-06
+     1  0.2543E-07  0.1051E-07  0.9410E-08
+ 
+MIGAL V 1.82 : ISWEEP =    90   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4954E-05  0.2070E-06  0.7164E-06
+     1  0.5129E-06  0.1077E-06  0.1175E-06
+     2  0.1498E-06  0.5826E-07  0.5149E-07
+ 
+MIGAL V 1.82 : ISWEEP =    91   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4926E-05  0.4885E-06  0.1238E-05
+     1  0.1099E-05  0.2269E-06  0.2615E-06
+     2  0.3117E-06  0.1182E-06  0.1074E-06
+ 
+MIGAL V 1.82 : ISWEEP =    92   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5124E-05  0.6934E-06  0.1436E-05
+     1  0.8061E-06  0.1663E-06  0.2079E-06
+     2  0.2809E-06  0.7117E-07  0.7209E-07
+ 
+MIGAL V 1.82 : ISWEEP =    93   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4890E-05  0.5727E-06  0.1255E-05
+     1  0.8361E-06  0.1926E-06  0.2149E-06
+     2  0.2652E-06  0.9590E-07  0.8711E-07
+ 
+MIGAL V 1.82 : ISWEEP =    94   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4895E-05  0.5933E-06  0.1341E-05
+     1  0.8686E-06  0.1572E-06  0.1952E-06
+     2  0.1711E-06  0.6212E-07  0.5588E-07
+ 
+MIGAL V 1.82 : ISWEEP =    95   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.9951E-06  0.2601E-06  0.2965E-06
+     1  0.2670E-06  0.4451E-07  0.5692E-07
+     2  0.2546E-07  0.1085E-07  0.9237E-08
+ 
+MIGAL V 1.82 : ISWEEP =    96   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.1075E-05  0.1819E-06  0.2507E-06
+     1  0.4470E-07  0.1123E-07  0.1128E-07
+ 
+MIGAL V 1.82 : ISWEEP =    97   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4895E-05  0.2673E-06  0.7451E-06
+     1  0.5070E-06  0.1093E-06  0.1174E-06
+     2  0.1474E-06  0.5978E-07  0.5261E-07
+ 
+MIGAL V 1.82 : ISWEEP =    98   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5638E-05  0.5572E-06  0.1285E-05
+     1  0.1028E-05  0.2050E-06  0.2394E-06
+     2  0.2819E-06  0.9787E-07  0.9095E-07
+ 
+MIGAL V 1.82 : ISWEEP =    99   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.5168E-05  0.6672E-06  0.1434E-05
+     1  0.7463E-06  0.1506E-06  0.1952E-06
+     2  0.2120E-06  0.6045E-07  0.5600E-07
+ 
+MIGAL V 1.82 : ISWEEP =   100   SOLVED1 
+  cycle      max        mean        rms      residuals
+     0  0.4940E-05  0.5518E-06  0.1251E-05
+     1  0.6371E-06  0.1459E-06  0.1740E-06
+     2  0.1923E-06  0.6786E-07  0.5886E-07
+ ************************************************************
+ *** Start of sweep 100
+ ************************************************************
+ 
+ Flow field at ITHYD=   1, IZ=   1, ISWEEP=   100, ISTEP=    1
+ 
+ Field Values of P1
+ IY=   2   2.010E+00   6.111E-01   3.889E-01   2.542E-01   1.360E-01
+ IY=   1   2.010E+00   6.111E-01   3.889E-01   2.542E-01   1.360E-01
+ IX=          1           3           5           7           9
+ IY=   2   3.381E-02
+ IY=   1   3.381E-02
+ IX=         11
+ 
+ Field Values of U1
+ IY=   2   4.662E+00   4.104E+00   3.600E+00   3.168E+00   2.793E+00
+ IY=   1   4.662E+00   4.104E+00   3.600E+00   3.168E+00   2.793E+00
+ IX=          1           3           5           7           9
+ IY=   2   2.464E+00
+ IY=   1   2.464E+00
+ IX=         11
+ 
+ Field Values of V1
+ IY=   1  -2.663E-08   3.441E-08   2.503E-07   3.698E-07  -2.571E-07
+ IX=          1           3           5           7           9
+ IY=   1  -7.049E-08
+ IX=         11
+ 
+ Field Values of W1
+ IY=   2   4.891E-03   7.468E-03   6.455E-03   5.548E-03   4.825E-03
+ IY=   1   4.891E-03   7.467E-03   6.455E-03   5.548E-03   4.825E-03
+ IX=          1           3           5           7           9
+ IY=   2   4.245E-03
+ IY=   1   4.245E-03
+ IX=         11
+ 
+ Field Values of KE
+ IY=   2   5.491E-01   4.549E-01   3.497E-01   2.704E-01   2.100E-01
+ IY=   1   5.491E-01   4.549E-01   3.497E-01   2.704E-01   2.100E-01
+ IX=          1           3           5           7           9
+ IY=   2   1.635E-01
+ IY=   1   1.635E-01
+ IX=         11
+ 
+ Field Values of EPKE
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of OMEG
+ IY=   2   1.129E+00   1.037E+00   9.100E-01   8.000E-01   7.050E-01
+ IY=   1   1.129E+00   1.037E+00   9.100E-01   8.000E-01   7.050E-01
+ IX=          1           3           5           7           9
+ IY=   2   6.218E-01
+ IY=   1   6.218E-01
+ IX=         11
+ 
+ Field Values of GR
+ IY=   2   0.0         0.0         0.0         0.0         0.0
+ IY=   1   0.0         0.0         0.0         0.0         0.0
+ IX=          1           3           5           7           9
+ IY=   2   0.0
+ IY=   1   0.0
+ IX=         11
+ 
+ Field Values of WADD
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of TREF
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of YCEN
+ IY=   2   3.750E+02   3.750E+02   3.750E+02   3.750E+02   3.750E+02
+ IY=   1   1.250E+02   1.250E+02   1.250E+02   1.250E+02   1.250E+02
+ IX=          1           3           5           7           9
+ IY=   2   3.750E+02
+ IY=   1   1.250E+02
+ IX=         11
+ 
+ Field Values of XCEN
+ IY=   2   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IY=   1   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IX=          1           3           5           7           9
+ IY=   2   2.625E+03
+ IY=   1   2.625E+03
+ IX=         11
+ 
+ Field Values of ZCEN
+ IY=   2   3.333E+00   3.333E+00   3.333E+00   3.333E+00   3.333E+00
+ IY=   1   3.333E+00   3.333E+00   3.333E+00   3.333E+00   3.333E+00
+ IX=          1           3           5           7           9
+ IY=   2   3.333E+00
+ IY=   1   3.333E+00
+ IX=         11
+ 
+ Field Values of RHO1
+ IY=   2   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IY=   1   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IX=          1           3           5           7           9
+ IY=   2   1.225E+00
+ IY=   1   1.225E+00
+ IX=         11
+ 
+ Field Values of VPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of EPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of NPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of HPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of ROUG
+ IY=   2   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IY=   1   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IX=          1           3           5           7           9
+ IY=   2   3.000E-02
+ IY=   1   3.000E-02
+ IX=         11
+ 
+ Field Values of WCRT
+ IY=   2   4.891E-03   7.467E-03   6.454E-03   5.548E-03   4.825E-03
+ IY=   1   4.891E-03   7.467E-03   6.454E-03   5.548E-03   4.825E-03
+ IX=          1           3           5           7           9
+ IY=   2   4.245E-03
+ IY=   1   4.246E-03
+ IX=         11
+ 
+ Field Values of VCRT
+ IY=   2  -2.607E-08   1.216E-07   5.867E-08  -5.886E-08  -2.782E-07
+ IY=   1  -2.607E-08   1.216E-07   5.867E-08  -5.886E-08  -2.782E-07
+ IX=          1           3           5           7           9
+ IY=   2  -1.933E-07
+ IY=   1  -1.933E-07
+ IX=         11
+ 
+ Field Values of UCRT
+ IY=   2   4.662E+00   4.104E+00   3.600E+00   3.168E+00   2.793E+00
+ IY=   1   4.662E+00   4.104E+00   3.600E+00   3.168E+00   2.793E+00
+ IX=          1           3           5           7           9
+ IY=   2   2.464E+00
+ IY=   1   2.464E+00
+ IX=         11
+ 
+ Flow field at ITHYD=   1, IZ=   2, ISWEEP=   100, ISTEP=    1
+ 
+ Field Values of P1
+ IY=   2   2.010E+00   6.128E-01   3.904E-01   2.553E-01   1.368E-01
+ IY=   1   2.010E+00   6.128E-01   3.904E-01   2.553E-01   1.368E-01
+ IX=          1           3           5           7           9
+ IY=   2   3.449E-02
+ IY=   1   3.449E-02
+ IX=         11
+ 
+ Field Values of U1
+ IY=   2   5.813E+00   5.166E+00   4.546E+00   4.003E+00   3.529E+00
+ IY=   1   5.813E+00   5.166E+00   4.546E+00   4.003E+00   3.529E+00
+ IX=          1           3           5           7           9
+ IY=   2   3.110E+00
+ IY=   1   3.110E+00
+ IX=         11
+ 
+ Field Values of V1
+ IY=   1  -4.342E-08   1.960E-08   2.317E-07   3.938E-07  -2.620E-07
+ IX=          1           3           5           7           9
+ IY=   1  -1.115E-07
+ IX=         11
+ 
+ Field Values of W1
+ IY=   2   9.222E-03   1.634E-02   1.447E-02   1.254E-02   1.094E-02
+ IY=   1   9.222E-03   1.634E-02   1.447E-02   1.254E-02   1.094E-02
+ IX=          1           3           5           7           9
+ IY=   2   9.667E-03
+ IY=   1   9.667E-03
+ IX=         11
+ 
+ Field Values of KE
+ IY=   2   4.944E-01   3.839E-01   2.986E-01   2.324E-01   1.811E-01
+ IY=   1   4.944E-01   3.839E-01   2.986E-01   2.324E-01   1.811E-01
+ IX=          1           3           5           7           9
+ IY=   2   1.410E-01
+ IY=   1   1.410E-01
+ IX=         11
+ 
+ Field Values of EPKE
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of OMEG
+ IY=   2   3.872E-01   3.462E-01   3.077E-01   2.714E-01   2.386E-01
+ IY=   1   3.872E-01   3.462E-01   3.077E-01   2.714E-01   2.386E-01
+ IX=          1           3           5           7           9
+ IY=   2   2.091E-01
+ IY=   1   2.091E-01
+ IX=         11
+ 
+ Field Values of GR
+ IY=   2   0.0         0.0         0.0         0.0         0.0
+ IY=   1   0.0         0.0         0.0         0.0         0.0
+ IX=          1           3           5           7           9
+ IY=   2   0.0
+ IY=   1   0.0
+ IX=         11
+ 
+ Field Values of WADD
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of TREF
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of YCEN
+ IY=   2   3.750E+02   3.750E+02   3.750E+02   3.750E+02   3.750E+02
+ IY=   1   1.250E+02   1.250E+02   1.250E+02   1.250E+02   1.250E+02
+ IX=          1           3           5           7           9
+ IY=   2   3.750E+02
+ IY=   1   1.250E+02
+ IX=         11
+ 
+ Field Values of XCEN
+ IY=   2   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IY=   1   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IX=          1           3           5           7           9
+ IY=   2   2.625E+03
+ IY=   1   2.625E+03
+ IX=         11
+ 
+ Field Values of ZCEN
+ IY=   2   1.000E+01   1.000E+01   1.000E+01   1.000E+01   1.000E+01
+ IY=   1   1.000E+01   1.000E+01   1.000E+01   1.000E+01   1.000E+01
+ IX=          1           3           5           7           9
+ IY=   2   1.000E+01
+ IY=   1   1.000E+01
+ IX=         11
+ 
+ Field Values of RHO1
+ IY=   2   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IY=   1   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IX=          1           3           5           7           9
+ IY=   2   1.225E+00
+ IY=   1   1.225E+00
+ IX=         11
+ 
+ Field Values of VPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of EPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of NPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of HPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of ROUG
+ IY=   2   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IY=   1   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IX=          1           3           5           7           9
+ IY=   2   3.000E-02
+ IY=   1   3.000E-02
+ IX=         11
+ 
+ Field Values of WCRT
+ IY=   2   9.222E-03   1.634E-02   1.447E-02   1.254E-02   1.094E-02
+ IY=   1   9.222E-03   1.634E-02   1.447E-02   1.254E-02   1.094E-02
+ IX=          1           3           5           7           9
+ IY=   2   9.668E-03
+ IY=   1   9.668E-03
+ IX=         11
+ 
+ Field Values of VCRT
+ IY=   2  -4.106E-08   1.335E-07   9.211E-08  -4.290E-08  -3.066E-07
+ IY=   1  -4.106E-08   1.335E-07   9.211E-08  -4.290E-08  -3.066E-07
+ IX=          1           3           5           7           9
+ IY=   2  -2.921E-07
+ IY=   1  -2.921E-07
+ IX=         11
+ 
+ Field Values of UCRT
+ IY=   2   5.813E+00   5.166E+00   4.546E+00   4.003E+00   3.529E+00
+ IY=   1   5.813E+00   5.166E+00   4.546E+00   4.003E+00   3.529E+00
+ IX=          1           3           5           7           9
+ IY=   2   3.110E+00
+ IY=   1   3.110E+00
+ IX=         11
+ 
+ Flow field at ITHYD=   1, IZ=   3, ISWEEP=   100, ISTEP=    1
+ 
+ Field Values of P1
+ IY=   2   2.007E+00   6.108E-01   3.891E-01   2.543E-01   1.360E-01
+ IY=   1   2.007E+00   6.108E-01   3.891E-01   2.543E-01   1.360E-01
+ IX=          1           3           5           7           9
+ IY=   2   3.386E-02
+ IY=   1   3.386E-02
+ IX=         11
+ 
+ Field Values of U1
+ IY=   2   6.184E+00   5.483E+00   4.834E+00   4.259E+00   3.753E+00
+ IY=   1   6.184E+00   5.483E+00   4.834E+00   4.259E+00   3.753E+00
+ IX=          1           3           5           7           9
+ IY=   2   3.304E+00
+ IY=   1   3.304E+00
+ IX=         11
+ 
+ Field Values of V1
+ IY=   1  -4.948E-08   6.809E-09   2.043E-07   3.596E-07  -2.745E-07
+ IX=          1           3           5           7           9
+ IY=   1  -1.117E-07
+ IX=         11
+ 
+ Field Values of W1
+ IY=   2   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.746E-02
+ IY=   1   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.746E-02
+ IX=          1           3           5           7           9
+ IY=   2   1.550E-02
+ IY=   1   1.550E-02
+ IX=         11
+ 
+ Field Values of KE
+ IY=   2   3.823E-01   2.387E-01   1.750E-01   1.350E-01   1.059E-01
+ IY=   1   3.823E-01   2.387E-01   1.751E-01   1.350E-01   1.059E-01
+ IX=          1           3           5           7           9
+ IY=   2   8.352E-02
+ IY=   1   8.352E-02
+ IX=         11
+ 
+ Field Values of EPKE
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of OMEG
+ IY=   2   2.306E-01   1.962E-01   1.725E-01   1.524E-01   1.346E-01
+ IY=   1   2.306E-01   1.962E-01   1.725E-01   1.524E-01   1.346E-01
+ IX=          1           3           5           7           9
+ IY=   2   1.188E-01
+ IY=   1   1.188E-01
+ IX=         11
+ 
+ Field Values of GR
+ IY=   2   0.0         0.0         0.0         0.0         0.0
+ IY=   1   0.0         0.0         0.0         0.0         0.0
+ IX=          1           3           5           7           9
+ IY=   2   0.0
+ IY=   1   0.0
+ IX=         11
+ 
+ Field Values of WADD
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of TREF
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of YCEN
+ IY=   2   3.750E+02   3.750E+02   3.750E+02   3.750E+02   3.750E+02
+ IY=   1   1.250E+02   1.250E+02   1.250E+02   1.250E+02   1.250E+02
+ IX=          1           3           5           7           9
+ IY=   2   3.750E+02
+ IY=   1   1.250E+02
+ IX=         11
+ 
+ Field Values of XCEN
+ IY=   2   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IY=   1   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IX=          1           3           5           7           9
+ IY=   2   2.625E+03
+ IY=   1   2.625E+03
+ IX=         11
+ 
+ Field Values of ZCEN
+ IY=   2   1.667E+01   1.667E+01   1.667E+01   1.667E+01   1.667E+01
+ IY=   1   1.667E+01   1.667E+01   1.667E+01   1.667E+01   1.667E+01
+ IX=          1           3           5           7           9
+ IY=   2   1.667E+01
+ IY=   1   1.667E+01
+ IX=         11
+ 
+ Field Values of RHO1
+ IY=   2   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IY=   1   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IX=          1           3           5           7           9
+ IY=   2   1.225E+00
+ IY=   1   1.225E+00
+ IX=         11
+ 
+ Field Values of VPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of EPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of NPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of HPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of ROUG
+ IY=   2   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IY=   1   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IX=          1           3           5           7           9
+ IY=   2   3.000E-02
+ IY=   1   3.000E-02
+ IX=         11
+ 
+ Field Values of WCRT
+ IY=   2   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.747E-02
+ IY=   1   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.747E-02
+ IX=          1           3           5           7           9
+ IY=   2   1.550E-02
+ IY=   1   1.550E-02
+ IX=         11
+ 
+ Field Values of VCRT
+ IY=   2  -4.658E-08   1.354E-07   1.064E-07  -2.477E-08  -3.096E-07
+ IY=   1  -4.658E-08   1.354E-07   1.064E-07  -2.477E-08  -3.096E-07
+ IX=          1           3           5           7           9
+ IY=   2  -3.356E-07
+ IY=   1  -3.356E-07
+ IX=         11
+ 
+ Field Values of UCRT
+ IY=   2   6.184E+00   5.483E+00   4.834E+00   4.259E+00   3.753E+00
+ IY=   1   6.184E+00   5.483E+00   4.834E+00   4.259E+00   3.753E+00
+ IX=          1           3           5           7           9
+ IY=   2   3.304E+00
+ IY=   1   3.304E+00
+ IX=         11
+ 
+ Flow field at ITHYD=   1, IZ=   4, ISWEEP=   100, ISTEP=    1
+ 
+ Field Values of P1
+ IY=   2   7.230E-01   5.953E-01   4.444E-01   3.054E-01   1.797E-01
+ IY=   1   7.230E-01   5.953E-01   4.444E-01   3.054E-01   1.797E-01
+ IX=          1           3           5           7           9
+ IY=   2   6.593E-02
+ IY=   1   6.593E-02
+ IX=         11
+ 
+ Field Values of U1
+ IY=   2   1.000E+01   1.001E+01   1.002E+01   1.003E+01   1.003E+01
+ IY=   1   1.000E+01   1.001E+01   1.002E+01   1.003E+01   1.003E+01
+ IX=          1           3           5           7           9
+ IY=   2   1.004E+01
+ IY=   1   1.004E+01
+ IX=         11
+ 
+ Field Values of V1
+ IY=   1  -4.817E-08  -1.079E-09   1.349E-08   1.454E-07  -4.150E-08
+ IX=          1           3           5           7           9
+ IY=   1   4.169E-09
+ IX=         11
+ 
+ Field Values of W1
+ 
+ Field Values of KE
+ IY=   2   7.988E-05   2.021E-04   2.535E-04   2.743E-04   2.820E-04
+ IY=   1   7.988E-05   2.021E-04   2.535E-04   2.743E-04   2.820E-04
+ IX=          1           3           5           7           9
+ IY=   2   2.847E-04
+ IY=   1   2.847E-04
+ IX=         11
+ 
+ Field Values of EPKE
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of OMEG
+ IY=   2   1.929E-01   1.230E-01   8.931E-02   7.019E-02   5.824E-02
+ IY=   1   1.929E-01   1.230E-01   8.931E-02   7.019E-02   5.824E-02
+ IX=          1           3           5           7           9
+ IY=   2   5.033E-02
+ IY=   1   5.033E-02
+ IX=         11
+ 
+ Field Values of GR
+ IY=   2   0.0         0.0         0.0         0.0         0.0
+ IY=   1   0.0         0.0         0.0         0.0         0.0
+ IX=          1           3           5           7           9
+ IY=   2   0.0
+ IY=   1   0.0
+ IX=         11
+ 
+ Field Values of WADD
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of TREF
+ IY=   2   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IY=   1   1.000E-10   1.000E-10   1.000E-10   1.000E-10   1.000E-10
+ IX=          1           3           5           7           9
+ IY=   2   1.000E-10
+ IY=   1   1.000E-10
+ IX=         11
+ 
+ Field Values of YCEN
+ IY=   2   3.750E+02   3.750E+02   3.750E+02   3.750E+02   3.750E+02
+ IY=   1   1.250E+02   1.250E+02   1.250E+02   1.250E+02   1.250E+02
+ IX=          1           3           5           7           9
+ IY=   2   3.750E+02
+ IY=   1   1.250E+02
+ IX=         11
+ 
+ Field Values of XCEN
+ IY=   2   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IY=   1   1.250E+02   6.250E+02   1.125E+03   1.625E+03   2.125E+03
+ IX=          1           3           5           7           9
+ IY=   2   2.625E+03
+ IY=   1   2.625E+03
+ IX=         11
+ 
+ Field Values of ZCEN
+ IY=   2   7.600E+02   7.600E+02   7.600E+02   7.600E+02   7.600E+02
+ IY=   1   7.600E+02   7.600E+02   7.600E+02   7.600E+02   7.600E+02
+ IX=          1           3           5           7           9
+ IY=   2   7.600E+02
+ IY=   1   7.600E+02
+ IX=         11
+ 
+ Field Values of RHO1
+ IY=   2   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IY=   1   1.225E+00   1.225E+00   1.225E+00   1.225E+00   1.225E+00
+ IX=          1           3           5           7           9
+ IY=   2   1.225E+00
+ IY=   1   1.225E+00
+ IX=         11
+ 
+ Field Values of VPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of EPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of NPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of HPOR
+ IY=   2   1.0         1.0         1.0         1.0         1.0
+ IY=   1   1.0         1.0         1.0         1.0         1.0
+ IX=          1           3           5           7           9
+ IY=   2   1.0
+ IY=   1   1.0
+ IX=         11
+ 
+ Field Values of ROUG
+ IY=   2   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IY=   1   3.000E-02   3.000E-02   3.000E-02   3.000E-02   3.000E-02
+ IX=          1           3           5           7           9
+ IY=   2   3.000E-02
+ IY=   1   3.000E-02
+ IX=         11
+ 
+ Field Values of WCRT
+ IY=   2   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.747E-02
+ IY=   1   1.768E-02   2.563E-02   2.288E-02   1.997E-02   1.747E-02
+ IX=          1           3           5           7           9
+ IY=   2   1.550E-02
+ IY=   1   1.550E-02
+ IX=         11
+ 
+ Field Values of VCRT
+ IY=   2  -4.740E-08   3.906E-09   6.347E-09  -5.898E-10  -9.504E-09
+ IY=   1  -4.740E-08   3.906E-09   6.347E-09  -5.898E-10  -9.504E-09
+ IX=          1           3           5           7           9
+ IY=   2   1.360E-08
+ IY=   1   1.360E-08
+ IX=         11
+ 
+ Field Values of UCRT
+ IY=   2   1.000E+01   1.001E+01   1.002E+01   1.003E+01   1.003E+01
+ IY=   1   1.000E+01   1.001E+01   1.002E+01   1.003E+01   1.003E+01
+ IX=          1           3           5           7           9
+ IY=   2   1.004E+01
+ IY=   1   1.004E+01
+ IX=         11
+ 
+ ************************************************************
+ Whole-field residuals before solution at sweep 100
+ with resref values determined by EARTH
+ & resfac=1.0E-02
+  variable   resref  (res sum)/resref  (res sum)
+     P1     1.143E+04   3.438E-04      3.929E+00
+     U1     1.095E+05   1.293E-04      1.416E+01
+     V1     9.863E-04   4.202E+02      4.144E-01
+     W1     1.666E+02   9.225E-03      1.537E+00
+     KE     2.873E+01   4.181E-01      1.201E+01
+     OMEG   1.360E+03   1.463E+02      1.989E+05
+ 
+ ************************************************************
+ Sources and sinks
+ !! Zero nett sources are not printed !!!
+ 
+    Nett Sources have units of mass_per_unit_time * variable
+    Average values have units of the variable
+ 
+    Typically the units of the sources are:
+        U1,V1,W1 - Force  - Newtons
+        R1       - Mass   - kg/s
+        TEM1     - Energy - Watts
+ 
+ Nett source of U1   at patch named: IN1      = 9.106428E+07
+ Nett source of U1   at patch named: UT1      =-9.146582E+07
+ Nett source of U1   at patch named: BUNN     =-1.583041E+05
+ pos. sum=9.106428E+07 neg. sum=-9.162413E+07
+ nett sum=-5.59848E+05
+ 
+ Nett source of V1   at patch named: IN1      =-1.085931E+00
+ Nett source of V1   at patch named: UT1      =-5.251944E-02
+ Nett source of V1   at patch named: BUNN     =-1.343266E-03
+ pos. sum=0. neg. sum=-1.139793
+ nett sum=-1.139793
+ 
+ Nett source of W1   at patch named: UT1      =-1.390899E+05
+ pos. sum=0. neg. sum=-1.390899E+05
+ nett sum=-1.390899E+05
+ 
+ Nett source of R1   at patch named: IN1      = 9.135734E+06
+ Nett source of R1   at patch named: UT1      =-9.135733E+06 (Mass Out -9.135733E+06 In 0.000000E+00)
+ pos. sum=9.135734E+06 neg. sum=-9.135733E+06
+ nett sum=1.
+ 
+ Nett source of KE   at patch named: IN1      = 4.018030E+04 (Average  4.398147E-03)
+ Nett source of KE   at patch named: UT1      =-6.664497E+03 (Ave Out  7.294978E-04 In  0.000000E+00)
+ Nett source of KE   at patch named: KESOURCE = 3.056717E+05
+ pos. sum=3.45852E+05 neg. sum=-6664.496582
+ nett sum=3.391875E+05
+ 
+ Nett source of OMEG at patch named: IN1      = 2.422484E+06 (Average  2.651657E-01)
+ Nett source of OMEG at patch named: UT1      =-4.402335E+05 (Ave Out  4.818809E-02 In  0.000000E+00)
+ Nett source of OMEG at patch named: KESOURCE =-1.782876E+06
+ pos. sum=2.422484E+06 neg. sum=-2.22311E+06
+ nett sum=1.993742E+05
+ 
+ 
+ ************************************************************
+ spot values vs sweep or iteration number
+ IXMON= 6 IYMON= 1 IZMON= 1 TIMESTEP= 1
+ 
+ Tabulation of abscissa and ordinates...
+   ISWP       P1           U1           V1           W1           KE  
+      1   1.0000E-10   4.8456E+00  -5.7784E-08   0.0000E+00   5.9316E-01
+      6   2.5278E-01   3.5530E+00   1.0101E-03   5.7708E-03   3.4560E-01
+     11   3.3276E-01   3.4997E+00   3.6595E-05   6.2182E-03   3.3143E-01
+     16   3.4914E-01   3.4680E+00  -7.6685E-05   5.8928E-03   3.2547E-01
+     21   3.4173E-01   3.4077E+00  -7.5982E-05   5.8398E-03   3.1412E-01
+     26   3.2940E-01   3.3785E+00  -3.7505E-05   5.9941E-03   3.0801E-01
+     31   3.2223E-01   3.3755E+00  -1.0757E-05   5.9985E-03   3.0725E-01
+     36   3.1889E-01   3.3757E+00  -7.7787E-07   5.9806E-03   3.0729E-01
+     41   3.1839E-01   3.3758E+00  -1.3250E-06   5.9758E-03   3.0731E-01
+     46   3.1854E-01   3.3757E+00   1.6432E-07   5.9737E-03   3.0729E-01
+     51   3.1863E-01   3.3757E+00   2.0499E-07   5.9739E-03   3.0729E-01
+     56   3.1862E-01   3.3757E+00   1.6455E-07   5.9740E-03   3.0729E-01
+     61   3.1860E-01   3.3757E+00   3.2365E-07   5.9739E-03   3.0729E-01
+     66   3.1863E-01   3.3757E+00  -1.5715E-07   5.9741E-03   3.0729E-01
+     71   3.1862E-01   3.3757E+00   1.7041E-07   5.9740E-03   3.0729E-01
+     76   3.1863E-01   3.3757E+00   1.2368E-07   5.9740E-03   3.0729E-01
+     81   3.1862E-01   3.3757E+00   1.6840E-07   5.9740E-03   3.0729E-01
+     86   3.1862E-01   3.3757E+00   1.5669E-07   5.9740E-03   3.0729E-01
+     91   3.1864E-01   3.3757E+00   7.5575E-08   5.9742E-03   3.0729E-01
+     96   3.1862E-01   3.3757E+00   1.3168E-07   5.9740E-03   3.0729E-01
+   ISWP       OMEG         ENUT         WCRT         VCRT         UCRT
+      1   1.1039E+00   5.3735E-01   1.0000E-10   1.0000E-10   1.0000E-10
+      6   8.9573E-01   3.8583E-01   5.2892E-03   1.5662E-03   3.5962E+00
+     11   8.7948E-01   3.7684E-01   6.2328E-03   8.8330E-05   3.5025E+00
+     16   8.7264E-01   3.7297E-01   5.9660E-03  -6.7075E-05   3.4777E+00
+     21   8.5997E-01   3.6526E-01   5.8063E-03  -8.1189E-05   3.4191E+00
+     26   8.5356E-01   3.6086E-01   5.9790E-03  -4.3842E-05   3.3811E+00
+     31   8.5290E-01   3.6024E-01   6.0019E-03  -1.4284E-05   3.3756E+00
+     36   8.5296E-01   3.6026E-01   5.9825E-03  -2.6005E-07   3.3757E+00
+     41   8.5298E-01   3.6028E-01   5.9770E-03  -1.1961E-06   3.3758E+00
+     46   8.5296E-01   3.6027E-01   5.9737E-03   1.1927E-07   3.3757E+00
+     51   8.5295E-01   3.6026E-01   5.9738E-03   2.2636E-07   3.3757E+00
+     56   8.5295E-01   3.6026E-01   5.9739E-03   2.4725E-07   3.3757E+00
+     61   8.5295E-01   3.6026E-01   5.9742E-03   8.0990E-08   3.3757E+00
+     66   8.5295E-01   3.6026E-01   5.9741E-03  -6.8347E-07   3.3757E+00
+     71   8.5295E-01   3.6026E-01   5.9740E-03   2.0520E-07   3.3757E+00
+     76   8.5295E-01   3.6026E-01   5.9741E-03   5.2265E-07   3.3757E+00
+     81   8.5295E-01   3.6026E-01   5.9740E-03   1.6239E-07   3.3757E+00
+     86   8.5295E-01   3.6026E-01   5.9740E-03   1.5406E-07   3.3757E+00
+     91   8.5295E-01   3.6026E-01   5.9739E-03   1.6589E-07   3.3757E+00
+     96   8.5295E-01   3.6026E-01   5.9740E-03   1.4237E-07   3.3757E+00
+ 
+ ************************************************************
+ residuals vs sweep or iteration number
+ 
+ Tabulation of abscissa and ordinates...
+   ISWP       P1           U1           V1           W1           KE  
+      1   0.0000E+00   2.9973E+13   1.9496E+05   0.0000E+00   4.3647E+13
+      6   1.6161E+00   3.8772E-01   4.7145E+03   1.0307E+02   5.1330E+03
+     11   1.4267E-01   2.0863E-01   4.7061E+03   1.9491E+01   3.6457E+03
+     16   5.8362E-02   1.6665E-01   4.4664E+03   7.1927E+00   2.1825E+03
+     21   5.6100E-02   9.0273E-02   4.4680E+03   2.9026E+00   7.3205E+02
+     26   4.0611E-02   2.4143E-02   4.3927E+03   1.8012E+00   1.0289E+02
+     31   1.8484E-02   1.6570E-03   4.6224E+03   8.1453E-01   9.3977E+00
+     36   5.2565E-03   8.9367E-04   4.3267E+03   2.9355E-01   4.7898E+00
+     41   2.5608E-03   5.1984E-04   1.3511E+03   1.2331E-01   7.1146E-01
+     46   5.9123E-04   1.3260E-04   1.3380E+03   1.3274E-02   7.9114E-01
+     51   1.1190E-04   4.6667E-05   5.4776E+02   1.0444E-02   4.4394E-01
+     56   1.6074E-04   5.0143E-05   7.3020E+02   4.9262E-03   4.2692E-01
+     61   5.4212E-04   1.9900E-04   6.7448E+02   1.9599E-02   4.2652E-01
+     66   4.6519E-04   3.7713E-05   3.1526E+03   9.4727E-03   4.1973E-01
+     71   1.0211E-04   5.4529E-05   1.7463E+02   2.0716E-03   4.3096E-01
+     76   1.5187E-04   1.2382E-04   1.8903E+03   9.2772E-03   4.2683E-01
+     81   1.8213E-05   9.3440E-06   3.5425E+02   1.2173E-03   4.2612E-01
+     86   1.3180E-05   7.8671E-06   1.7571E+02   4.3229E-04   4.2539E-01
+     91   3.8720E-04   1.6576E-04   9.1376E+02   1.8301E-02   4.2693E-01
+     96   9.5547E-05   5.5234E-05   1.4881E+02   1.6045E-03   4.2984E-01
+   ISWP       OMEG         ENUT         WCRT         VCRT         UCRT
+      1   3.9176E+13   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+      6   2.7318E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     11   1.7520E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     16   1.5317E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     21   1.5055E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     26   1.4827E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     31   1.4651E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     36   1.4627E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     41   1.4630E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     46   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     51   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     56   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     61   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     66   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     71   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     76   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     81   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     86   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     91   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     96   1.4628E+02   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+ 
+ ************************************************************
+  Patch-wise Printout from GXYPLS
+Variable= Y+      , at patch named: BUNN     and  IZ=     1
+ IY=     1  8.762E+04  7.976E+04  6.993E+04  6.149E+04  5.419E+04
+ IY=     2  8.762E+04  7.976E+04  6.993E+04  6.149E+04  5.419E+04
+ IX=          1          3          5          7          9
+ IY=     1  4.781E+04
+ IY=     2  4.781E+04
+ IX=         11
+ 
+Variable= Tau/Rho , at patch named: BUNN     and  IZ=     1
+ IY=     1  1.647E-01  1.365E-01  1.049E-01  8.112E-02  6.301E-02
+ IY=     2  1.647E-01  1.365E-01  1.049E-01  8.112E-02  6.301E-02
+ IX=          1          3          5          7          9
+ IY=     1  4.904E-02
+ IY=     2  4.904E-02
+ IX=         11
+ 
+Variable= Sk.Fr.Co, at patch named: BUNN     and  IZ=     1
+ IY=     1  7.579E-03  7.579E-03  7.579E-03  7.579E-03  7.579E-03
+ IY=     2  7.579E-03  7.579E-03  7.579E-03  7.579E-03  7.579E-03
+ IX=          1          3          5          7          9
+ IY=     1  7.579E-03
+ IY=     2  7.579E-03
+ IX=         11
+ 
+ ************************************************************
+ 
+ 
+ ************************************************************
+ SATLIT RUN NUMBER =   1 ; LIBRARY REF.=    0
+ Run started at 10:05:29 on Monday, 01 October 2012                            
+ Run completed at 10:05:33 on Monday, 01 October 2012                          
+ CPU time of run 9 s
+ This includes 5 seconds of user time and 3 seconds of system time.
+ TIME/(VARIABLES*CELLS*TSTEPS*SWEEPS*ITS) = 1.562E-04
+ ************************************************************

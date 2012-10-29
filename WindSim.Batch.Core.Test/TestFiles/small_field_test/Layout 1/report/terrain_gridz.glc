@@ -1,0 +1,14 @@
+readgeometry ..\..\dtm\z_distribution_3d.geo
+readscalar ..\..\dtm\z_distribution_3d.scl
+backgr 255 255 255
+nooutlinemesh
+noinfo
+smooth 1 3
+mesh 2 3
+meshcolor 0 0 0
+fringes 1 3
+fringeshade 1 3
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255   0 255 255   0 255 190   0 255 190   0 255 125   0 255 125   0 255  60   0 255  60   0 255   0   0 255   0   0 125   0   0 125   0   0 

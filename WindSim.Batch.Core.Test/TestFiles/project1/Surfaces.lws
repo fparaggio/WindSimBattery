@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<LayoutParameters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="LayoutParameters.xsd">
+  <Layout LastChanged="2010-09-17T12:16:06.7977402+01:00">
+    <TextureFile />
+  </Layout>
+  <Objects LastChanged="2011-01-13T13:39:53.5742188+01:00">
+    <HashCodeLastRun>1637534325</HashCodeLastRun>
+    <Noise>
+      <Calculation>Disregard</Calculation>
+      <Temperature>15</Temperature>
+      <Humidity>70</Humidity>
+      <AttenuationCoefficient>0.005</AttenuationCoefficient>
+      <Height>2</Height>
+      <BackgroundNoise>30</BackgroundNoise>
+      <WindSpeed>5</WindSpeed>
+      <WindDirection>0</WindDirection>
+      <WindSpeedHeight>30</WindSpeedHeight>
+      <WindConditionsCoord>3</WindConditionsCoord>
+      <WindConditionsXpos>327362</WindConditionsXpos>
+      <WindConditionsYpos>7186191</WindConditionsYpos>
+    </Noise>
+  </Objects>
+</LayoutParameters>

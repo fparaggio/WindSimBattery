@@ -1,0 +1,16 @@
+readgeometry ..\..\dtm\dtm.geo
+addgeo ..\..\dtm\open_area_x_max.geo
+addgeo ..\..\dtm\open_area_x_min.geo
+addgeo ..\..\dtm\open_area_y_max.geo
+addgeo ..\..\dtm\open_area_y_min.geo
+backgr 255 255 255
+nooutlinemesh
+noinfo
+smooth 1 5
+mesh 2 5
+color 1 1 120 120 120
+color 2 2 255 255 255
+color 3 3 255   0   0
+color 4 4 255 255 255
+color 5 5 255   0   0
+meshcolor 0 0 0

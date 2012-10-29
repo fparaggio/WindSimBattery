@@ -1,0 +1,271 @@
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_height.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 156 206  49 156 206  49 255 225 100 255 225 100 225 200 100 225 200 100 200 175 100 200 175 100 175 150 100 175 150 100 150 125 100 150 125 100 125 100 75 125 100 75 100 75 50 100 75 50
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_elevation.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_roughness.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_roughness.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_roughness_log.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+fringerange -3 1
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_roughness_log.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_height_delta_smooth.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_smooth_delta_elevation.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+nofringes
+nolegend
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+mesh 1 1
+meshcolor 0 0 0
+linesmooth
+unpost 2 2
+color 1 1 255 255 255
+nofringes
+nolegend
+winposition 100 100 560  93  
+torgb "terrain_gridxy.bmp"
+nomesh 1 1
+notransparent 1 1
+color 1 1   0 100   0
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view.geo"
+color    1   1   0 255   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_sea.geo"
+color    2   2   0  75 150
+smooth   2   2
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_inclination.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_inclination.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view.geo"
+color    1   1   0 255   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_sea.geo"
+color    2   2   0  75 150
+smooth   2   2
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\view_max_derivative_second.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_second_derivative.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\grid_plane.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\grid_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\grid_frame.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\grid_height.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 156 206  49 156 206  49 255 225 100 255 225 100 225 200 100 225 200 100 200 175 100 200 175 100 175 150 100 175 150 100 150 125 100 150 125 100 125 100 75 125 100 75 100 75 50 100 75 50
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_extension.bmp"
+
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\z_distribution_2d.geo"
+color    1   1 255 255 255
+color    2   2   0   0   0
+backgr 255 255 255
+nooutlinemesh
+noinfo
+setview  0 0 0 1 0 0 0.590703
+textcolor 0 0 0
+mesh 1 1
+meshcolor 0 0 0
+linesmooth
+nofringes
+nolegend
+winposition 100 100 400  400
+torgb "terrain_gridz.bmp"
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\open_area_2d.geo"
+color    1   1 255   0   0
+color    2   2 255 255 255
+color    3   3 255   0   0
+color    4   4 255 255 255
+backgr 255 255 255
+nooutlinemesh
+noinfo
+nofringes
+nolegend
+textcolor 0 0 0
+mesh 2 2
+mesh 4 4
+meshcolor 0 0 0
+lines 1 1
+lines 3 3
+linesmooth
+nofringes
+nolegend
+winposition 100 10  560 616
+setview  0 0 0 1 0 0 0.6137
+torgb "terrain_openarea_2d.bmp"
+
+readgeometry "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm.geo"
+color    1   1   0 100   0
+smooth   1   1
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_sea.geo"
+color    2   2   0  75 150
+addgeo "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_box.geo"
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+readscalar "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\dtm_roughness.scl"
+fringes  1  1
+nofringeshade  1  1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255   0 255 255   0 255 190   0 255 190   0 255 125   0 255 125   0 255  60   0 255  60   0 255   0   0 255   0   0 125   0   0 125   0   0 
+source "C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\MoninObukhov\MoninObukhov_Neutral\MoninObukhov_ref\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  93  
+torgb "terrain_forest.bmp"
+
+exit

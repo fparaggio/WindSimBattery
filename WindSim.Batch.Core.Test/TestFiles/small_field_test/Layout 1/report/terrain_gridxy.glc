@@ -1,0 +1,24 @@
+readgeometry ..\..\dtm\dtm.geo
+color    1   1   0 100   0
+smooth   1   1
+addgeo ..\..\dtm\dtm_sea.geo
+color    2   2   0  75 150
+addgeo ..\..\dtm\dtm_box.geo
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+nofringes
+nolegend
+source "..\..\dtm\default.vif"
+textcolor 0 0 0
+mesh 1 1
+meshcolor 0 0 0
+linesmooth
+unpost 2 2
+color 1 1 255 255 255
+nofringes
+nolegend
+winposition 100 100 560  93  

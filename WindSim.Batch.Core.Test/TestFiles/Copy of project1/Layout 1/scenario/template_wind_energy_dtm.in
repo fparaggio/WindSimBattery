@@ -1,0 +1,13 @@
+
+report_fig         :  type ID.scl                  ID.vec scale leg min  max  co p_x  p_y  int mesh vtf tema utm obj ID.vif       ID.tex      ID.gif
+                      1    dtm_height              none   1.0   1   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_elevation
+                      1    dtm_roughness           none   1.0   6   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_roughness
+                      1    dtm_roughness_log       none   1.0   4   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_roughness_log
+                      8    view_inclination        none   1.0   6   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_inclination
+                      8    view_max_derivative_second none   1.0   6   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_second_derivative
+                      1    dtm_height_delta_smooth none   1.0   6   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_smooth_delta_elevation
+                      1    none                    none   1.0   0   0.0  0.0  0  560  0    0   1    0   0    0   0   none         none        terrain_gridxy
+                      15   none                    none   1.0   0   0.0  0.0  0  400  400  0   0    0   0    0   0   none         none        terrain_gridz
+                      16   none                    none   1.0   0   0.0  0.0  0  560  0    0   0    0   0    0   0   none         none        terrain_openarea_2d
+                      12   grid_height             none   1.0   1   0.0  0.0  0  560  0    0   0    0   0    0   0   none         none        terrain_extension
+                      17   dtm_roughness           none   1.0   6   0.0  0.0  0  560  0    0   0    0   1    0   0   none         none        terrain_forest

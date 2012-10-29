@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="ProjectParameters.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ProjectParameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="WindSim">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Version" type="xs:string" />
+              <xs:element name="UpgradedFromVersion" type="xs:string" />
+              <xs:element name="ProjectType" type="xs:string" />
+              <xs:element name="Customer" />
+              <xs:element name="LicenseHolder" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DTM">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Type" type="xs:int" />
+              <xs:element name="CoordSys" type="xs:int" />
+              <xs:element name="XMin" type="xs:int" />
+              <xs:element name="XMax" type="xs:int" />
+              <xs:element name="YMin" type="xs:int" />
+              <xs:element name="YMax" type="xs:int" />
+              <xs:element name="Elongation" type="xs:float" />
+              <xs:element name="Roughness" type="xs:float" />
+              <xs:element name="GenerateCFDModel" type="xs:boolean" />
+              <xs:element name="GenerateVTF" type="xs:boolean" />
+              <xs:element name="TextureFile" />
+              <xs:element name="GenerateGLViewFine" type="xs:boolean" />
+              <xs:element name="SmoothingType" type="xs:int" />
+              <xs:element name="SmoothingLimit" type="xs:float" />
+              <xs:element name="SmoothingWeighting" type="xs:float" />
+              <xs:element name="ForestType" type="xs:int" />
+              <xs:element name="NumberForests" type="xs:int" />
+              <xs:element name="HashCodeLastRun" type="xs:int" />
+              <xs:element name="DTMColor">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="R" type="xs:int" />
+                    <xs:element name="G" type="xs:int" />
+                    <xs:element name="B" type="xs:int" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ForestList">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ForestRoughness" type="xs:float" />
+                    <xs:element name="ForestHeight" type="xs:float" />
+                    <xs:element name="ForestPorosity" type="xs:float" />
+                    <xs:element name="ForestC1" type="xs:float" />
+                    <xs:element name="ForestC2" type="xs:float" />
+                    <xs:element name="ForestCellsZ" type="xs:int" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="LastChanged" type="xs:dateTime" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CFD">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BorderWidth" type="xs:float" />
+              <xs:element name="HorizontalGridingType" type="xs:int" />
+              <xs:element name="NodesMax" type="xs:int" />
+              <xs:element name="HorizontalResolution" type="xs:float" />
+              <xs:element name="RatioAdditiveLengthToResolution" type="xs:float" />
+              <xs:element name="CellsZ" type="xs:int" />
+              <xs:element name="Height" type="xs:float" />
+              <xs:element name="RefinementFileName" type="xs:string" />
+              <xs:element name="DistributionFactor" type="xs:float" />
+              <xs:element name="Orthogonalize" type="xs:boolean" />
+              <xs:element name="RefinementType" type="xs:int" />
+              <xs:element name="SimpleRefinementXMin" type="xs:int" />
+              <xs:element name="SimpleRefinementXMax" type="xs:int" />
+              <xs:element name="SimpleRefinementYMin" type="xs:int" />
+              <xs:element name="SimpleRefinementYMax" type="xs:int" />
+              <xs:element name="NumberSpacings" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="WindField">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SectorInputType" type="xs:int" />
+              <xs:element name="MesoProjectName" />
+              <xs:element name="HeightBoundaryLayer" type="xs:float" />
+              <xs:element name="VelocityBoundaryLayer" type="xs:float" />
+              <xs:element name="BoundaryConditionTop" type="xs:int" />
+              <xs:element name="UseMesoInput" type="xs:boolean" />
+              <xs:element name="DoNesting" type="xs:int" />
+              <xs:element name="UseInputPreviousRun" type="xs:boolean" />
+              <xs:element name="MesoscaleDataFolder" type="xs:string" />
+              <xs:element name="Solver" type="xs:int" />
+              <xs:element name="Sweep" type="xs:int" />
+              <xs:element name="ConvergenceWizard" type="xs:boolean" />
+              <xs:element name="ParallelCores" type="xs:int" />
+              <xs:element name="ParallelSimulationsPerCore" type="xs:int" />
+              <xs:element name="HeightReducedWindData" type="xs:float" />
+              <xs:element name="HashCodeLastRun" type="xs:int" />
+              <xs:element name="TurbMod" type="xs:int" />
+              <xs:element name="MonitoringSpotValueCoordSys" type="xs:int" />
+              <xs:element name="MonitoringSpotValueXpos" type="xs:float" />
+              <xs:element name="MonitoringSpotValueYpos" type="xs:float" />
+              <xs:element name="MonitoringFieldValue" type="xs:int" />
+              <xs:element name="IsCoriolis" type="xs:boolean" />
+              <xs:element name="Latitude" type="xs:float" />
+              <xs:element name="Temperature" type="xs:float" />
+              <xs:element name="ReferenceTemperature" type="xs:float" />
+              <xs:element name="TemperatureGradient" type="xs:float" />
+              <xs:element name="MoninObukhovLength" type="xs:float" />
+              <xs:element name="ReferenceHeight" type="xs:float" />
+              <xs:element name="WindspeedInReferenceHeight" type="xs:float" />
+              <xs:element name="AirDensity" type="xs:float" />
+              <xs:element name="RadialDistribution" type="xs:float" />
+              <xs:element name="KESource" type="xs:float" />
+              <xs:element name="RunInBatchMode" type="xs:boolean" />
+              <xs:element maxOccurs="unbounded" name="Sector" type="xs:int" />
+            </xs:sequence>
+            <xs:attribute name="LastChanged" type="xs:dateTime" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
