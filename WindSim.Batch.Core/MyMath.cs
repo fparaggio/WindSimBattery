@@ -85,7 +85,7 @@ namespace WindSim.Batch.Core
             // calculate sigmaIntercept
             sigmaIntercept = sigma * Math.Sqrt(((1 / n) + ((xAverage * xAverage) / sumOfxMinusXAverageSquared)));
 
-            //  { bestfitYintercept, bestfitSlope, sigma, sigmaIntercept, sigmaSlope};
+            //  { bestfitYintercept, bestfitSlope, sigma, r_2, sigmaIntercept, sigmaSlope };
             return new double[] { bestfitYintercept, bestfitSlope, sigma, r_2, sigmaIntercept, sigmaSlope };
         }
 
@@ -173,7 +173,7 @@ namespace WindSim.Batch.Core
             double[] mo = new double[z.Length];
             for (int i = 0; i < z.Length; i++) 
             {
-                mo[i] = 0.0;
+                mo[i] = (ustar / k) * (Math.Log(z[i] / z0)); ;
             }
             return mo;
         }

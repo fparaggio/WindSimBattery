@@ -22,7 +22,8 @@ namespace ConsoleApplication1
         {
             string proj = Tools.SelectTextFile(@"C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\", "ws");
             WSProject prova = new WSProject(proj);
-            string excelfile_path = Tools.SelectTextFile(@"C:\Users\WindSim\Desktop\Francesco\WindSim_Projects\batches", "xls");
+
+            string excelfile_path = Tools.SelectTextFile(prova.file.Directory.Parent.FullName, "xls");
             FileInfo excelfile = new FileInfo(excelfile_path);
 
 

@@ -119,13 +119,13 @@ namespace WindSim.Batch.Core.Test
         [TestMethod]
         public void WindField_ucrt_1()
         {
-            Assert.AreEqual(target.phi.vars_phi[2, 1, 1, 5],target.ucrt(2, 1)[1]);
+            Assert.AreEqual(target.phi.vars_phi[2, 1, 1, 5],target.ucrt(3, 2)[1]);
         }
 
         [TestMethod]
         public void WindField_ucrt_2()
         {
-            Assert.AreEqual(target.phi.vars_phi[1, 1, 2, 5], target.ucrt(1, 1)[2]);
+            Assert.AreEqual(target.phi.vars_phi[1, 1, 2, 5], target.ucrt(2, 2)[2]);
         }
         [TestMethod]
         public void WindField_zcen_length()
@@ -141,7 +141,7 @@ namespace WindSim.Batch.Core.Test
             FileInfo xyz_file = new FileInfo(xyz_file270_path);
             XYZFile expected = new XYZFile(xyz_file.FullName);
             double expected_value = expected.values[1, 1, 0, 2] + ((expected.values[1, 1, 1, 2] - expected.values[1, 1, 0, 2]) / 2);
-            Assert.AreEqual(expected_value ,target.zcen(1, 1)[0]);
+            Assert.AreEqual(expected_value ,target.zcen(2, 2)[0]);
         }
 
         [TestMethod]
@@ -150,7 +150,7 @@ namespace WindSim.Batch.Core.Test
             FileInfo xyz_file = new FileInfo(xyz_file270_path);
             XYZFile expected = new XYZFile(xyz_file.FullName);
             double expected_value = expected.values[1, 1, (target.xyz.nk - 2), 2] + ((expected.values[1, 1, (target.xyz.nk - 1), 2] - expected.values[1, 1, (target.xyz.nk - 2), 2]) / 2);
-            Assert.AreEqual(expected_value, target.zcen(1, 1)[(target.xyz.nk - 2)]);
+            Assert.AreEqual(expected_value, target.zcen(2,2)[(target.xyz.nk - 2)]);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace WindSim.Batch.Core.Test
             double[] ucrt = target.ucrt(1,1);
             //Tools.write_excel_arrays(@"c:\WindField_z0_1.xls", zcen, ucrt);
             //The file as modified for calculation purpose is attached in WindSim.Batch.Core.Test\\Test_windField_z0_support_files
-            Assert.AreEqual(0.0465,Math.Round(target.z0(1, 1)[0],4)); 
+            Assert.AreEqual(0.0465,Math.Round(target.z0(2, 2)[0],4)); 
          }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace WindSim.Batch.Core.Test
             double[] ucrt = target.ucrt(6, 2);
             //Tools.write_excel_arrays(@"c:\WindField_z0_2.xls", zcen, ucrt);
             //The file as modified for calculation purpose is attached in WindSim.Batch.Core.Test\\Test_windField_z0_support_files
-            Assert.AreEqual(0.0568, Math.Round(target.z0(6, 2)[0], 4));
+            Assert.AreEqual(0.0568, Math.Round(target.z0(7, 3)[0], 4));
         }
     }
 }

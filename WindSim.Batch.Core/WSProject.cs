@@ -20,7 +20,9 @@ namespace WindSim.Batch.Core
         string core_file = @"C:\Program Files\WindSim\WindSim 5.1.0\bin\WindSim_core.exe";
         public Layout[] layout;
         public Dictionary<int, WindField> WField = new Dictionary<int, WindField>();
-        public bool terrainRanOnCurrentGws = false; 
+        public bool terrainRanOnCurrentGws = false;
+        private double altezzaMaxTem1 = 0.0;
+
         // Constructors
         public WSProject(string file_path)
         {
@@ -196,6 +198,7 @@ namespace WindSim.Batch.Core
             bool exit = false;
             bool last = false;
             double[] last_cycles_zstim = new double[cycle_to_be_checked];
+            double[] last_cycles_convc = new double[cycle_to_be_checked];
             while (!exit)
             {
                 DateTime cycle_startTime = DateTime.Now;
@@ -241,8 +244,9 @@ namespace WindSim.Batch.Core
                 // IT WORKS ONLY WITH ONE SECTOR, THE FIRST ONE!!!!
                 if (last == false)
                 {
-                double[] z0stim = this.WField[this.parameters.WindField.Sector[0]].z0(monitoring_node_x, monitoring_node_y);
-                last_cycles_zstim[cycle % cycle_to_be_checked] = Math.Abs((z0stim[0] - z0) / z0);
+                    if (this.parameters.WindField.Temperature == 1) { altezzaMaxTem1 = 80.0; }
+                double[] z0stim = this.WField[this.parameters.WindField.Sector[0]].z0(monitoring_node_x, monitoring_node_y, altezzaMaxTem1);
+                last_cycles_zstim[cycle % cycle_to_be_checked] = Math.Abs(z0stim[0] / z0);
                 // z0_stim  { z0 , (u*/k) , sigma, r2 } 
                 DateTime cycle_stopTime = DateTime.Now;
                 TimeSpan cycle_timespan = cycle_stopTime - cycle_startTime;
@@ -258,7 +262,12 @@ namespace WindSim.Batch.Core
                 // check convergence criteria
                 if (cycle > cycle_to_be_checked - 1)
                 {
-                    if (MyMath.Max(last_cycles_zstim) < threshold ) last = true;
+                    for(int i = 0; i < cycle_to_be_checked; i++)
+                    {
+                        last_cycles_convc[i] = Math.Abs(last_cycles_zstim[0] - last_cycles_zstim[i]);
+                    }
+
+                    if (MyMath.Max(last_cycles_convc) < threshold) last = true;
                     if (cycle == max_cycles) last = true;
                 }
                 
@@ -371,6 +380,16 @@ namespace WindSim.Batch.Core
                 return false;
             }
         }
+
+        public void load_parameters_from_excel(Worksheet sheet)
+        {
+            this.parameters.DTM.CoordSys = Convert.ToInt32(sheet.Cells[2, 1].Value);
+            this.parameters.DTM.XMin = Convert.ToInt32(sheet.Cells[3, 1].Value);
+            this.parameters.DTM.XMax = Convert.ToInt32(sheet.Cells[3, 3].Value);
+            this.parameters.DTM.YMin = Convert.ToInt32(sheet.Cells[4, 1].Value);
+            this.parameters.DTM.YMax = Convert.ToInt32(sheet.Cells[4, 3].Value);
+        }
+
     }
 
 }

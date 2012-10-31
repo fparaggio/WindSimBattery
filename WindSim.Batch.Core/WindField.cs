@@ -33,6 +33,17 @@ namespace WindSim.Batch.Core
             return arr;
         }
 
+        public double[] tem1(int x_cell, int y_cell)
+        {
+            int tem1_index = Array.IndexOf(phi.variables_name, "TEM1");
+            double[] arr = new double[phi.z_high_cell_face.Length];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = phi.vars_phi[x_cell - 1, y_cell - 1, i, tem1_index];
+            }
+            return arr;
+        }
+
         public double[] zcen(int x_cell, int y_cell)
         {
             double[] arr = new double[phi.z_high_cell_face.Length];
@@ -45,16 +56,27 @@ namespace WindSim.Batch.Core
         }
 
 
-        public double[] z0(int x, int y)
+        public double[] z0(int x, int y, double maxHeight = 10.0, double r2Threshold = 0.95)
         {
-         double[] arr = MyMath.LeastSquaresBestFitLine(this.zcen_log(x,y),this.ucrt(x,y));
-          //  { AbestfitYintercept, BbestfitSlope, sigma, AsigmaIntercept, BsigmaSlope};
+            double[] arr = MyMath.LeastSquaresBestFitLine(this.zcen_log(x, y), this.ucrt(x, y));;
+
+            if (maxHeight > 0)
+            {
+                int i = this.zcen_log(x, y).Length;
+                while (MyMath.LeastSquaresBestFitLine(this.zcen_log(x, y).Take(i).ToArray(), this.ucrt(x, y).Take(i).ToArray())[0] > r2Threshold && this.zcen_log(x, y).Take(i).Max() > maxHeight)
+                {
+                    arr = MyMath.LeastSquaresBestFitLine(this.zcen_log(x, y).Take(i).ToArray(), this.ucrt(x, y).Take(i).ToArray());
+                    i--;
+                }
+            }
+
+         //{ BbestfitYintercept, AbestfitSlope, sigma, r_2, BsigmaIntercept, AsigmaSlope };
          double A = arr[1];
          double B = arr[0];
          double z0 = Math.Exp(-1 * B / A);
-         double sigmaA = arr[3];
+         double sigmaA = arr[5];
          double sigmaB = arr[4];
-         double sigmaz0 = z0 * (-1 * (B / A) * ((sigmaB / B) + (sigmaA / A)));
+         double sigmaz0 = z0 * ((B / A) * ((sigmaB / B) + (sigmaA / A)));
          
             //  it returns following values
             //  { z0 , (u*/k) , sigma, r2 , sigmaz0 } 
