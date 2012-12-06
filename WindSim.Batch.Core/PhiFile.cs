@@ -66,7 +66,7 @@ namespace WindSim.Batch.Core
                 //       600        10        50        50        41        -3        43
                 //        44        45        42       256         0         0      1249
                         string line = tr.ReadLine();
-                        Console.WriteLine(line);
+                        //Console.WriteLine(line);
                         nx=Convert.ToInt32(line.Substring(1,10).Replace(" ",""));
                         ny=Convert.ToInt32(line.Substring(11, 10).Replace(" ", ""));
                         nz=Convert.ToInt32(line.Substring(21, 10).Replace(" ", ""));
@@ -85,7 +85,7 @@ namespace WindSim.Batch.Core
                 //    line 4: RINNER,FLOAT(NPRPHI),RNFPWV,FLOAT(NFMAK2),RDMAT1,FLOAT(IDMAT2)  (format 1X, 6(1PE13.6))
                 //0.000000E+00 0.000000E+00-9.000000E+00 1.152580E+05 0.000000E+00 0.000000E+00
                         line = tr.ReadLine();
-                        Console.WriteLine(line);
+                        //Console.WriteLine(line);
                         rinner = Double.Parse(line.Substring(0, 13), phidataFormat);
                         f_nprphi = Double.Parse(line.Substring(13, 13), phidataFormat);
                         rnfPWV = Double.Parse(line.Substring(26, 13), phidataFormat);
@@ -107,7 +107,7 @@ namespace WindSim.Batch.Core
                         for (int i = 0; i < 3; i++)
                         {
                             line = var_rows[i];
-                            Console.WriteLine(line.Length);
+                     
                              for (int a = 0; a < 19; a++)
                             {
                                 int pos =  (a * 4) + 1;
@@ -175,10 +175,10 @@ namespace WindSim.Batch.Core
                             }
                         }
 
-                        for (element = 0; element < nx; element++)
-                        {
-                            Console.WriteLine(x_east_cell_face[element]);
-                        }
+                        //for (element = 0; element < nx; element++)
+                        //{
+                           // Console.WriteLine(x_east_cell_face[element]);
+                        //}
             //line : y locations of north cell faces ( ie. NY reals , 1X, format 6(1PE13.6)).                        
                     // allocate array dimensions
                         y_north_cell_face = new double[ny];

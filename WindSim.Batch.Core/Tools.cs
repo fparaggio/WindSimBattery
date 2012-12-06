@@ -23,7 +23,7 @@ namespace WindSim.Batch.Core
         // Copy each file into it’s new directory.
         foreach (FileInfo fi in source.GetFiles())
         {
-            Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+            //Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
             fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
         }
 

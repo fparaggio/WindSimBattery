@@ -71,6 +71,7 @@ namespace WindSim.Batch.Core
                 return false;
             }
         }
+        
         public ExcelBatch(WSProject referenceProject, FileInfo excelBatchFile)
         {
             // controllo l-esistenza del file excel        
@@ -98,14 +99,19 @@ namespace WindSim.Batch.Core
                 results_tem1_arit.Cells[0, 0] = new Cell("TEM1 Profiles for Aritmetical Grading");
                 Worksheet results_tem1_geom = book.Worksheets[8];
                 results_tem1_geom.Cells[0, 0] = new Cell("TEM1 Profiles for Geometrical Grading");
-                
+                Console.WriteLine("Total simulations in the excel :"+ numberOfEsperiments);
                 for (int i = 0; i < numberOfEsperiments; i++)
                 {
                   int todo = Convert.ToInt32(sheet.Cells[6, i + 1].Value);
-                  
+
+                  if (todo == 0)
+                  {
+                      Console.WriteLine("Skipping case : " + i);
+                  }
 
                   if( todo == 1 || todo == 2)
                   {
+                    Console.WriteLine("Running case : " + i + " todo " + todo);
                     WSProject testcase = null;
                     WSProject testcase_arit = null;
 
@@ -126,7 +132,9 @@ namespace WindSim.Batch.Core
                     float totalHeight = (float)Convert.ToDouble(sheet.Cells[11, i + 1].Value);
 
                     float roughness = (float)Convert.ToDouble(sheet.Cells[12, i + 1].Value);
-                    double heithFirstLayerGeometrical = roughness * 2;
+
+                    double heithFirstLayerGeometrical = Convert.ToDouble(sheet.Cells[21, i + 1].Value);
+
                     RefinementGenerator.GeometricalGrading geom_refinement = new RefinementGenerator.GeometricalGrading(heithFirstLayerGeometrical, totalHeight, verticalResolution);
 
                     if (todo == 1) { 
@@ -156,8 +164,8 @@ namespace WindSim.Batch.Core
                        FileInfo geometrico = new FileInfo(testCasetargetDirectory + "_geom\\" + referenceProject.file.Name);
                        testcase = new WSProject(geometrico.FullName);
                    }
-                    
-                    
+
+                    Console.WriteLine("...G");
                     double[] z0results_geom = testcase.run_windfield_z0_conv(z0_convergence_treshold,z0_convergence_sweeps,z0_cycles_to_be_checked,z0_monitoring_x,z0_monioring_y, restart);
                     int resultRowShift = 0;
                     if (todo == 2) { resultRowShift = 21;}
@@ -218,7 +226,7 @@ namespace WindSim.Batch.Core
                     book.Save(excelBatchFile.FullName);
                     #endregion
 
-                    
+                    Console.WriteLine("...A");
                     RefinementGenerator.AritmeticalGrading arit_refinement = new RefinementGenerator.AritmeticalGrading(geom_refinement.expansionFactor, geom_refinement.numbersOfVericalLayer, geom_refinement.totalHeight);
                     if (todo == 1)
                     {
