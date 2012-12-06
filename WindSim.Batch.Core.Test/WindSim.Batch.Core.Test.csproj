@@ -56,6 +56,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Test_FileGws.cs" />
     <Compile Include="Test_RefinementGenerator.cs" />
     <Compile Include="Test_XYZFile_270_red_5.cs" />
     <Compile Include="Test_XYZFile_270_red_4.cs" />
@@ -172,6 +173,7 @@
     <None Include="TestFiles\Copy of project1\windfield\270_red.xyz" />
     <None Include="TestFiles\Copy of project1\windfield\windfield.log" />
     <None Include="TestFiles\gws_test.gws" />
+    <None Include="TestFiles\test.gws" />
     <None Include="Test_WindField_z0_support_files\WindField_z0_1.xls" />
     <None Include="Test_WindField_z0_support_files\WindField_z0_2.xls" />
     <Shadow Include="Test References\windsim_batch.accessor" />

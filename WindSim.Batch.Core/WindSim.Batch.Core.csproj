@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="BatchRun.cs" />
     <Compile Include="ExcelBatch.cs" />
+    <Compile Include="FileGws.cs" />
     <Compile Include="GwsGenerator.cs" />
     <Compile Include="MyMath.cs" />
+    <Compile Include="ParseManager.cs" />
     <Compile Include="PhiFile.cs" />
     <Compile Include="ProjectParameters.cs">
       <DependentUpon>ProjectParameters.xsd</DependentUpon>
