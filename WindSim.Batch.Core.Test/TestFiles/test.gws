@@ -4,7 +4,7 @@ area name          : demo                      ! optional;  area name
 #nodes nxp nyp     : 11  4                     ! mandatory; number of nodes in west-east and north-south direction
 co-ordinate system : 3                         ! mandatory; co-ordinate system: (1)local, (3)global
 ext. xmin xmax     : 1234567.0 123456789.0     ! mandatory; min. and max extension in east-west direction
-ext. ymin ymax     :       0.0       400.0     ! mandatory; min. and max extension in north-south direction
+ext. ymin ymax     :       0.0      -400.0     ! mandatory; min. and max extension in north-south direction
 ext. zmin zmax     :       0.0      2000.0     ! optional;  min. and max extension in vertical-direction
 
 HEIGHT             :

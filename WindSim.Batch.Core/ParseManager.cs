@@ -50,7 +50,7 @@ namespace WindSim.Batch.Core
                         {
                             a = uncommented.Substring(0, 20).Replace(" ", "").Replace(":", "");
                             if (a == "WindSimversion") { windSimversion = uncommented.Substring(21, a.Length).Replace(" ", ""); }
-                            else if (a == "areaname") { areaname = uncommented.Substring(21, a.Length); }
+                            else if (a == "areaname") { areaname = uncommented.Substring(21, a.Length).Trim(); }
                             else if (a == "#nodesnxpnyp") 
                                                         {
                                                             string[] nodesnxpnyp = Regex.Split(uncommented.Substring(21, a.Length).Trim(), @"\D+");  

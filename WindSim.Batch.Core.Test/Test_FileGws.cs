@@ -4,14 +4,21 @@ namespace WindSim.Batch.Core.Test
 {
     [TestClass]
     [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\test.gws")]
+    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\5x5.gws")]
     public class Test_FileGws
     {
         static string gwsFileName = "test.gws";
+        static string gws5x5 = "5x5.gws";
 
         [TestMethod]
         public void TestFileGwsFindResourcefile()
         {
             Assert.IsTrue(System.IO.File.Exists(gwsFileName));
+        }
+        [TestMethod]
+        public void TestFileGwsFindResourcefile2()
+        {
+            Assert.IsTrue(System.IO.File.Exists(gws5x5));
         }
 
         [TestMethod]
@@ -86,6 +93,70 @@ namespace WindSim.Batch.Core.Test
             ParseManager parser = new ParseManager();
             FileGws gws = parser.ParseGws(gwsFileName);
             Assert.AreEqual(4, gws.Npy);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserVersion()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual("430", gws.WindsimVersion);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserAreaName()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual("demo", gws.AreaName);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordSystem()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(3, gws.CoordinateSystem);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserXmin()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(1234567.0, gws.xmin);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserYmin()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(0.0, gws.ymin);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserXmax()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(123456789.0, gws.xmax);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserYmax()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(-400.0, gws.ymax);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5Ymax()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(500.0, gws.ymax);
         }
 
     }

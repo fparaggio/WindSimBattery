@@ -1,0 +1,31 @@
+﻿                                               ! comments not belonging to the format
+WindSim version    : 430                       ! mandatory; .gws format version
+area name          : demo                      ! optional;  area name
+#nodes nxp nyp     : 5   5                     ! mandatory; number of nodes in west-east and north-south direction
+co-ordinate system : 3                         ! mandatory; co-ordinate system: (1)local, (3)global
+ext. xmin xmax     :       0.0       500.0     ! mandatory; min. and max extension in east-west direction
+ext. ymin ymax     :       0.0       500.0     ! mandatory; min. and max extension in north-south direction
+ext. zmin zmax     :       0.0         0.0     ! optional;  min. and max extension in vertical-direction
+
+HEIGHT             :
+         1
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+         2
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+         3
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+         4
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+         5
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+ROUGHNESS          :
+          1
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+         2
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  
+         3
+  0.000000E+00  0.000000E+00  1.000000E+00  0.000000E+00  0.000000E+00  
+         4
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+         5
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 
