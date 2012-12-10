@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using WindSim.Batch.Core;
 
 namespace WindSim.Batch.Core.Test
 {
@@ -158,6 +160,79 @@ namespace WindSim.Batch.Core.Test
             FileGws gws = parser.ParseGws(gws5x5);
             Assert.AreEqual(500.0, gws.ymax);
         }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5SmoothRough1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(0.1111, Math.Round(gws.GetSmooth(1,1,FileGws.SmoothType.Rough,1),4));
+        }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5SmoothRough2()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(0.0625, Math.Round(gws.GetSmooth(1, 1, FileGws.SmoothType.Rough, 8), 4));
+        }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5SmoothRough3()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(0.5, Math.Round(gws.GetSmooth(2, 2, FileGws.SmoothType.Rough, 8), 4));
+        }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5Dx()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(125, gws.Dx);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParser5x5Dy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(125, gws.Dy);
+        }
+        
+        [TestMethod]
+        public void TestFileGwsParser5x5Dxy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws5x5);
+            Assert.AreEqual(176.777, Math.Round(gws.Dxy,3) );
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserDx()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(12222222.2, Math.Round(gws.Dx,1));
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserDy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(133.33, Math.Round(gws.Dy,2));
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserDxy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gwsFileName);
+            Assert.AreEqual(12222222.200727, Math.Round(gws.Dxy, 6));
+        }
+
 
     }
 }
