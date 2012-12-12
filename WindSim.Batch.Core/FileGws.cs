@@ -43,7 +43,6 @@ namespace WindSim.Batch.Core
             get { return Math.Sqrt(Math.Pow(Dx, 2) + Math.Pow(Dy, 2)); }
         }  
        
-
         public FileGws(int nx, int ny, double xMin, double xMax, double yMin, double yMax, string windsimVer, string areaName, int coordinatesyst) 
         {
             data = new GwsNode[nx, ny];
@@ -53,33 +52,62 @@ namespace WindSim.Batch.Core
             xmin = xMin; 
             xmax = xMax;
             ymin = yMin;
-            ymax = yMax;
-            
+            ymax = yMax; 
         }
-
-
-        public double GetSmooth(int x, int y, SmoothType type, double centerWeight) 
+        
+        public double[,] hFirstCellArray(double slopeThreshold)
         {
-            switch (type)
-            { 
-                case SmoothType.Height:
-                    return (this.data[x - 1, y + 1].height + this.data[x, y + 1].height + this.data[x + 1, y + 1].height + this.data[x - 1, y].height + centerWeight*this.data[x, y].height + this.data[x + 1, y].height + this.data[x - 1, y - 1].height + this.data[x, y - 1].height + this.data[x + 1, y - 1].height) / (8+centerWeight);
-                    break;
-                case SmoothType.Rough:
-                    return (this.data[x - 1, y + 1].rough + this.data[x, y + 1].rough + this.data[x + 1, y + 1].rough + this.data[x - 1, y].rough + centerWeight * this.data[x, y].rough + this.data[x + 1, y].rough + this.data[x - 1, y - 1].rough + this.data[x, y - 1].rough + this.data[x + 1, y - 1].rough) / (8+centerWeight);
-                    break;
-                default:
-                    return -1;
-                    break;
+            double[,] dataset = new double[Npx, Npy];
+            
+            for (int i=0; i < Npx; i++) 
+            {
+                for (int j = 0; j < Npy; j++) 
+                {
+                    dataset[i, j] = this.data[i, j].HFirstCell(); 
+                }
             }
 
-            
+            double[,] maxDerivate = MyMath.DatafirstMaxDerivate(dataset, Dx, Dy);
+            double max = maxDerivate.Cast<double>().Max();  
+
+            while (max > slopeThreshold)
+            {
+                List<double[]> temp = new List<double[]>();
+                for (int i=0; i < Npx; i++) 
+                 {
+                    for (int j = 0; j < Npy; j++) 
+                    {
+                        if(maxDerivate[i,j]>slopeThreshold)
+                        {
+                            double[] temp_array = new double[3];
+                            temp_array[0] = i;
+                            temp_array[1] = j;
+                            temp_array[2] = MyMath.GetSmooth(dataset, i, j, 8);
+                            temp.Add(temp_array);
+                        }
+                    }
+                 }
+                foreach (double[] modified_point in temp) 
+                {
+                    dataset[Convert.ToInt32(modified_point[0]), Convert.ToInt32(modified_point[1])] = modified_point[2];
+                }
+                 maxDerivate = MyMath.DatafirstMaxDerivate(dataset, Dx, Dy);
+                 max = maxDerivate.Cast<double>().Max();    
+            }
+            return dataset;    
         }
+
     }
 
     public class GwsNode
     {
         public double height;
         public double rough;
+        public double HFirstCell()
+        {
+            double y = 3.1175* Math.Pow(rough,-0.396);
+            return rough*y;
+        }
     }
+
 }

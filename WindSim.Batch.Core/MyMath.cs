@@ -129,7 +129,6 @@ namespace WindSim.Batch.Core
             return x2;
         }
 
-
         public static double NewtonRaphsonMethod(nonLinearEquationFunction f, nonLinearEquationFunction fprime, double x0, double epsilon)
         {
             double f0 = f(x0);
@@ -178,5 +177,143 @@ namespace WindSim.Batch.Core
             return mo;
         }
 
+        public static double[,] DatafirstMaxDerivate(double[,] arrayToBeDerived, double _dx, double _dy)
+        {
+            int _npx = arrayToBeDerived.GetLength(0);
+            int _npy = arrayToBeDerived.GetLength(1);
+            double _dxy = Math.Sqrt(Math.Pow(_dx, 2) + Math.Pow(_dx, 2));
+            double[,] firstderivate = new double[_npx, _npy];
+
+            for (int i = 0; i < _npx; i++)
+            {
+                for (int j = 0; j < _npy; j++)
+                {
+
+                    double[] derivates = new double[8];
+
+                    if (i != _npx - 1)
+                    {
+                        derivates[0] = Math.Abs((arrayToBeDerived[i + 1, j] - arrayToBeDerived[i, j]) / _dx);
+                    }
+                    else derivates[0] = 0;
+                    //(0,0)
+                    if (i != 0 & j != 0)
+                    {
+                        derivates[3] = Math.Abs((arrayToBeDerived[i - 1, j - 1] - arrayToBeDerived[i, j]) / _dxy);
+                    }
+                    else derivates[3] = 0;
+
+                    //(0,-)
+                    if (i != 0)
+                    {
+                        derivates[4] = Math.Abs((arrayToBeDerived[i - 1, j] - arrayToBeDerived[i, j]) / _dx);
+                    }
+                    else derivates[4] = 0;
+
+                    //(0,npy)
+                    if (i != 0 & j != _npy - 1)
+                    {
+                        derivates[5] = Math.Abs((arrayToBeDerived[i - 1, j + 1] - arrayToBeDerived[i, j]) / _dxy);
+                    }
+                    else derivates[5] = 0;
+
+                    //(npx,-)
+
+
+                    //(npx, 0)
+                    if (i != _npx - 1 & j != 0)
+                    {
+                        derivates[1] = Math.Abs((arrayToBeDerived[i + 1, j - 1] - arrayToBeDerived[i, j]) / _dxy);
+                    }
+                    else derivates[1] = 0;
+
+                    //(-,0)
+                    if (j != 0)
+                    {
+                        derivates[2] = Math.Abs((arrayToBeDerived[i, j - 1] - arrayToBeDerived[i, j]) / _dy);
+                    }
+                    else derivates[2] = 0;
+
+                    //(-,npy)
+                    if (j != _npy - 1)
+                    {
+                        derivates[6] = Math.Abs((arrayToBeDerived[i, j + 1] - arrayToBeDerived[i, j]) / _dy);
+                    }
+                    else derivates[6] = 0;
+
+                    // (npx,npy)
+                    if (i != _npx - 1 & j != _npy - 1)
+                    {
+                        derivates[7] = Math.Abs((arrayToBeDerived[i + 1, j + 1] - arrayToBeDerived[i, j]) / _dxy);
+                    }
+                    else derivates[7] = 0;
+
+                    firstderivate[i, j] = MyMath.Max(derivates);
+                }
+            }
+
+            return firstderivate;
+
+        }
+
+        public static double GetSmooth(double[,] data, int x, int y, double centerWeight=8.0)
+        {
+            int _nx = data.GetLength(0);
+            int _ny = data.GetLength(1);
+            if (x == 0)
+            {
+                if (y == 0)
+                {
+                    return ((data[x + 1, y + 1] + data[x, y + 1] + data[x + 1, y] + 3 * data[x, y]) / 6);
+                }
+                else if (y == _ny - 1)
+                {
+                    return ((data[x + 1, y - 1] + data[x, y - 1] + data[x + 1, y] + 3 * data[x, y]) / 6);
+                }
+                else
+                {
+                    return ((data[x + 1, y - 1] + data[x, y - 1] + data[x + 1, y] + data[x + 1, y + 1] + data[x, y + 1] + 5 * data[x, y]) / 10);
+                }
+
+            }
+
+
+            else if (x == _nx - 1)
+            {
+                if (y == 0)
+                {
+                    return ((data[x - 1, y] + data[x, y + 1] + data[x - 1, y + 1] + 3 * data[x, y]) / 6);
+                }
+                else if (y == _ny - 1)
+                {
+                    return ((data[x - 1, y - 1] + data[x, y - 1] + data[x - 1, y] + 3 * data[x, y]) / 6);
+                }
+                else
+                {
+                    return ((data[x, y + 1] + data[x - 1, y + 1] + data[x - 1, y] + data[x - 1, y - 1] + data[x, y - 1] + 5 * data[x, y]) / 10);
+                }
+            }
+
+            else if (y == 0)
+            {
+                //if (x != 0 && x != _nx - 1)
+                //{
+                    return ((data[x - 1, y] + data[x - 1, y + 1] + data[x, y + 1] + data[x + 1, y + 1] + data[x + 1, y] + 5 * data[x, y]) / 10);
+                //}
+            }
+
+            else if (y == _ny - 1)
+            {
+                //if (x != 0 && x != _nx - 1)
+                //{
+                    return ((data[x - 1, y] + data[x - 1, y - 1] + data[x, y - 1] + data[x + 1, y - 1] + data[x + 1, y] + 5 * data[x, y]) / 10);
+                //}
+            }
+
+            else
+            {
+                return (data[x - 1, y + 1] + data[x, y + 1] + data[x + 1, y + 1] + data[x - 1, y] + centerWeight * data[x, y] + data[x + 1, y] + data[x - 1, y - 1] + data[x, y - 1] + data[x + 1, y - 1]) / (8 + centerWeight);
+            }
+        } 
     }
 }

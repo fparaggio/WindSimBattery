@@ -57,8 +57,6 @@ namespace WindSim.Batch.Core
             return (dialog.ShowDialog() == DialogResult.OK)
                ? dialog.FileName : null;
         }
-        
-
 
         public static string inizialize_batch(string project_file, bool prooo) 
         {

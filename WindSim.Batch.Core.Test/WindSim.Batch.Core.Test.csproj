@@ -373,6 +373,7 @@
     <Folder Include="TestFiles\small_field_test\Layout 1\energy\" />
     <Folder Include="TestFiles\small_field_test\Layout 1\texture\" />
     <Folder Include="TestFiles\small_field_test\my_documentation\" />
+    <Folder Include="Test_MyMath_support_files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestFiles\Copy of project1\Layout 1\report\figs\divergence.png" />
@@ -610,6 +611,7 @@
     <Content Include="TestFiles\project1\Layout 1\report\_frameset_DTM.html" />
     <Content Include="TestFiles\project1\Layout 1\report\_frameset_WindField.html" />
     <Content Include="TestFiles\project1\LayoutList.xml" />
+    <None Include="TestFiles\3x3.gws" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
