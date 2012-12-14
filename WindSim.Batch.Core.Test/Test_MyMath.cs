@@ -376,5 +376,44 @@ namespace WindSim.Batch.Core.Test
 
         }
         #endregion
+
+        #region FindClosestLowerIndex
+        [TestMethod]
+        public void Test_FindClosestLowerIndex()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4};
+            Assert.AreEqual(2, MyMath.FindClosestLowerIndex(3.5,array));
+        }
+        [TestMethod]
+        public void Test_FindClosestLowerIndex2()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestLowerIndex(1, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestLowerIndex3()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestLowerIndex(2, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestLowerIndex4()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(1, MyMath.FindClosestLowerIndex(2.000001, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestLowerIndex5()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(-1, MyMath.FindClosestLowerIndex(4.5, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestLowerIndex6()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(2, MyMath.FindClosestLowerIndex(4, array));
+        }
+        #endregion
     }
 }

@@ -10,7 +10,8 @@ namespace WindSim.Batch.Core
         public enum SmoothType
         {
             Height,
-            Rough
+            Rough,
+            HFirstcell
         }
         public GwsNode[,] data;
         
@@ -97,6 +98,82 @@ namespace WindSim.Batch.Core
             return dataset;    
         }
 
+        public double[,][] interpolatedData(double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, SmoothType dataToInterpolate) 
+        { 
+                // SE non sono nei confini del gws
+                //    return null per ora...
+                if (iXmin < xmin || iXmax > xmax || iYmin < ymin || iYmax > ymax) { return null; }
+                double[,] firstcellsArray = hFirstCellArray(2);
+                // Ora sono nei confini del gws
+                // creo l'array result  e ci infilo le coordinate del bws
+                double[,][] result = new double[iXcells + 1, iYcells + 1][];
+
+                // per ogni coordinata del bws trovo i 4 punti vicini del gws
+                // 2 cicli for negli array gwsXcoord e gwsYcoord        
+                // x [xmin, xmin+stepx, xmin+2*stepx, ........, xmin +n*stepx]
+                    // y [ymin, ymin+stepy, ymin+2*stepy, ........, ymin +n*stepy]
+                
+                    double[] gwsXcoord = new double[Npx];
+                    double[] gwsYcoord = new double[Npy];
+                    double stepx = Dx;
+                    double stepy = Dy;
+                    double bwsStepX = (iXmax - iXmin)/iXcells;
+                    double bwsStepY = (iYmax - iYmin)/iYcells;
+                    for (int i = 0; i < Npx; i++) { gwsXcoord[i] = xmin + stepx * i; }
+                    for (int j = 0; j < Npy; j++) { gwsYcoord[j] = ymin + stepy * j; }
+
+                    for (int i = 0; i < iXcells + 1; i++) 
+                    {
+                        for (int j = 0; j < iYcells + 1; j++) 
+                        {
+                            double[] BwsPoint = new double[3];
+                            BwsPoint[0] = iXmin + i * bwsStepX;
+                            BwsPoint[1] = iYmin + j * bwsStepY;
+                            int Xindex = MyMath.FindClosestLowerIndex(BwsPoint[0], gwsXcoord);
+                            int Yindex = MyMath.FindClosestLowerIndex(BwsPoint[1], gwsYcoord);
+                            double[][] closestPoints = new double[4][];
+                            closestPoints[0] = new double[3];
+                            closestPoints[0][0] = gwsXcoord[Xindex];
+                            closestPoints[0][1] = gwsYcoord[Yindex];
+                            closestPoints[1] = new double[3];
+                            closestPoints[1][0] = gwsXcoord[Xindex+1];
+                            closestPoints[1][1] = gwsYcoord[Yindex];
+                            closestPoints[2] = new double[3];
+                            closestPoints[2][0] = gwsXcoord[Xindex + 1];
+                            closestPoints[2][1] = gwsYcoord[Yindex + 1];
+                            closestPoints[3] = new double[3];
+                            closestPoints[3][0] = gwsXcoord[Xindex];
+                            closestPoints[3][1] = gwsYcoord[Yindex + 1];
+                            switch (dataToInterpolate)
+                            {
+                                case SmoothType.HFirstcell:
+                                    closestPoints[0][2] = firstcellsArray[Xindex, Yindex];
+                                    closestPoints[1][2] = firstcellsArray[Xindex+1, Yindex];
+                                    closestPoints[2][2] = firstcellsArray[Xindex + 1, Yindex + 1];
+                                    closestPoints[3][2] = firstcellsArray[Xindex, Yindex + 1];
+                                    break;
+                                case SmoothType.Rough:
+                                    closestPoints[0][2] = data[Xindex, Yindex].rough;
+                                    closestPoints[1][2] = data[Xindex+1, Yindex].rough;
+                                    closestPoints[2][2] = data[Xindex + 1, Yindex + 1].rough;
+                                    closestPoints[3][2] = data[Xindex, Yindex + 1].rough;
+                                    break;
+                                case SmoothType.Height:
+                                    closestPoints[0][2] = data[Xindex, Yindex].height;
+                                    closestPoints[1][2] = data[Xindex+1, Yindex].height;
+                                    closestPoints[2][2] = data[Xindex + 1, Yindex + 1].height;
+                                    closestPoints[3][2] = data[Xindex + 1, Yindex + 1].height;
+                                    break;
+                            }
+                            // calcolo il valore e lo schiaffo nell'array del result.
+                            BwsPoint[2] = MyMath.FirstOrderTrendSurface(BwsPoint[0], BwsPoint[1], closestPoints);
+                            result[i, j] = BwsPoint;
+                        }
+                    }
+
+                // restituisco il valore del result 
+                    return result;
+        }
     }
 
     public class GwsNode
@@ -109,5 +186,4 @@ namespace WindSim.Batch.Core
             return rough*y;
         }
     }
-
 }

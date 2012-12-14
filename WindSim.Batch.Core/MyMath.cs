@@ -362,6 +362,18 @@ namespace WindSim.Batch.Core
             // return Zxy = b0 + b1 * x + b2 * y
             return c[0, 0] + x * c[1, 0] + y * c[2, 0];
         }
+
+        public static int FindClosestLowerIndex(double value, double[] array) 
+        {
+            for (int i = 0; i < array.Length - 1; i++) 
+            {
+                if (value >= array[i] && value <= array[i + 1]) 
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 }
 
