@@ -314,6 +314,54 @@ namespace WindSim.Batch.Core
             {
                 return (data[x - 1, y + 1] + data[x, y + 1] + data[x + 1, y + 1] + data[x - 1, y] + centerWeight * data[x, y] + data[x + 1, y] + data[x - 1, y - 1] + data[x, y - 1] + data[x + 1, y - 1]) / (8 + centerWeight);
             }
-        } 
+        }
+
+        public static double FirstOrderTrendSurface(double x, double y, double[][] XYZpoints) 
+        {
+            int n;
+            double Sx = 0.0, Sy = 0.0, Sz = 0.0, Sx2 = 0.0, Sy2 = 0.0, Sxy = 0.0, Syz = 0.0, Sxz = 0.0;
+            n = XYZpoints.Length;
+            for (int i = 0; i < n; i++) 
+            {
+                Sx += XYZpoints[i][0];
+                Sy += XYZpoints[i][1];
+                Sz += XYZpoints[i][2];
+                Sx2 += XYZpoints[i][0] * XYZpoints[i][0];
+                Sy2 += XYZpoints[i][1] * XYZpoints[i][1];
+                Sxy += XYZpoints[i][0] * XYZpoints[i][1];
+                Syz += XYZpoints[i][1] * XYZpoints[i][2];
+                Sxz += XYZpoints[i][0] * XYZpoints[i][2];
+            }
+            double[,] coefficients = new double[3, 3];
+            coefficients[0, 0] = n;
+            coefficients[0, 1] = Sx;
+            coefficients[0, 2] = Sy;
+            coefficients[1, 0] = Sx;
+            coefficients[1, 1] = Sx2;
+            coefficients[1, 2] = Sxy;
+            coefficients[2, 0] = Sy;
+            coefficients[2, 1] = Sxy;
+            coefficients[2, 2] = Sy2;
+            int info;
+            alglib.matinvreport rep;
+            alglib.rmatrixinverse(ref coefficients, out info, out rep);
+            
+            // moltiplicare l'inveersa per la matrice [Sz, Sxz , Syz]
+
+            double[,] b_matrix = new double[,] { {Sz},{Sxz},{Syz}};
+            int m = coefficients.GetLength(0);
+            int num = b_matrix.GetLength(1);
+            int k = coefficients.GetLength(1);
+            double[,] c = new double[m, num];
+            alglib.rmatrixgemm(m, num, k, 1, coefficients, 0, 0, 0, b_matrix, 0, 0, 0, 0, ref c, 0, 0);
+            // il risultato sara' la matrice c [{b0},{b1},{b2}] 
+            // b0 = c[0,0];
+            // b1 = c[1,0];
+            // b2 = c[2,0];
+
+            // return Zxy = b0 + b1 * x + b2 * y
+            return c[0, 0] + x * c[1, 0] + y * c[2, 0];
+        }
     }
 }
+

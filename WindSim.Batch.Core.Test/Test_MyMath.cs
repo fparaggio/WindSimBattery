@@ -344,5 +344,37 @@ namespace WindSim.Batch.Core.Test
         }
         #endregion
 
+        #region Trend Surface
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface()
+        {
+            //
+            // example from 
+            // www.geology.wmich.edu/sultan/5350/Spring2011/Lectures/Lecture8_interpolationf_2011.pdf
+            //
+            double[][] XYZpoints = new double[5][];
+            XYZpoints[0]= new double[3]{69,76,20.82};
+            XYZpoints[1] = new double[3] { 59, 64, 10.91 };
+            XYZpoints[2] = new double[3] { 75, 52, 10.38 };
+            XYZpoints[3] = new double[3] { 86, 73, 14.6 };
+            XYZpoints[4] = new double[3] { 88, 53, 10.56 };
+            Assert.AreEqual(14.507, Math.Round(MyMath.FirstOrderTrendSurface(69,67,XYZpoints),3));
+            // 14.507 instead of 14.535 because the example at the link above rounds b0, b1 and b2 before calculating Zxy
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface2()
+        {
+
+            double[][] XYZpoints = new double[5][];
+            XYZpoints[0] = new double[3] { 69, 76, 10 };
+            XYZpoints[1] = new double[3] { 59, 64, 10 };
+            XYZpoints[2] = new double[3] { 75, 52, 10 };
+            XYZpoints[3] = new double[3] { 86, 73, 10 };
+            XYZpoints[4] = new double[3] { 88, 53, 10 };
+            Assert.AreEqual(10, Math.Round(MyMath.FirstOrderTrendSurface(69, 67, XYZpoints), 3));
+
+        }
+        #endregion
     }
 }
