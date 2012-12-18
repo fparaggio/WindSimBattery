@@ -312,5 +312,279 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(6.05, Math.Round(resultarray[2, 2], 2));
         }
         #endregion
+
+        #region interpolated data
+        
+        [TestMethod]
+        public void interpolatedData3x3_0_0()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(4.99, Math.Round(resultarray[0, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_1_1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(9.41, Math.Round(resultarray[1, 1][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_0_1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(5.33, Math.Round(resultarray[0, 1][2], 2));
+        }
+        
+        [TestMethod]
+        public void interpolatedData3x3_1_0()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(9.07, Math.Round(resultarray[1, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_x_0()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(0.0, Math.Round(resultarray[0, 0][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_x_1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(4.0, Math.Round(resultarray[1, 0][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_x_2()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(0.0, Math.Round(resultarray[0, 1][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_x_3()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(4.0, Math.Round(resultarray[1, 1][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_y_0()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(0.0, Math.Round(resultarray[0, 0][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_y_1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(0.0, Math.Round(resultarray[1, 0][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_y_2()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(2.5, Math.Round(resultarray[0, 1][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_y_3()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(0.0, 4.0, 0.0, 2.5, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(2.5, Math.Round(resultarray[1, 1][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375a()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(7.2, Math.Round(resultarray[0, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375b()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(6.87, Math.Round(resultarray[0, 1][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375c()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(7.51, Math.Round(resultarray[1, 1][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375d()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(8.87, Math.Round(resultarray[1, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375ax()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(2.0, Math.Round(resultarray[0, 0][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375bx()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(2.0, Math.Round(resultarray[0, 1][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375cx()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(6.0, Math.Round(resultarray[1, 1][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375dx()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(6.0, Math.Round(resultarray[1, 0][0], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375ay()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(1.25, Math.Round(resultarray[0, 0][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375by()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(3.75, Math.Round(resultarray[0, 1][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375cy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(3.75, Math.Round(resultarray[1, 1][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_2_6_125_375dy()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(2.0, 6.0, 1.25, 3.75, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(1.25, Math.Round(resultarray[1, 0][1], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5a()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(7.51, Math.Round(resultarray[0, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5b()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(5.79, Math.Round(resultarray[0, 1][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5c()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(6.77, Math.Round(resultarray[1, 1][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5d()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 1, 1, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(8.5, Math.Round(resultarray[1, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5a10()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 10, 10, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(7.51, Math.Round(resultarray[0, 0][2], 2));
+        }
+
+        [TestMethod]
+        public void interpolatedData3x3_6_8_375_5a10x2()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            double[,][] resultarray = gws.interpolatedMap(6.0, 8.0, 3.75, 5.0, 10, 10, FileGws.SmoothType.HFirstcell, 2.0);
+            Assert.AreEqual(6.4, Math.Round(resultarray[2, 0][0], 2));
+        }
+        #endregion 
+
     }
 }

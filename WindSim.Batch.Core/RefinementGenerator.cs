@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-// Everybody is a genius. But if you judge a fish bu its ability to climb a tree, it will live its whole life believing that it is stupid.
+// Everybody is a genius. But if you judge a fish bu its ability to climb a tree, 
+// it will live its whole life believing that it is stupid.
 
 namespace WindSim.Batch.Core
 {
@@ -74,8 +75,6 @@ namespace WindSim.Batch.Core
         {
             
             public double expansionFactor;
-
-
 
             public double expansionFactorNonLinearEquationFunction(double x)
             {

@@ -98,12 +98,12 @@ namespace WindSim.Batch.Core
             return dataset;    
         }
 
-        public double[,][] interpolatedData(double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, SmoothType dataToInterpolate) 
+        public double[,][] interpolatedMap(double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, SmoothType dataToInterpolate, double SmoothThreshold = 2.0) 
         { 
                 // SE non sono nei confini del gws
                 //    return null per ora...
                 if (iXmin < xmin || iXmax > xmax || iYmin < ymin || iYmax > ymax) { return null; }
-                double[,] firstcellsArray = hFirstCellArray(2);
+                double[,] firstcellsArray = hFirstCellArray(SmoothThreshold);
                 // Ora sono nei confini del gws
                 // creo l'array result  e ci infilo le coordinate del bws
                 double[,][] result = new double[iXcells + 1, iYcells + 1][];
@@ -174,6 +174,7 @@ namespace WindSim.Batch.Core
                 // restituisco il valore del result 
                     return result;
         }
+
     }
 
     public class GwsNode
@@ -186,4 +187,5 @@ namespace WindSim.Batch.Core
             return rough*y;
         }
     }
+
 }

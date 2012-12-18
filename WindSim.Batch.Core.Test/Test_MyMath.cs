@@ -375,6 +375,189 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(10, Math.Round(MyMath.FirstOrderTrendSurface(69, 67, XYZpoints), 3));
 
         }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest0_0()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 0.0, 3.12 };
+            XYZpoints[1] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[2] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 2.5, 7.54 };
+            Assert.AreEqual(4.99, Math.Round(MyMath.FirstOrderTrendSurface(0.0, 0.0, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest4_0()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[1] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[2] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[3] = new double[3] { 8.0, 0.0, 6.05 };
+            Assert.AreEqual(8.87, Math.Round(MyMath.FirstOrderTrendSurface(4.0, 0.0, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest4_2dot5()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[1] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[2] = new double[3] { 4.0, 5.0, 5.52 };
+            XYZpoints[3] = new double[3] { 8.0, 5.0, 6.05 };
+            Assert.AreEqual(8.26, Math.Round(MyMath.FirstOrderTrendSurface(4.0, 2.5, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest0_2dot5()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[1] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[2] = new double[3] { 0.0, 5.0, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 5.0, 5.52 };
+            Assert.AreEqual(7.7, Math.Round(MyMath.FirstOrderTrendSurface(0.0, 2.5, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest0_0b()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 0.0, 3.12 };
+            XYZpoints[1] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[2] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 2.5, 7.54 };
+            Assert.AreEqual(9.08, Math.Round(MyMath.FirstOrderTrendSurface(4.0, 0.0, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest0_0c()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 0.0, 3.12 };
+            XYZpoints[1] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[2] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 2.5, 7.54 };
+            Assert.AreEqual(9.41, Math.Round(MyMath.FirstOrderTrendSurface(4.0, 2.5, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest0_0d()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 0.0, 3.12 };
+            XYZpoints[1] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[2] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 2.5, 7.54 };
+            Assert.AreEqual(5.33, Math.Round(MyMath.FirstOrderTrendSurface(0.0, 2.5, XYZpoints), 2));
+
+        }
+
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_a()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 0.0, 3.12 };
+            XYZpoints[1] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[2] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 2.5, 7.54 };
+            Assert.AreEqual(7.2, Math.Round(MyMath.FirstOrderTrendSurface(2.0, 1.25, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_b()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 0.0, 2.5, 7.20 };
+            XYZpoints[1] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[2] = new double[3] { 0.0, 5.0, 7.20 };
+            XYZpoints[3] = new double[3] { 4.0, 5.0, 5.52 };
+            Assert.AreEqual(6.87, Math.Round(MyMath.FirstOrderTrendSurface(2.0, 3.75, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_c()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[1] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[2] = new double[3] { 4.0, 5.0, 5.52 };
+            XYZpoints[3] = new double[3] { 8.0, 5.0, 6.05 };
+            Assert.AreEqual(7.52, Math.Round(MyMath.FirstOrderTrendSurface(6.0, 3.75, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_d()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 0.0, 10.95 };
+            XYZpoints[1] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[2] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[3] = new double[3] { 8.0, 0.0, 6.05 };
+            Assert.AreEqual(8.87, Math.Round(MyMath.FirstOrderTrendSurface(6.0, 1.25, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_upright_b()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[1] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[2] = new double[3] { 4.0, 5.0, 5.52 };
+            XYZpoints[3] = new double[3] { 8.0, 5.0, 6.05 };
+            Assert.AreEqual(5.79, Math.Round(MyMath.FirstOrderTrendSurface(6.0, 5.0, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_upright_c()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[1] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[2] = new double[3] { 4.0, 5.0, 5.52 };
+            XYZpoints[3] = new double[3] { 8.0, 5.0, 6.05 };
+            Assert.AreEqual(6.77, Math.Round(MyMath.FirstOrderTrendSurface(8.0, 5.0, XYZpoints), 2));
+
+        }
+
+        [TestMethod]
+        public void Test_FirstOrderTrendSurface3x3ForInterpolatedTest_upright_d()
+        {
+
+            double[][] XYZpoints = new double[4][];
+            XYZpoints[0] = new double[3] { 4.0, 2.5, 7.54 };
+            XYZpoints[1] = new double[3] { 8.0, 2.5, 10.95 };
+            XYZpoints[2] = new double[3] { 4.0, 5.0, 5.52 };
+            XYZpoints[3] = new double[3] { 8.0, 5.0, 6.05 };
+            Assert.AreEqual(8.5, Math.Round(MyMath.FirstOrderTrendSurface(8.0, 3.75, XYZpoints), 2));
+
+        }
         #endregion
 
         #region FindClosestLowerIndex
