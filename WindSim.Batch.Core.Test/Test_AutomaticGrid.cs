@@ -493,7 +493,7 @@ namespace WindSim.Batch.Core.Test
 
         [TestMethod]
         [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
-        public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory()
+        public void test_AutomaticGrid_saved_bws_file_exist()
         {
             WSProject project = new WSProject(project_file.FullName);
             string bws_filename = "test_bws_position";
@@ -509,7 +509,7 @@ namespace WindSim.Batch.Core.Test
 
         [TestMethod]
         [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
-        public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory_aritm()
+        public void test_AutomaticGrid_write_the_bws_file_in_the_proper_Directory()
         {
             WSProject project = new WSProject(project_file.FullName);
             string bws_filename = "test_bws_position234";
@@ -526,7 +526,7 @@ namespace WindSim.Batch.Core.Test
 
         [TestMethod]
         [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
-        public void test_RefinementGenerator_load_proper_bws_file_name_project_parameters()
+        public void test_AutomaticGrid_load_proper_bws_file_name_project_parameters()
         {
             WSProject project = new WSProject(project_file.FullName);
             string bws_filename = "test_bws_position";
