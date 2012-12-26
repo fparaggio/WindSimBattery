@@ -374,6 +374,219 @@ namespace WindSim.Batch.Core
             }
             return -1;
         }
+
+        public static double[,] extractArrayFromJagged(double[,][] origin, int jaggedIndex) 
+        {
+            int x = origin.GetLength(0);
+            int y = origin.GetLength(1);
+            int check = 0;
+            double[,] result = new double[x, y];
+            for (int i = 0; i < x; i++) 
+            {
+                for (int j = 0; j < y; j++) 
+                {
+                    if (origin[i, j].Length <= jaggedIndex) 
+                    { 
+                        check++; 
+                    } 
+                    else 
+                    {
+                        result[i, j] = origin[i, j][jaggedIndex];
+                    }
+                }
+            }
+
+            if (check == 0)
+            {
+                return result;
+            }
+            else return null;
+    
+        }
+
+        public static double MaxOfBidimensionalDoubleArray(double[,] origin) 
+        {
+            return origin.Cast<double>().Max();  
+        }
+
+        public class DoubleMap 
+        { 
+            public double[,][] data;
+            public double xmin, xmax, ymin, ymax;
+            public int Npx
+            {
+                get { return data.GetLength(0);}
+            }
+            public int Npy
+            {
+                get { return data.GetLength(1); }
+            }
+            public double Dx
+            {
+                get { return Math.Abs((xmax-xmin)/(Npx-1)); }
+            }
+            public double Dy
+            {
+                get { return Math.Abs((ymax - ymin) / (Npy - 1)); }
+            }
+            public double Dxy
+            {
+                get { return Math.Sqrt(Math.Pow(Dx, 2) + Math.Pow(Dy, 2)); }
+            }
+            public DoubleMap(double xMin, double xMax, double yMin, double yMax, int npx, int npy) 
+            {
+                data = new double[npx, npy][];
+                xmin = xMin;
+                xmax = xMax;
+                ymin = yMin;
+                ymax = yMax;
+                double stepX = (xMax - xMin) / npx;
+                double stepY = (yMax - yMin) / npy;
+                for (int i = 0; i < npx; i++) 
+                {
+                    for (int j = 0; j < npy; j++) 
+                    {
+                        double[] point = new double[3];
+                        point[0] = stepX * i;
+                        point[1] = stepY * j;
+                        data[i, j] = point;
+                    }
+                }
+            }  
+            public DoubleMap(double xMin, double xMax, double yMin, double yMax, double[,] dataset) 
+            {
+                int npx = dataset.GetLength(0);
+                int npy = dataset.GetLength(1);
+                data = new double[npx, npy][];
+                xmin = xMin;
+                xmax = xMax;
+                ymin = yMin;
+                ymax = yMax;
+                double stepX = (xMax - xMin) / npx;
+                double stepY = (yMax - yMin) / npy;
+                for (int i = 0; i < npx; i++)
+                {
+                    for (int j = 0; j < npy; j++)
+                    {
+                        double[] point = new double[3];
+                        point[0] = stepX * i;
+                        point[1] = stepY * j;
+                        point[2] = dataset[i,j];
+                        data[i, j] = point;
+                    }
+                }
+            }
+        }
+
+        public static DoubleMap interpolatedMap(double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, DoubleMap origin)
+        {
+            // SE non sono nei confini del gws
+            //    return null per ora...
+            if (iXmin < origin.xmin || iXmax > origin.xmax || iYmin < origin.ymin || iYmax > origin.ymax) { return null; }
+            DoubleMap result = new DoubleMap(iXmin, iXmax, iYmin, iYmax, iXcells, iYcells);
+
+            // Ora sono nei confini del gws
+            // creo l'array result  e ci infilo le coordinate del bws
+            result.data = new double[iXcells + 1, iYcells + 1][];
+
+            // per ogni coordinata del bws trovo i 4 punti vicini del gws
+            // 2 cicli for negli array gwsXcoord e gwsYcoord        
+            // x [xmin, xmin+stepx, xmin+2*stepx, ........, xmin +n*stepx]
+            // y [ymin, ymin+stepy, ymin+2*stepy, ........, ymin +n*stepy]
+
+            double[] gwsXcoord = new double[origin.Npx];
+            double[] gwsYcoord = new double[origin.Npy];
+            double stepx = origin.Dx;
+            double stepy = origin.Dy;
+            double bwsStepX = (iXmax - iXmin) / iXcells;
+            double bwsStepY = (iYmax - iYmin) / iYcells;
+            for (int i = 0; i < origin.Npx; i++) { gwsXcoord[i] = origin.xmin + stepx * i; }
+            for (int j = 0; j < origin.Npy; j++) { gwsYcoord[j] = origin.ymin + stepy * j; }
+
+            for (int i = 0; i < iXcells + 1; i++)
+            {
+                for (int j = 0; j < iYcells + 1; j++)
+                {
+                    double[] BwsPoint = new double[3];
+                    BwsPoint[0] = iXmin + i * bwsStepX;
+                    BwsPoint[1] = iYmin + j * bwsStepY;
+                    int Xindex = MyMath.FindClosestLowerIndex(BwsPoint[0], gwsXcoord);
+                    int Yindex = MyMath.FindClosestLowerIndex(BwsPoint[1], gwsYcoord);
+                    double[][] closestPoints = new double[4][];
+                    closestPoints[0] = new double[3];
+                    closestPoints[0][0] = gwsXcoord[Xindex];
+                    closestPoints[0][1] = gwsYcoord[Yindex];
+                    closestPoints[1] = new double[3];
+                    closestPoints[1][0] = gwsXcoord[Xindex + 1];
+                    closestPoints[1][1] = gwsYcoord[Yindex];
+                    closestPoints[2] = new double[3];
+                    closestPoints[2][0] = gwsXcoord[Xindex + 1];
+                    closestPoints[2][1] = gwsYcoord[Yindex + 1];
+                    closestPoints[3] = new double[3];
+                    closestPoints[3][0] = gwsXcoord[Xindex];
+                    closestPoints[3][1] = gwsYcoord[Yindex + 1];
+                    
+                    closestPoints[0][2] = origin.data[Xindex, Yindex][2];
+                    closestPoints[1][2] = origin.data[Xindex + 1, Yindex][2];
+                    closestPoints[2][2] = origin.data[Xindex + 1, Yindex + 1][2];
+                    closestPoints[3][2] = origin.data[Xindex, Yindex + 1][2];
+                 
+                    // calcolo il valore e lo schiaffo nell'array del result.
+                    BwsPoint[2] = MyMath.FirstOrderTrendSurface(BwsPoint[0], BwsPoint[1], closestPoints);
+                    result.data[i, j] = BwsPoint;
+                }
+            }
+
+            // restituisco il valore del result 
+            return result;
+        }
+        
+        public static DoubleMap SmoothedMap(DoubleMap origin, double slopeThreshold)
+        {
+            int npx = origin.Npx;
+            int npy = origin.Npy;
+
+            double[,] dataset = new double[npx, npy];
+
+            for (int i = 0; i < npx; i++)
+            {
+                for (int j = 0; j < npy; j++)
+                {
+                    dataset[i, j] = origin.data[i, j][2];
+                }
+            }
+
+            double[,] maxDerivate = MyMath.DatafirstMaxDerivate(dataset, origin.Dx, origin.Dy);
+            double max = maxDerivate.Cast<double>().Max();
+
+            while (max > slopeThreshold)
+            {
+                List<double[]> temp = new List<double[]>();
+                for (int i = 0; i < npx; i++)
+                {
+                    for (int j = 0; j < npy; j++)
+                    {
+                        if (maxDerivate[i, j] > slopeThreshold)
+                        {
+                            double[] temp_array = new double[3];
+                            temp_array[0] = i;
+                            temp_array[1] = j;
+                            temp_array[2] = MyMath.GetSmooth(dataset, i, j, 8);
+                            temp.Add(temp_array);
+                        }
+                    }
+                }
+                foreach (double[] modified_point in temp)
+                {
+                    dataset[Convert.ToInt32(modified_point[0]), Convert.ToInt32(modified_point[1])] = modified_point[2];
+                }
+                maxDerivate = MyMath.DatafirstMaxDerivate(dataset, origin.Dx, origin.Dy);
+                max = maxDerivate.Cast<double>().Max();
+            }
+
+            DoubleMap result = new DoubleMap(origin.xmin, origin.xmax, origin.ymin, origin.ymax, dataset);
+            return result;
+        }
     }
 }
 

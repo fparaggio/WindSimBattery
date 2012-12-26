@@ -598,5 +598,54 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(2, MyMath.FindClosestLowerIndex(4, array));
         }
         #endregion
+
+        #region extractArrayFromJagged
+        [TestMethod]
+        public void Test_extractArrayFromJagged()
+        {
+            double[,][] jaggedArray = new double[2, 2][];
+            jaggedArray[0, 0] = new double[] { 3.0, 5.0, 7.0, };
+            jaggedArray[0, 1] = new double[] { 1.0, 0.0, 2.0, 4.0, 6.0 };
+            jaggedArray[1, 0] = new double[] { 1.0, 6.0 };
+            jaggedArray[1, 1] = new double[] { 1.0, 0.0, 2.0, 4.0, 6.0, 45.0, 67.0, 78.0 };
+            double[,] extractArrayFromJagged = MyMath.extractArrayFromJagged(jaggedArray, 1);
+            Assert.IsTrue(extractArrayFromJagged[0, 0] == 5.0 && extractArrayFromJagged[0, 1] == 0.0 && extractArrayFromJagged[1, 0] == 6.0 && extractArrayFromJagged[1, 1] == 0.0);
+        }
+
+        [TestMethod]
+        public void Test_extractArrayFromJagged_exception()
+        {
+            double[,][] jaggedArray = new double[2, 2][];
+            jaggedArray[0, 0] = new double[] { 3.0, 5.0, 7.0, };
+            jaggedArray[0, 1] = new double[] { 1.0, 0.0, 2.0, 4.0, 6.0 };
+            jaggedArray[1, 0] = new double[] { 1.0, 6.0 };
+            jaggedArray[1, 1] = new double[] { 1.0, 0.0, 2.0, 4.0, 6.0, 45.0, 67.0, 78.0 };
+            double[,] extractArrayFromJagged = MyMath.extractArrayFromJagged(jaggedArray, 2);
+            Assert.IsTrue(extractArrayFromJagged == null);
+        }
+        #endregion
+
+        #region MaxOfBidimensionalDoubleArray
+        [TestMethod]
+        public void Test_MaxOfBidimensionalDoubleArray()
+        {
+            double[,] BidimensionalArray = new double[2, 2];
+            BidimensionalArray[0, 0] = 5.0;
+            BidimensionalArray[0, 1] = 2.0;
+            BidimensionalArray[1, 0] = 1.0;
+            BidimensionalArray[1, 1] = 4.0;
+            Assert.AreEqual(5.0, MyMath.MaxOfBidimensionalDoubleArray(BidimensionalArray));
+        }
+
+        [TestMethod]
+        public void Test_MaxOfBidimensionalDoubleArray_2()
+        {
+            double[,] BidimensionalArray = new double[2, 2];
+            BidimensionalArray[0, 0] = 6.0;
+            BidimensionalArray[0, 1] = 2.0;
+            BidimensionalArray[1, 0] = 1.0;
+            Assert.AreEqual(6.0, MyMath.MaxOfBidimensionalDoubleArray(BidimensionalArray));
+        }
+        #endregion
     }
 }

@@ -86,7 +86,7 @@ namespace WindSim.Batch.Core.Test
             Assert.IsTrue(project_file.Exists);
         }
                 
-        // i should write some test about the file file compliance but no manual has been provided...further seems to be a big work because i should write a parser.
+        // i should write some test about the file file compliance but no manual has been provided! :D .!!.!.!..further seems to be a big work because i should write a parser.
 
 
         [TestMethod]
