@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace WindSim.Batch.Core
 {
     public class MyMath
@@ -586,6 +587,45 @@ namespace WindSim.Batch.Core
 
             DoubleMap result = new DoubleMap(origin.xmin, origin.xmax, origin.ymin, origin.ymax, dataset);
             return result;
+        }
+
+        public static double[] FirstOrderTrendSurfacePassingForAPoint(double x0, double y0, double z0, double[][] XYZpoints)
+        {
+            int n;
+            double  Su2 = 0.0, Sv2 = 0.0, Suv = 0.0, Suw = 0.0, Svw = 0.0;
+            n = XYZpoints.Length;
+            for (int i = 0; i < n; i++)
+            {
+                Su2 += (XYZpoints[i][0]-x0) * (XYZpoints[i][0]-x0);
+                Sv2 += (XYZpoints[i][1]-y0) * (XYZpoints[i][1]-y0);
+                Suv += (XYZpoints[i][0]-x0) * (XYZpoints[i][1]-y0);
+                Svw += (XYZpoints[i][1]-y0) * (XYZpoints[i][2]-z0);
+                Suw += (XYZpoints[i][0]-x0) * (XYZpoints[i][2]-z0);
+            }
+            
+            double[,] coefficients = new double[2, 2];
+            coefficients[0, 0] = Su2;
+            coefficients[1, 1] = Sv2;
+            coefficients[0, 1] = Suv;
+            coefficients[1, 0] = Suv;
+
+            int info;
+            alglib.matinvreport rep;
+            alglib.rmatrixinverse(ref coefficients, out info, out rep);
+
+            // moltiplicare l'inversa per la matrice [Sz, Sxz , Syz]
+
+            double[,] b_matrix = new double[,] { { Suw }, { Svw } };
+            int m = coefficients.GetLength(0);
+            int num = b_matrix.GetLength(1);
+            int k = coefficients.GetLength(1);
+            double[,] c = new double[m, num];
+            alglib.rmatrixgemm(m, num, k, 1, coefficients, 0, 0, 0, b_matrix, 0, 0, 0, 0, ref c, 0, 0);
+            double[] results = new double[3];
+            results[0] = c[0, 0];
+            results[1] = c[1, 0];
+            results[2] = z0 - c[0, 0] * x0 - c[1, 0] * y0;
+            return results;
         }
     }
 }

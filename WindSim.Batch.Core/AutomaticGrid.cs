@@ -225,7 +225,6 @@ namespace WindSim.Batch.Core
                 sb.AppendLine("");
             }
 
-
             private void junctions(StringBuilder sb, int ni, int nj)
             {
                 

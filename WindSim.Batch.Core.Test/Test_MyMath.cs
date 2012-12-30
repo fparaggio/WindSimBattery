@@ -560,6 +560,19 @@ namespace WindSim.Batch.Core.Test
         }
         #endregion
 
+        [TestMethod]
+        public void Test_FirstOrderTrendSurfacePassingForAPoint()
+        {
+
+            double[][] XYZpoints = new double[5][];
+            XYZpoints[0]= new double[3]{69,76,20.82};
+            XYZpoints[1] = new double[3] { 59, 64, 10.91 };
+            XYZpoints[2] = new double[3] { 75, 52, 10.38 };
+            XYZpoints[3] = new double[3] { 86, 73, 14.6 };
+            XYZpoints[4] = new double[3] { 88, 53, 10.56 };
+            Assert.AreEqual(1, MyMath.FirstOrderTrendSurfacePassingForAPoint(69, 76,20.82, XYZpoints)[1]);
+        }
+
         #region FindClosestLowerIndex
         [TestMethod]
         public void Test_FindClosestLowerIndex()
