@@ -344,6 +344,82 @@ namespace WindSim.Batch.Core.Test
             List<double[]> result = Prova.XYZRougDistAzim(355, 5, 354);
             Assert.AreEqual(2, result.Count);
         }
+
+        [TestMethod]
+        public void TestComplexityCalculation_5()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            Assert.AreEqual(1, result.Count);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_6()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(250, data[0][0]);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_7()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(375, data[0][1]);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_8()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(18000000000, data[0][2]);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_9()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(8, data[0][3]);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_10()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(125, data[0][4]);
+        }
+
+        [TestMethod]
+        public void TestComplexityCalculation_11()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(complexityTest);
+            ComplexityDataPoint Prova = new ComplexityDataPoint(gws, 250, 250, 100);
+            List<double[]> result = Prova.XYZRougDistAzim(355, 5, 126);
+            double[][] data = result.ToArray();
+            Assert.AreEqual(0, data[0][5]);
+        }
         #endregion
     }
 }
