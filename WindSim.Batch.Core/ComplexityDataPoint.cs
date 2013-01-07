@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindSim.Batch.Core
 {
-    class ComplexityDataPoint
+    public class ComplexityDataPoint
     {
         private double centerX;
         private double centerY;
@@ -30,7 +30,7 @@ namespace WindSim.Batch.Core
             {
                 var sublist = from n
                               in dataset
-                              where (n[4] < distance) && (n[5] < bearingMax) && (n[5] > bearingMin)
+                              where (n[4] < distance) && (n[5] <= bearingMax) && (n[5] >= bearingMin)
                               select n;
                 return sublist.ToList();
             }
@@ -38,7 +38,7 @@ namespace WindSim.Batch.Core
             {
                 var sublist = from n
                               in dataset
-                              where (n[4] < distance) && (((n[5]>=0 ) && (n[5] < bearingMax)) || ((n[5] > bearingMin) &&  (n[5] <= 360)))
+                              where (n[4] < distance) && (((n[5]>=0 ) && (n[5] <= bearingMax)) || ((n[5] >= bearingMin) &&  (n[5] <= 360)))
                               select n;
                 return sublist.ToList();
             }
@@ -46,7 +46,7 @@ namespace WindSim.Batch.Core
         
         }
 
-        ComplexityDataPoint(FileGws Map, double xObject, double yObject, double zObject) 
+        public ComplexityDataPoint(FileGws Map, double xObject, double yObject, double zObject) 
         { 
         // check (xObject,yObject)
             if (xObject > Map.xmin && xObject < Map.xmax && yObject > Map.ymin && yObject < Map.ymax) 

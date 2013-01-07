@@ -87,6 +87,7 @@
   <ItemGroup>
     <None Include="TestFiles\5x5.gws" />
     <None Include="TestFiles\bws_test.bws" />
+    <None Include="TestFiles\ComplexityTest.gws" />
     <None Include="TestFiles\Copy of project1\dtm\area.log" />
     <None Include="TestFiles\Copy of project1\dtm\default.vif" />
     <None Include="TestFiles\Copy of project1\dtm\dtm.geo" />

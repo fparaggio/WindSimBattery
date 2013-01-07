@@ -936,6 +936,14 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(36.0, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2), 1));
         }
 
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints_5()
+        {
+            double[] point1 = new double[] { 250, 250, 34 };
+            double[] point2 = new double[] { 250, 250, 145 };
+            Assert.AreEqual(0.0, MyMath.planarXYDistanceBetweenTwoPoints(point1, point2));
+        }
+
         #endregion 
 
         #region planarAzimuthDegreesBetweenTwoPoints
@@ -982,7 +990,13 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(0.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
         }
 
-
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints_6()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { -1, 0, 145 };
+            Assert.AreEqual(270.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
+        }
         #endregion 
 
         #region DoubleMap
