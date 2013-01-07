@@ -91,6 +91,8 @@ namespace WindSim.Batch.Core
     {
         public double height;
         public double rough;
+        public double x;
+        public double y;
     }
     
 }

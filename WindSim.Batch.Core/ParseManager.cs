@@ -83,6 +83,8 @@ namespace WindSim.Batch.Core
                     //Riempo l'array delle height..
                     double nxrows = nxp / 10.0;
                     int nx_index = 0, ny_index = 0;
+                    double stepX = (xmax - xmin) / (nxp - 1);
+                    double stepY = (ymax - ymin) / (nyp - 1);
 
                     for (ny_index = 0; ny_index < nyp; ny_index++) 
                     {
@@ -94,6 +96,8 @@ namespace WindSim.Batch.Core
                             {
                                 GwsNode node = new GwsNode();
                                 node.height = Double.Parse(line.Substring(14 * element, 14), floatdataFormat);
+                                node.x = stepX * nx_index + xmin;
+                                node.y = stepY * ny_index + ymin;
                                 gws.data[nx_index,ny_index] = node;
                                 nx_index++;
                             }

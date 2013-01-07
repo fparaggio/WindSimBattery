@@ -94,6 +94,72 @@ namespace WindSim.Batch.Core.Test
         }
         #endregion
 
+        #region parsing Coordinates
+        [TestMethod]
+        public void TestFileGwsParserCoordinates()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(0, gws.data[0, 0].x);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_1()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(0, gws.data[0, 0].y);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_2()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(8.0, gws.data[2, 2].x);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_3()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(5.0, gws.data[2, 2].y);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_4()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(4.0, gws.data[1, 1].x);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_5()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(2.5, gws.data[1, 1].y);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_6()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(5.0, gws.data[1, 2].y);
+        }
+
+        [TestMethod]
+        public void TestFileGwsParserCoordinates_7()
+        {
+            ParseManager parser = new ParseManager();
+            FileGws gws = parser.ParseGws(gws3x3);
+            Assert.AreEqual(4.0, gws.data[1, 2].x);
+        }
+        #endregion
+
         #region parsing header
         [TestMethod]
         public void TestFileGwsDimX()

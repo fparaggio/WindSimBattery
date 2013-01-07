@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindSim.Batch.Core.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windsim.alglib", "Windsim.alglib\Windsim.alglib.csproj", "{9C9823E4-1EBF-4687-8E99-3DBE9AEE5FD8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documents", "documents", "{3CC498D3-3756-4A01-B737-C7923FEC00A1}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\angleDegreesBetweenLineAndPlane.pdf = ..\..\..\..\Downloads\angleDegreesBetweenLineAndPlane.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = windsim_batch.vsmdi

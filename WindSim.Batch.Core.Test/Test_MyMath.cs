@@ -560,18 +560,251 @@ namespace WindSim.Batch.Core.Test
         }
         #endregion
 
+        #region Trend surface passing for a point
+
         [TestMethod]
         public void Test_FirstOrderTrendSurfacePassingForAPoint()
         {
-
             double[][] XYZpoints = new double[5][];
             XYZpoints[0]= new double[3]{69,76,20.82};
             XYZpoints[1] = new double[3] { 59, 64, 10.91 };
             XYZpoints[2] = new double[3] { 75, 52, 10.38 };
             XYZpoints[3] = new double[3] { 86, 73, 14.6 };
             XYZpoints[4] = new double[3] { 88, 53, 10.56 };
-            Assert.AreEqual(1, MyMath.FirstOrderTrendSurfacePassingForAPoint(69, 76,20.82, XYZpoints)[1]);
+            double[] plane = MyMath.FirstOrderTrendSurfacePassingForAPoint(69, 76, 20.82, XYZpoints);
+            // plane[0] * x + plane[1] * y + plane[2] * z + plane[3] = 0
+            // z = (plane[0] * x + plane[1] * y + plane[3]) / ( -1 * plane[2] )
+            Assert.AreEqual(20.82, (plane[0] * 69 + plane[1] * 76 + plane[3])/(-1*plane[2]));
         }
+
+        #endregion 
+
+        #region PlanePassingThroughtThreePoints
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point0() 
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { 69, 76, 20.82 };
+            points[1] = new double[3] { 59, 64, 10.91 };
+            points[2] = new double[3] { 75, 52, 10.38 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(-1 * plane[3], points[0][0] * plane[0] + points[0][1] * plane[1] + points[0][2] * plane[2]);
+        }
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point1()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { 69, 76, 20.82 };
+            points[1] = new double[3] { 59, 64, 10.91 };
+            points[2] = new double[3] { 75, 52, 10.38 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            double test1 = -1 * plane[3];
+            double test2 = points[1][0] * plane[0] + points[1][1] * plane[1] + points[1][2] * plane[2];
+            Assert.AreEqual(Math.Round(-1 * plane[3],2),Math.Round(points[1][0] * plane[0] + points[1][1] * plane[1] + points[1][2] * plane[2],2));
+        }
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point2()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { 69, 76, 20.82 };
+            points[1] = new double[3] { 59, 64, 10.91 };
+            points[2] = new double[3] { 75, 52, 10.38 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            double test1 = points[2][0] * plane[0] + points[2][1] * plane[1] + points[2][2] * plane[2];
+            double test2 = -1 * plane[3];
+            Assert.AreEqual(-1 * plane[3], points[2][0] * plane[0] + points[2][1] * plane[1] + points[2][2] * plane[2]);
+        }
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point0_A()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { -1, -6, 0 };
+            points[1] = new double[3] { -4, 2, -2 };
+            points[2] = new double[3] { -2, 4, 1 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(-1 * plane[3], points[0][0] * plane[0] + points[0][1] * plane[1] + points[0][2] * plane[2]);
+        }
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point1_A()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { -1, -6, 0 };
+            points[1] = new double[3] { -4, 2, -2 };
+            points[2] = new double[3] { -2, 4, 1 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(-1 * plane[3], points[1][0] * plane[0] + points[1][1] * plane[1] + points[1][2] * plane[2]);
+        }
+
+        [TestMethod]
+        public void Test_PlanePassingThroughtThreePoints_point2_A()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[3] { -1, -6, 0 };
+            points[1] = new double[3] { -4, 2, -2 };
+            points[2] = new double[3] { -2, 4, 1 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(-1 * plane[3], points[2][0] * plane[0] + points[2][1] * plane[1] + points[2][2] * plane[2]);
+        }
+
+        #endregion 
+
+        #region DirectionOfIntersectionOfTwoPlanes
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_1_a()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 2, -5, 3 };
+            twoPlanes[1] = new double[3] { 3, 4, -3 };
+            Assert.AreEqual(3,MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[0]);
+        }
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_1_b()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 2, -5, 3 };
+            twoPlanes[1] = new double[3] { 3, 4, -3 };
+            Assert.AreEqual(15, MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[1]);
+        }
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_1_c()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 2, -5, 3 };
+            twoPlanes[1] = new double[3] { 3, 4, -3 };
+            Assert.AreEqual(23, MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[2]);
+        }
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_2_a()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 1, -1, 3 };
+            twoPlanes[1] = new double[3] { 1, 2, -1 };
+            Assert.AreEqual(-5, MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[0]);
+        }
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_2_b()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 1, -1, 3 };
+            twoPlanes[1] = new double[3] { 1, 2, -1 };
+            Assert.AreEqual(4, MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[1]);
+        }
+
+        [TestMethod]
+        public void Test_DirectionOfIntersectionOfTwoPlanes_2_c()
+        {
+            double[][] twoPlanes = new double[2][];
+            twoPlanes[0] = new double[3] { 1, -1, 3 };
+            twoPlanes[1] = new double[3] { 1, 2, -1 };
+            Assert.AreEqual(3, MyMath.DirectionOfIntersectionOfTwoPlanes(twoPlanes)[2]);
+        }
+
+        #endregion
+
+        #region angleDegreesBetweenLineAndPlane
+
+        [TestMethod]
+        public void Test_angleDegreesBetweenLineAndPlane_1() 
+        {            
+            double[] line = new double[]{2,1,2};
+            double[] plane = new double[] { 1, 1, 0 };
+            Assert.AreEqual(45.000, Math.Round(MyMath.angleDegreesBetweenLineAndPlane(line,plane),3));
+        }
+
+        [TestMethod]
+        public void Test_angleDegreesBetweenLineAndPlane_2_composite()
+        {
+            double[][] planes = new double[2][];
+            planes[0] = new double[] { 1, 3, -1,3 };
+            planes[1] = new double[] { 2, -1, -1, -1 };
+            double[] planePI = new double[] { 2, -1, 3 };
+            double[] line = MyMath.DirectionOfIntersectionOfTwoPlanes(planes);
+            Assert.AreEqual(67.09, Math.Round(MyMath.angleDegreesBetweenLineAndPlane(line, planePI), 2));
+        }
+
+        [TestMethod]
+        public void Test_angleDegreesBetweenLineAndPlane_parallels()
+        {
+            double[] line = new double[] { 2, 1, 2 };
+            double[] plane = new double[] { 4, 2, 4 };
+            Assert.AreEqual(0, MyMath.angleDegreesBetweenLineAndPlane(line, plane));
+        }
+
+        [TestMethod]
+        public void Test_angleDegreesBetweenLineAndPlane_3()
+        {
+            double[] line = new double[] { Math.Sqrt(3), 0, 3 };
+            double[] plane = new double[] { 1, 0, 0 };
+            Assert.AreEqual(30.000, Math.Round(MyMath.angleDegreesBetweenLineAndPlane(line, plane), 3));
+        }
+
+        #endregion 
+
+        #region angleDegreeAlongDirection
+
+        [TestMethod]
+        public void Test_angleDegreeAlongDirection()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[]{0,0,0};
+            points[1] = new double[]{0,1,0};
+            points[2] = new double[]{1,0,1};
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            double bearing = 90;
+            double angle = MyMath.angleDegreeAlongDirection(plane, bearing);
+            Assert.AreEqual(45.0, Math.Round(angle,2));
+        }
+
+        [TestMethod]
+        public void Test_angleDegreeAlongDirection2()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[] { 0, 0, 0 };
+            points[1] = new double[] { 1, 0, 0 };
+            points[2] = new double[] { 0, Math.Sqrt(3)/2, 0.5 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            double bearing = 0;
+            double angle = MyMath.angleDegreeAlongDirection(plane, bearing);
+            Assert.AreEqual(30.0, Math.Round(angle, 2));
+        }
+
+        #endregion 
+
+        #region MaximumAngleDegreeOfAPlane
+
+        [TestMethod]
+        public void Test_MaximumAngleDegreeOfAPlane()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[] { 0, 0, 0 };
+            points[1] = new double[] { 1, 0, 0 };
+            points[2] = new double[] { 0, Math.Sqrt(3)/2, 0.5 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(30.000, Math.Round(MyMath.MaximumAngleDegreeOfAPlane(plane),3));
+        }
+
+        [TestMethod]
+        public void Test_MaximumAngleDegreeOfAPlane2()
+        {
+            double[][] points = new double[3][];
+            points[0] = new double[] { 0, 0, 0 };
+            points[1] = new double[] { 0, 1, 0 };
+            points[2] = new double[] { 1, 0, 1 };
+            double[] plane = MyMath.PlanePassingThroughtThreePoints(points);
+            Assert.AreEqual(45.0, MyMath.MaximumAngleDegreeOfAPlane(plane));
+        }
+
+        #endregion 
 
         #region FindClosestLowerIndex
         [TestMethod]
@@ -660,5 +893,304 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(6.0, MyMath.MaxOfBidimensionalDoubleArray(BidimensionalArray));
         }
         #endregion
+
+        #region planarXYDistanceBetweenTwoPoints
+
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints()
+        {
+            double[] point1 = new double[] { 0, 0, 0 };
+            double[] point2 = new double[] { 29,-13,12};
+            Assert.AreEqual(31.8, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2),1));
+        }
+
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints_1()
+        {
+            double[] point1 = new double[] { 30, 11, 34 };
+            double[] point2 = new double[] { 13, -29, 12 };
+            Assert.AreEqual(43.5, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2), 1));
+        }
+
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints_2()
+        {
+            double[] point1 = new double[] { 30, 11, 34 };
+            double[] point2 = new double[] { -11, -14, 15 };
+            Assert.AreEqual(48.0, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2), 1));
+        }
+
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints_3()
+        {
+            double[] point1 = new double[] { -10, -8, -134 };
+            double[] point2 = new double[] { -10, -26, 1245 };
+            Assert.AreEqual(18.0, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2), 1));
+        }
+
+        [TestMethod]
+        public void Test_planarXYDistanceBetweenTwoPoints_4()
+        {
+            double[] point1 = new double[] { -11, 10, 34 };
+            double[] point2 = new double[] { -10, -26, 145 };
+            Assert.AreEqual(36.0, Math.Round(MyMath.planarXYDistanceBetweenTwoPoints(point1, point2), 1));
+        }
+
+        #endregion 
+
+        #region planarAzimuthDegreesBetweenTwoPoints
+
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { 1, 1, 145 };
+            Assert.AreEqual(45.0,MyMath.planarAzimuthDegreesBetweenTwoPoints(point,center));
+        }
+
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints_2()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { 1, -1, 145 };
+            Assert.AreEqual(135.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
+        }
+
+
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints_3()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { -1, -1, 145 };
+            Assert.AreEqual(225.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
+        }
+
+
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints_4()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { -1, 1, 145 };
+            Assert.AreEqual(315.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
+        }
+
+        [TestMethod]
+        public void Test_planarAzimuthDegreesBetweenTwoPoints_5()
+        {
+            double[] center = new double[] { 0, 0, 34 };
+            double[] point = new double[] { 0, 1, 145 };
+            Assert.AreEqual(0.0, MyMath.planarAzimuthDegreesBetweenTwoPoints(point, center));
+        }
+
+
+        #endregion 
+
+        #region DoubleMap
+
+        [TestMethod]
+        public void Test_DoubleMap()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(10, map.data[0,0][0]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_2()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(55, map.data[1,0][0]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_3()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(100, map.data[2, 0][0]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_4()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(20, map.data[0, 0][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_5()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(20, map.data[1, 0][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_6()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(20, map.data[2, 0][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_7()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(2000, map.data[0, 1][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_8()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(2000, map.data[1, 1][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_9()
+        {
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 100, 20, 2000, 3, 2);
+            Assert.AreEqual(2000, map.data[2, 1][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor()
+        {
+            double[,] dataExample = new double[3,4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(20,map.data[1,2][0] );
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_2()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(140, map.data[1, 2][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_3()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(8, map.data[1, 2][2]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_4()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(10, map.data[0,0][0]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_5()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(100, map.data[0, 0][1]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_6()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(30, map.data[2, 3][0]);
+        }
+
+        [TestMethod]
+        public void Test_DoubleMap_second_constructor_7()
+        {
+            double[,] dataExample = new double[3, 4];
+            dataExample[0, 0] = 1;
+            dataExample[1, 0] = 2;
+            dataExample[2, 0] = 3;
+            dataExample[0, 1] = 4;
+            dataExample[1, 1] = 5;
+            dataExample[2, 1] = 6;
+            dataExample[0, 2] = 7;
+            dataExample[1, 2] = 8;
+            dataExample[2, 2] = 9;
+            dataExample[0, 3] = 10;
+            dataExample[1, 3] = 11;
+            dataExample[2, 3] = 12;
+            MyMath.DoubleMap map = new MyMath.DoubleMap(10, 30, 100, 160, dataExample);
+            Assert.AreEqual(160, map.data[2, 3][1]);
+        }
+
+        #endregion
+
     }
 }

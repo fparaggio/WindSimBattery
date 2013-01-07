@@ -101,7 +101,6 @@ namespace WindSim.Batch.Core
                 }
             }
 
-
             public static MyMath.DoubleMap HFirstCell(MyMath.DoubleMap roughnessMap, double a = 3.1175, double b = -0.396)
             {
                 int x = roughnessMap.Npx;

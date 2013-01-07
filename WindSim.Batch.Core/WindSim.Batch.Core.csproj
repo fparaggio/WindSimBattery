@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AutomaticGrid.cs" />
     <Compile Include="BatchRun.cs" />
+    <Compile Include="ComplexityDataPoint.cs" />
     <Compile Include="ExcelBatch.cs" />
     <Compile Include="FileGws.cs" />
     <Compile Include="GwsGenerator.cs" />

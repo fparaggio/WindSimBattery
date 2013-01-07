@@ -441,15 +441,15 @@ namespace WindSim.Batch.Core
                 xmax = xMax;
                 ymin = yMin;
                 ymax = yMax;
-                double stepX = (xMax - xMin) / npx;
-                double stepY = (yMax - yMin) / npy;
+                double stepX = (xMax - xMin) / (npx-1);
+                double stepY = (yMax - yMin) / (npy-1);
                 for (int i = 0; i < npx; i++) 
                 {
                     for (int j = 0; j < npy; j++) 
                     {
                         double[] point = new double[3];
-                        point[0] = stepX * i;
-                        point[1] = stepY * j;
+                        point[0] = stepX * i + xmin;
+                        point[1] = stepY * j + ymin;
                         data[i, j] = point;
                     }
                 }
@@ -463,15 +463,15 @@ namespace WindSim.Batch.Core
                 xmax = xMax;
                 ymin = yMin;
                 ymax = yMax;
-                double stepX = (xMax - xMin) / npx;
-                double stepY = (yMax - yMin) / npy;
+                double stepX = (xMax - xMin) / (npx - 1);
+                double stepY = (yMax - yMin) / (npy - 1);
                 for (int i = 0; i < npx; i++)
                 {
                     for (int j = 0; j < npy; j++)
                     {
                         double[] point = new double[3];
-                        point[0] = stepX * i;
-                        point[1] = stepY * j;
+                        point[0] = stepX * i + xmin;
+                        point[1] = stepY * j + ymin;
                         point[2] = dataset[i,j];
                         data[i, j] = point;
                     }
@@ -588,19 +588,22 @@ namespace WindSim.Batch.Core
             DoubleMap result = new DoubleMap(origin.xmin, origin.xmax, origin.ymin, origin.ymax, dataset);
             return result;
         }
-
-        public static double[] FirstOrderTrendSurfacePassingForAPoint(double x0, double y0, double z0, double[][] XYZpoints)
+        
+        public static double[] FirstOrderTrendSurfacePassingForAPoint(double xCenter, double yCenter, double zCenter, double[][] XYZpoints)
         {
+            // return the array [a,b,c,d] where
+            // a*x + b*y +c*z + d = 0
+
             int n;
             double  Su2 = 0.0, Sv2 = 0.0, Suv = 0.0, Suw = 0.0, Svw = 0.0;
             n = XYZpoints.Length;
             for (int i = 0; i < n; i++)
             {
-                Su2 += (XYZpoints[i][0]-x0) * (XYZpoints[i][0]-x0);
-                Sv2 += (XYZpoints[i][1]-y0) * (XYZpoints[i][1]-y0);
-                Suv += (XYZpoints[i][0]-x0) * (XYZpoints[i][1]-y0);
-                Svw += (XYZpoints[i][1]-y0) * (XYZpoints[i][2]-z0);
-                Suw += (XYZpoints[i][0]-x0) * (XYZpoints[i][2]-z0);
+                Su2 += (XYZpoints[i][0]-xCenter) * (XYZpoints[i][0]-xCenter);
+                Sv2 += (XYZpoints[i][1]-yCenter) * (XYZpoints[i][1]-yCenter);
+                Suv += (XYZpoints[i][0]-xCenter) * (XYZpoints[i][1]-yCenter);
+                Svw += (XYZpoints[i][1]-yCenter) * (XYZpoints[i][2]-zCenter);
+                Suw += (XYZpoints[i][0]-xCenter) * (XYZpoints[i][2]-zCenter);
             }
             
             double[,] coefficients = new double[2, 2];
@@ -621,12 +624,149 @@ namespace WindSim.Batch.Core
             int k = coefficients.GetLength(1);
             double[,] c = new double[m, num];
             alglib.rmatrixgemm(m, num, k, 1, coefficients, 0, 0, 0, b_matrix, 0, 0, 0, 0, ref c, 0, 0);
-            double[] results = new double[3];
+            double[] results = new double[4];
             results[0] = c[0, 0];
             results[1] = c[1, 0];
-            results[2] = z0 - c[0, 0] * x0 - c[1, 0] * y0;
+            results[2] = -1;
+            results[3] = zCenter - c[0, 0] * xCenter - c[1, 0] * yCenter;
             return results;
         }
+
+        public static double ConvertDegreesToRadians(double degrees) 
+        {
+            double radians = (Math.PI / 180.0) * degrees;
+            return (radians);
+        }
+
+        public static double ConvertRadiansToDegrees(double radians) 
+        {
+            double degrees = (180.0 / Math.PI) * radians;
+            return (degrees);
+        }
+
+        public static double[] PlanePassingThroughtThreePoints(double[][] points) 
+        {
+            // result [a0,b0,c0,d0] where a0*x + b0*y +c0*z + d0 = 0  
+            double[] result = new double[4];
+            double x0, y0, z0, x1, y1, z1, x2, y2, z2;
+
+            x0 = points[0][0];
+            y0 = points[0][1];
+            z0 = points[0][2];
+            x1 = points[1][0];
+            y1 = points[1][1];
+            z1 = points[1][2];
+            x2 = points[2][0];
+            y2 = points[2][1];
+            z2 = points[2][2];
+
+            double a0, b0, c0;
+            a0 = (y1 - y0) * (z2 - z0) - (z1 - z0) * (y2 - y0);
+            b0 = -1*((x1-x0)*(z2-z0)-(z1-z0)*(x2-x0));
+            c0 = (x1 - x0)*(y2 - y0) - (y1 - y0)*(x2 - x0);
+
+            result[0] = a0;
+            result[1] = b0;
+            result[2] = c0;
+            result[3] = -1*(a0*x0+b0*y0+c0*z0);
+            return result;
+        }
+
+        public static double[] DirectionOfIntersectionOfTwoPlanes(double[][] twoPlanes) 
+        {
+            double[] result = new double[3];
+            
+            // PLANES
+            // a*x + b*y + c*z = d
+            // ap*x + bp*y + cp*z = dp
+            // twoPlanes[0] = [a,b,c,d(optional)]
+            // twoPlanes[1] = [ap,bp,cp,dp(optional)]
+            double a, b, c, ap, bp, cp;
+            a = twoPlanes[0][0];
+            b = twoPlanes[0][1];
+            c = twoPlanes[0][2];
+            ap = twoPlanes[1][0];
+            bp = twoPlanes[1][1];
+            cp = twoPlanes[1][2];
+            result[0] = (b * cp - bp * c);
+            result[1] = (c * ap - cp * a);
+            result[2] = (a * bp - ap * b);
+            return result;
+        }
+
+        public static double angleDegreesBetweenLineAndPlane(double[] lineDirection, double[] normalVectorToPlane) 
+        {
+            // documentation angleDegreesBetweenLineAndPlane.pdf
+            
+            double resultInDegrees = 0 ;
+            double u1, u2, u3, a, b, c;
+            u1 = lineDirection[0];
+            u2 = lineDirection[1];
+            u3 = lineDirection[2];
+            a = normalVectorToPlane[0];
+            b = normalVectorToPlane[1];
+            c = normalVectorToPlane[2];
+            if (u1 / a == u2 / b && u1 / a == u3 / c)
+            {
+                return resultInDegrees;
+            }
+            else
+            {
+                double calculatedSin = Math.Abs(a * u1 + b * u2 + c * u3) / (Math.Sqrt(a * a + b * b + c * c) * Math.Sqrt(u1 * u1 + u2 * u2 + u3 * u3));
+                return resultInDegrees = MyMath.ConvertRadiansToDegrees(Math.Asin(calculatedSin));
+            }
+        }
+
+        public static double angleDegreeAlongDirection(double[] plane, double bearingDegree) 
+        {
+            double result = 0;
+            double[] testCenter = new double[] { 0, 0, 0 };
+            double[] upCenter = new double[] { 0, 0, 1 };
+            double[] bearingCenter = new double[] { Math.Sin(MyMath.ConvertDegreesToRadians(bearingDegree)), Math.Cos(MyMath.ConvertDegreesToRadians(bearingDegree)), 0 };
+            double[][] pointsBearingCenter = new double[][] { testCenter, bearingCenter, upCenter };
+            double[] BearingPlane = MyMath.PlanePassingThroughtThreePoints(pointsBearingCenter);
+            double[][] planes = new double[][]{BearingPlane, plane};
+            double[] bearingMedian = MyMath.DirectionOfIntersectionOfTwoPlanes(planes);
+            result = MyMath.angleDegreesBetweenLineAndPlane(bearingMedian, new double[] { 0, 0, 1, 0 });
+            return result;
+
+        }
+
+        public static double MaximumAngleDegreeOfAPlane(double[] plane) 
+        {
+            // plane  [a,b,c,d(not necessary)] where a*x + by + cz + d = 0 
+            // z = (-a / c ) * x + ( -b / c) * y + ( -d / c) 
+            // gradient is [dz/dx , dz/dy] = [(-a / c ),( -b / c)]
+            // so maximum slope is SQRT( (dz/dx)^2 + (dz/dy)^2 )
+            double dzdx = -1 * plane[0] / plane[2];
+            double dzdy = -1 * plane[1] / plane[2];
+            return MyMath.ConvertRadiansToDegrees(Math.Atan(Math.Sqrt(dzdx*dzdx+dzdy*dzdy)));
+        }
+
+        public static double planarXYDistanceBetweenTwoPoints(double[] point1, double[] point2) 
+        { 
+         // point1 [x1,y1,z1 (not necessary)]
+         // point2 [x2,y2,z2 (not necessary)]
+         // planarXYDistanceBetweenTwoPoints(point1,point2) = SQRT(dx^2+dy^2)
+            double dx = point1[0] - point2[0];
+            double dy = point1[1] - point2[1];
+            return Math.Sqrt(dx*dx+dy*dy);
+        }
+
+        public static double planarAzimuthDegreesBetweenTwoPoints(double[] point, double[] center) 
+        {
+            double dx = point[0] - center[0];
+            double dy = point[1] - center[1];
+            double angle = 90 - (180 / Math.PI) * Math.Atan2(dy, dx);
+            if (angle < 0) 
+            {
+                angle = angle + 360;
+            }
+            return angle;
+        }
+        
+
+
+
     }
 }
-
