@@ -576,6 +576,12 @@ namespace WindSim.Batch.Core.Test
         {
             Assert.AreEqual(0.1275028, target.vars_phi[100, 45, 4, 5]);
         }
+
+        [TestMethod]
+        public void test_phi_var_values_5_rand_value()
+        {
+            Assert.AreEqual(0.1275028, target.value(PhiFileDataType.Ucrt,100, 45, 4));
+        }
         #endregion 
 
         #endregion

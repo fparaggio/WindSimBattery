@@ -68,6 +68,53 @@ namespace WindSim.Batch.Core.Test
         #endregion
 
         [TestMethod]
+        public void Test_XYZObject_X()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            Assert.AreEqual(11, point.X);
+        }
+
+        [TestMethod]
+        public void Test_XYZObject_toArray_x()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            double[] array = point.toArray();
+            Assert.AreEqual(11, array[0]);
+        }
+
+        [TestMethod]
+        public void Test_XYZObject_toArray_y()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            double[] array = point.toArray();
+            Assert.AreEqual(12, array[1]);
+        }
+
+
+        [TestMethod]
+        public void Test_XYZObject_toArray_z()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            double[] array = point.toArray();
+            Assert.AreEqual(13, array[2]);
+        }
+
+        [TestMethod]
+        public void Test_XYZObject_Y()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            Assert.AreEqual(12, point.Y);
+        }
+
+        [TestMethod]
+        public void Test_XYZObject_Z()
+        {
+            XYZObject point = new XYZObject(11, 12, 13);
+            Assert.AreEqual(13, point.Z);
+        }
+
+
+        [TestMethod]
         public void Test_xyz_0_FindResourcefile_Test()
         {
             Assert.IsTrue(System.IO.File.Exists(fileName));

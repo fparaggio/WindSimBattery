@@ -132,7 +132,5 @@ namespace WindSim.Batch.Core
         }
 
 
-
-
     }
 }

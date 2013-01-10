@@ -426,11 +426,25 @@ namespace WindSim.Batch.Core.Test
         {
             Assert.AreEqual(0.002783706, target.vars_phi[0, 0, 0, 0]);
         }
+
+        [TestMethod]
+        public void test_phi_var_values_0_first_corner_z0_value()
+        {
+            Assert.AreEqual(0.002783706, target.value(PhiFileDataType.P1, 0, 0, 0));
+        }
+
         [TestMethod]
         public void test_phi_var_values_0_second_corner_z0()
         {
             Assert.AreEqual(0.002783706, target.vars_phi[target.nx - 1, 0, 0, 0]);
         }
+        
+        [TestMethod]
+        public void test_phi_var_values_0_second_corner_z0_value()
+        {
+            Assert.AreEqual(0.002783706, target.value(PhiFileDataType.P1,target.nx - 1, 0, 0));
+        }
+
         [TestMethod]
         public void test_phi_var_values_0_third_corner_z0()
         {
@@ -467,6 +481,13 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(0.1287886, target.vars_phi[429, 6, 21, 0]);
         }
 
+        [TestMethod]
+        public void test_phi_var_values_0_rand_value()
+        {
+            Assert.AreEqual(0.1287886, target.value(PhiFileDataType.P1, 429, 6, 21));
+        }
+
+
 
         // Testing "KE"
         [TestMethod]
@@ -474,6 +495,13 @@ namespace WindSim.Batch.Core.Test
         {
             Assert.AreEqual(0.4838448, target.vars_phi[0, 0, 0, 1]);
         }
+
+        [TestMethod]
+        public void test_phi_var_values_1_first_corner_z0_value()
+        {
+            Assert.AreEqual(0.4838448, target.value(PhiFileDataType.Ke,0, 0, 0));
+        }
+
         [TestMethod]
         public void test_phi_var_values_1_second_corner_z0()
         {
@@ -515,6 +543,11 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(0.9827104, target.vars_phi[344, 4, 22, 1]);
         }
 
+        [TestMethod]
+        public void test_phi_var_values_1_rand_value()
+        {
+            Assert.AreEqual(0.9827104, target.value(PhiFileDataType.Ke,344, 4, 22));
+        }
 
         // Testing "VCRT"
         [TestMethod]
@@ -563,7 +596,11 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(-7.660147, target.vars_phi[255, 2, 38, 4]);
         }
 
-
+        [TestMethod]
+        public void test_phi_var_values_4_rand_Value()
+        {
+            Assert.AreEqual(-7.660147, target.value(PhiFileDataType.Vcrt,255, 2, 38));
+        }
         #endregion
     }
 }

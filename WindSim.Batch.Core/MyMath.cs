@@ -409,6 +409,27 @@ namespace WindSim.Batch.Core
             return origin.Cast<double>().Max();  
         }
 
+        public static double LinearInterpolation(double[] x, double[] y, double xval)
+        {
+            double yval = 0.0;
+            for (int i = 0; i < x.Length - 1; i++)
+            {
+                if (xval >= x[i] && xval < x[i + 1])
+                {
+                    yval = y[i] + (xval - x[i]) * (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
+                }
+            }
+            return yval;
+        }
+
+        public static double distance(XYZObject point1, XYZObject point2)
+        {
+            double distance = 0;
+
+            distance = Math.Sqrt(Math.Pow((point2.X - point1.X), 2) + Math.Pow((point2.Y - point1.Y), 2) + Math.Pow((point2.Z - point1.Z), 2));
+            return distance;
+        }
+
         public class DoubleMap 
         { 
             public double[,][] data;

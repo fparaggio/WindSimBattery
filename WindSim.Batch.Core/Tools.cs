@@ -7,6 +7,7 @@ using ExcelLibrary;
 using ExcelLibrary.SpreadSheet;
 using System.Xml;
 using System.Windows.Forms;
+using Ionic.Zip;
 
 namespace WindSim.Batch.Core
 {
@@ -161,7 +162,6 @@ namespace WindSim.Batch.Core
 
         }
 
-
         public static void write_excel_arrays(string path, double[] array1, double[] array2)
         {
             Workbook workbook = new Workbook();
@@ -200,6 +200,15 @@ namespace WindSim.Batch.Core
                 b += info.Length;
             }
             return b;
+        }
+
+        public static bool UnZipFile(string fileName, string destinationFolderName) 
+        {
+            using (var zip = Ionic.Zip.ZipFile.Read(fileName))
+            {
+                zip.ExtractAll(destinationFolderName, ExtractExistingFileAction.OverwriteSilently);
+            }
+            return true;
         }
      }
  }

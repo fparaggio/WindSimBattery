@@ -4,13 +4,26 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+
+
 namespace WindSim.Batch.Core
 {
     public class WindField
     {
-        public PhiFile phi=null;
-        public XYZFile xyz=null;
+        private PhiFile _phi = null;
+        private XYZFile _xyz = null;
+        
+        public PhiFile phi
+         {
+            get { return _phi;}
+         }   
+        public XYZFile xyz
+        {
+            get { return _xyz; }
+        }   
 
+        public WindFieldCell[,,] Field;
+ 
         public double[] ucrt(int x_cell, int y_cell)
         {
             int ucrt_index = Array.IndexOf(phi.variables_name, "UCRT");
@@ -129,14 +142,34 @@ namespace WindSim.Batch.Core
 
         ////}
 
-        public WindField(WSProject project ,int settore) 
+        public WindField(WSProject project ,int settore, PhiFileType phifileType = PhiFileType.reduced) 
         
         {
             // inistialize phi and xyz
+            string phi_file;
+            string xyz_file;
+            switch (phifileType)
+            {
+                case PhiFileType.reduced:
+                    phi_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
+                    xyz_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.xyz";
+                    break;
+                case PhiFileType.notReduced:
+                    string phi_file_zipped = project.file.DirectoryName + "\\windfield\\" + settore + ".phi.Z";
+                    string xyz_file_zipped = project.file.DirectoryName + "\\windfield\\" + settore + ".xyz.Z";
+                    FileInfo phi_file_check_zipped = new FileInfo(phi_file_zipped);
+                    FileInfo xyz_file_check_zipped = new FileInfo(xyz_file_zipped);
+                    Tools.UnZipFile(phi_file_zipped, phi_file_check_zipped.DirectoryName + "\\unzip\\");
+                    Tools.UnZipFile(xyz_file_zipped, xyz_file_check_zipped.DirectoryName + "\\unzip\\");
+                    phi_file = phi_file_check_zipped.DirectoryName + "\\unzip\\" + settore + ".phi";
+                    xyz_file = xyz_file_check_zipped.DirectoryName + "\\unzip\\" + settore + ".xyz";
+                    break;
+                default:
+                    phi_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
+                    xyz_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.xyz";
+                    break;
+            }
 
-            string  phi_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
-            string  xyz_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.xyz";
-            
             FileInfo phi_file_check = new FileInfo(phi_file);
             FileInfo xyz_file_check = new FileInfo(xyz_file);
 
@@ -144,15 +177,490 @@ namespace WindSim.Batch.Core
 
             if (phi_file_check.Exists && xyz_file_check.Exists)
             {
-                phi = new PhiFile(phi_file);
-                xyz = new XYZFile(xyz_file);
+                _phi = new PhiFile(phi_file_check.FullName);
+                _xyz = new XYZFile(xyz_file);
+                // Fill the Field array
+                Field = new WindFieldCell[phi.nx, phi.ny, phi.nz];
+
+                for (int i = 0; i < phi.nx; i++) 
+                {
+                    for (int j = 0; j < phi.ny; j++) 
+                    {
+                        for (int k = 0; k < phi.nz; k++) 
+                        {
+                            WindFieldCell cell = new WindFieldCell(phi.value(PhiFileDataType.P1, i, j, k), phi.value(PhiFileDataType.Ke, i, j, k), phi.value(PhiFileDataType.Ep, i, j, k), phi.value(PhiFileDataType.Wcrt, i, j, k), phi.value(PhiFileDataType.Vcrt, i, j, k), phi.value(PhiFileDataType.Ucrt, i, j, k));
+                            
+                            //centro
+                            cell.AddPoint(WindFieldCell.PointPosition.Center,new XYZObject(phi.value(PhiFileDataType.Xcen, i, j, k),phi.value(PhiFileDataType.Ycen, i, j, k),phi.value(PhiFileDataType.Zcen, i, j, k)));
+                            cell.AddTem1(phi.value(PhiFileDataType.Tem1, i, j, k));
+
+                             //          NWU+--------------------+NEU 
+                             //            /|                   /|
+                             //           / |                  / |
+                             //          /  |                 /  |
+                             //k+1   SWU+--------------------+SEU|  
+                             //         |   |                |   |
+                             //         |   |                |   |
+                             //         |   |                |   |
+                             //         |   |       *CEN     |   |
+                             //         |   |                |   |
+                             //         |   |                |   |
+                             //  Z j+1  |NWL+----------------|---+NEL
+                             //  ^      |  /                 |  /
+                             //  |      | /	                | /
+                             //  |      |/		            |/
+                             //k | j SWL+--------------------+SEL
+                             //  |     i                       i+1
+                             //  |  >Y
+                             //  | /
+                             //  |/
+                             //  +------------------------>X
+                            //NorthWestUp 
+                            cell.AddPoint(WindFieldCell.PointPosition.NorthWestUp, new XYZObject(xyz.values[i, j + 1, k + 1, 0], xyz.values[i, j + 1, k + 1, 1], xyz.values[i, j + 1, k + 1, 2]));
+                            //NorthEastUp 
+                            cell.AddPoint(WindFieldCell.PointPosition.NorthEastUp, new XYZObject(xyz.values[i + 1, j + 1, k + 1, 0], xyz.values[i + 1, j + 1, k + 1, 1], xyz.values[i + 1, j + 1, k + 1, 2]));
+                            //SouthWestUp
+                            cell.AddPoint(WindFieldCell.PointPosition.SouthWestUp, new XYZObject(xyz.values[i, j, k + 1, 0], xyz.values[i, j, k + 1, 1], xyz.values[i, j, k + 1, 2]));
+                            //SouthEastUp
+                            cell.AddPoint(WindFieldCell.PointPosition.SouthEastUp, new XYZObject(xyz.values[i + 1, j, k + 1, 0], xyz.values[i + 1, j, k + 1, 1], xyz.values[i + 1, j, k + 1, 2]));
+                            //NorthWestLow
+                            cell.AddPoint(WindFieldCell.PointPosition.NorthWestLow, new XYZObject(xyz.values[i, j + 1, k, 0], xyz.values[i, j + 1, k, 1], xyz.values[i, j + 1, k, 2]));
+                            //NorthEastLow
+                            cell.AddPoint(WindFieldCell.PointPosition.NorthEastLow, new XYZObject(xyz.values[i + 1, j + 1, k, 0], xyz.values[i + 1, j + 1, k, 1], xyz.values[i + 1, j + 1, k, 2]));
+                            //SouthWestLow
+                            cell.AddPoint(WindFieldCell.PointPosition.SouthWestLow, new XYZObject(xyz.values[i, j, k, 0], xyz.values[i, j, k, 1], xyz.values[i, j, k, 2]));
+                            //SouthEastLow 
+                            cell.AddPoint(WindFieldCell.PointPosition.SouthEastLow, new XYZObject(xyz.values[i + 1, j, k, 0], xyz.values[i + 1, j, k, 1], xyz.values[i + 1, j, k, 2]));
+
+                            
+                            Field[i, j, k] = cell;
+                        }
+                    }
+                }
+
             }
             else
             {
-                phi = null;
-                xyz = null;
+                _phi = null;
+                _xyz = null;
             }
 
+        }
+
+        private int LowerCenterX(double x) 
+        {
+            double[] array = new double[phi.nx];
+            for (int i = 0; i < array.Length; i++) 
+            {
+                array[i] = Field[i, 0, 0].Cen.X;
+            }
+
+            return MyMath.FindClosestLowerIndex(x, array);
+        }
+
+        private int LowerCenterY(double y)
+        {
+            double[] array = new double[phi.ny];
+            for (int j = 0; j < array.Length; j++)
+            {
+                array[j] = Field[0, j, 0].Cen.Y;
+            }
+            return MyMath.FindClosestLowerIndex(y, array);
+        }
+
+        public int[] LowerCenterXY(double x, double y) 
+        {
+            // return [i,j] indexes of the lower left cell of the Centers square containing the point (x,y);
+            //
+            //
+            //
+            //       +-------------+-------------+
+            //       |             |             |
+            //       |    CEN      |     CEN     |
+            //       |      *..............*     | j+1
+            //       |      .      |       .     |
+            //  Y    |      .      |       .     |
+            //  ^    +------.------+-------.-----+
+            //  |    |      .  X (x,y,z)   .     |
+            //  |    |      .      |       .     |
+            //  |    |      *..............*     | j
+            //  |    |    CEN      |      CEN    |
+            //  |    |             |             |
+            //  |    +-------------+-------------+ 
+            //  |          i            i+1
+            //  |
+            //  +-----------------------------------------> X
+            int[] result = new int[2];
+            result[0] = LowerCenterX(x);
+            result[1] = LowerCenterY(y);
+            return result;
+        }
+
+        public int LowerCenterZ(int i, int j, double heigth)
+        {
+
+            // it finds the value of k such that Field[i,j,k].Cen.Z <= height <= Field[i,j,k+1].Cen.Z
+            
+            double[] array = new double[phi.nz];
+            for (int k = 0; k < array.Length; k++)
+            {
+                array[k] = Field[i, j, k].Cen.Z;
+            }
+            return MyMath.FindClosestLowerIndex(heigth, array);
+        }
+
+        public double interpolationForAutomaticGrid(double x, double y, double heightAboveGround, WindFieldCell.WindFieldCellDataType type) 
+        {
+            
+            double result = 0.0;
+            int[] SouthWest = LowerCenterXY(x, y);
+            int i = SouthWest[0];
+            int j = SouthWest[1];
+            int SwX = i;
+            int SwY = j;
+            int SeX = i + 1;
+            int SeY = j;
+            int NwX = i;
+            int NwY = j + 1;
+            int NeX = i + 1;
+            int NeY = j + 1;
+
+             
+
+            //
+            //    Nw - NorthWest cell        Ne - NorthEast cell
+            //       +-------------+-------------+
+            //       |             |             |
+            //       |    CEN      |     CEN     |
+            //       |      *..............*     | j+1
+            //       |      .      |       .     |
+            //  Y    |      .      |       .     |
+            //  ^    +------.------+-------.-----+
+            //  |    |      .  X (x,y,z)   .     |
+            //  |    |      .      |       .     |
+            //  |    |      *..............*     | j
+            //  |    |    CEN      |      CEN    |
+            //  |    |             |             |
+            //  |    +-------------+-------------+ 
+            //  |Sw- SouthWest i            i+1   Se - SouthEast cell
+            //  |    cell
+            //  +-----------------------------------------> X
+
+            WindFieldCell cellWhereCalculateGroundHeight;
+            // Calcolo la quota sul terreno di (x,y)
+            if (Field[SwX, SwY, 0].contains(x,y))
+            {
+                cellWhereCalculateGroundHeight = Field[SwX, SwY, 0];
+            }
+            else if(Field[SeX, SeY, 0].contains(x,y))
+            {
+                cellWhereCalculateGroundHeight = Field[SeX, SeY, 0];
+            }
+            else if (Field[NwX, NwY, 0].contains(x, y))
+            {
+                cellWhereCalculateGroundHeight = Field[NwX, NwY, 0];
+            }
+            else
+            {
+                cellWhereCalculateGroundHeight = Field[NeX, NeY, 0];
+            }
+                // trovo in quale delle quattro celle sta
+            double groundHeight = cellWhereCalculateGroundHeight.lowerSurfaceInterpolation(x, y);
+
+            XYZObject point = new XYZObject(x,y,groundHeight+heightAboveGround);
+            
+            double SwGroundHeight = Field[SwX, SwY, 0].lowerSurfaceInterpolation(Field[SwX, SwY, 0].Cen.X, Field[SwX, SwY, 0].Cen.Y);
+            double SeGroundHeight = Field[SeX, SeY, 0].lowerSurfaceInterpolation(Field[SeX, SeY, 0].Cen.X, Field[SeX, SeY, 0].Cen.Y);
+            double NwGroundHeight = Field[NwX, NwY, 0].lowerSurfaceInterpolation(Field[NwX, NwY, 0].Cen.X, Field[NwX, NwY, 0].Cen.Y);
+            double NeGroundHeight = Field[NeX, NeY, 0].lowerSurfaceInterpolation(Field[NeX, NeY, 0].Cen.X, Field[NeX, NeY, 0].Cen.Y);
+
+            int SwZ = LowerCenterZ(SwX, SwY, SwGroundHeight + heightAboveGround);
+            int SeZ = LowerCenterZ(SeX, SeY, SeGroundHeight + heightAboveGround);
+            int NwZ = LowerCenterZ(NwX, NwY, NwGroundHeight + heightAboveGround);
+            int NeZ = LowerCenterZ(NeX, NeY, NeGroundHeight + heightAboveGround);
+
+            double SwInterpVal = MyMath.LinearInterpolation(new double[] { Field[SwX, SwY, SwZ].Cen.Z, Field[SwX, SwY, SwZ + 1].Cen.Z }, new double[] { Field[SwX, SwY, SwZ].value(type), Field[SwX, SwY, SwZ + 1].value(type) }, SwGroundHeight + heightAboveGround);
+            double SeInterpVal = MyMath.LinearInterpolation(new double[] { Field[SeX, SeY, SeZ].Cen.Z, Field[SeX, SeY, SeZ + 1].Cen.Z }, new double[] { Field[SeX, SeY, SeZ].value(type), Field[SeX, SeY, SeZ + 1].value(type) }, SeGroundHeight + heightAboveGround);
+            double NwInterpVal = MyMath.LinearInterpolation(new double[] { Field[NwX, NwY, NwZ].Cen.Z, Field[NwX, NwY, NwZ + 1].Cen.Z }, new double[] { Field[NwX, NwY, NwZ].value(type), Field[NwX, NwY, NwZ + 1].value(type) }, NwGroundHeight + heightAboveGround);
+            double NeInterpVal = MyMath.LinearInterpolation(new double[] { Field[NeX, NeY, NeZ].Cen.Z, Field[NeX, NeY, NeZ + 1].Cen.Z }, new double[] { Field[NeX, NeY, NeZ].value(type), Field[NeX, NeY, NeZ + 1].value(type) }, NeGroundHeight + heightAboveGround);
+
+            double SwDist = MyMath.distance(Field[SwX, SwY, SwZ].Cen, point);
+            double SeDist = MyMath.distance(Field[SeX, SeY, SeZ].Cen, point);
+            double NwDist = MyMath.distance(Field[NwX, NwY, NwZ].Cen, point);
+            double NeDist = MyMath.distance(Field[NeX, NeY, NeZ].Cen, point);
+
+            ////Inserire cil calcolo del result. 
+
+            return result;
+        
+        }
+
+
+    }
+    
+
+    public class WindFieldCell
+    {
+        // 
+        //       NOTATION:
+        //       NWU - NorthWestUpper / NWL - NorthWestLower
+        //       NEU - NorthEastUpper / NEL - NorthEastLower
+        //       SWU - SouthWestUpper / SWL - SouthWestLower
+        //       SEU - SouthEastUpper / SEL - SouthEastLower
+        //       CEN - Center of the cell;
+        //
+        //           NWU+--------------------+NEU 
+        //             /|                   /|
+        //            / |                  / |
+        //           /  |                 /  |
+        //       SWU+--------------------+SEU|  
+        //          |   |                |   |
+        //          |   |                |   |
+        //          |   |                |   |
+        //          |   |       *CEN     |   |
+        //          |   |                |   |
+        //          |   |                |   |
+        //   Z      |NWL+----------------|---+NEL
+        //   ^      |  /                 |  /
+        //   |      | /	                 | /
+        //   |      |/		             |/
+        //   |   SWL+--------------------+SEL
+        //   |
+        //   |  >Y
+        //   | /
+        //   |/
+        //   +------------------------>X
+
+
+        public double P1
+         {
+            get { return _p1;}
+         }     
+        public double Ke
+        {
+            get { return _ke;}
+        }
+        public double Ep
+        {
+            get { return _ep;}
+        }
+        public double Tem1 
+        {
+            get { return _tem1;}
+        }
+        public double Wcrt
+        {
+            get { return _wcrt;}
+        }
+        public double Vcrt 
+        {
+            get { return _vcrt;}
+        }
+        public double Ucrt
+        {
+            get { return _ucrt; }
+        }
+        public XYZObject Nwu
+        {
+            get { return _nwu; }
+        }
+        public XYZObject Neu
+        {
+            get { return _neu; }
+        }
+        public XYZObject Swu
+        {
+            get { return _swu; }
+        }
+        public XYZObject Seu
+        {
+            get { return _seu; }
+        }
+        public XYZObject Nwl
+        {
+            get { return _nwl; }
+        }
+        public XYZObject Nel
+        {
+            get { return _nel; }
+        }
+        public XYZObject Swl
+        {
+            get { return _swl; }
+        }
+        public XYZObject Sel
+        {
+            get { return _sel; }
+        }
+        public XYZObject Cen
+        {
+            get { return _cen; }
+        }
+
+        private double _p1, _ke, _ep, _tem1, _wcrt, _vcrt, _ucrt;
+        private XYZObject _nwu, _neu, _swu, _seu;
+        private XYZObject _nwl, _nel, _swl, _sel;
+        private XYZObject _cen;
+
+        public WindFieldCell(double p1, double ke, double ep, double wcrt, double vcrt, double ucrt) 
+        { 
+            _p1 = p1; 
+            _ke = ke;
+            _ep = ep;
+            _wcrt = wcrt;
+            _vcrt = vcrt;
+            _ucrt = ucrt;
+        
+        }
+
+        public void AddTem1(double tem1)
+        {
+            _tem1 = tem1;
+        }
+
+        public enum PointPosition
+        {
+
+            // nodes around ..
+            // errore dovuto allo squeeze della cella.
+            // 
+            //       NOTATION:
+            //       NWU - NorthWestUpper / NWL - NorthWestLower
+            //       NEU - NorthEastUpper / NEL - NorthEastLower
+            //       SWU - SouthWestUpper / SWL - SouthWestLower
+            //       SEU - SouthEastUpper / SEL - SouthEastLower
+            //       CEN - Center of the cell;
+            //
+            //           NWU+--------------------+NEU 
+            //             /|                   /|
+            //            / |                  / |
+            //           /  |                 /  |
+            //       SWU+--------------------+SEU|  
+            //          |   |                |   |
+            //          |   |                |   |
+            //          |   |                |   |
+            //          |   |       *CEN     |   |
+            //          |   |                |   |
+            //          |   |                |   |
+            //   Z      |NWL+----------------|---+NEL
+            //   ^      |  /                 |  /
+            //   |      | /	                | /
+            //   |      |/		            |/
+            //   |   SWL+--------------------+SEL
+            //   |
+            //   |  >Y
+            //   | /
+            //   |/
+            //   +------------------------>X
+
+        NorthWestUp, 
+        NorthEastUp, 
+        SouthWestUp,
+        SouthEastUp,
+        NorthWestLow,
+        NorthEastLow,
+        SouthWestLow,
+        SouthEastLow, 
+        Center
+        }
+
+        public void AddPoint(PointPosition position, XYZObject point)
+        {
+            switch (position)
+            {
+                case PointPosition.Center:
+                    _cen = point;
+                    break;
+                case PointPosition.NorthWestUp:
+                    _nwu = point;
+                    break;
+                case PointPosition.NorthWestLow:
+                    _nwl = point;
+                    break;
+                case PointPosition.NorthEastUp:
+                    _neu = point;
+                    break;
+                case PointPosition.NorthEastLow:
+                    _nel = point;
+                    break;
+                case PointPosition.SouthWestUp:
+                    _swu = point;
+                    break;
+                case PointPosition.SouthWestLow:
+                    _swl = point;
+                    break;
+                case PointPosition.SouthEastUp:
+                    _seu = point;
+                    break;
+                case PointPosition.SouthEastLow:
+                    _sel = point;
+                    break;
+            }
+        }
+
+        public double value(WindFieldCellDataType type)
+        {
+
+            switch (type)
+            {
+                case WindFieldCellDataType.Ep:
+                    return this.Ep;
+                    break;
+                case WindFieldCellDataType.Ke:
+                    return this.Ke;
+                    break;
+                case WindFieldCellDataType.P1:
+                    return this.P1;
+                    break;
+                case WindFieldCellDataType.Tem1:
+                    return this.Tem1;
+                    break;
+                case WindFieldCellDataType.Ucrt:
+                    return this.Ucrt;
+                    break;
+                case WindFieldCellDataType.Vcrt:
+                    return this.Vcrt;
+                    break;
+                case WindFieldCellDataType.Wcrt:
+                    return this.Wcrt;
+                    break;
+                default:
+                    return this.Ucrt;
+                    break;
+            }
+
+        }
+
+        public enum WindFieldCellDataType
+        {
+            P1,
+            Ke,
+            Ep,
+            Tem1,
+            Wcrt,
+            Vcrt,
+            Ucrt
+        }
+
+        public bool contains(double x, double y) 
+        { 
+            // it works only if there is no horizontal distorsion !!!!!!!!!!!!!!!!!
+
+            if (x <= Sel.X && x >= Swl.X && y >= Swl.Y && y <= Nwl.Y)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            } 
+        
+        }
+
+        public double lowerSurfaceInterpolation(double x, double y) 
+        {
+            double[][] terrainPoints = new double[][] { this.Swl.toArray(), this.Nwl.toArray(), this.Nel.toArray(), this.Sel.toArray() };
+            return MyMath.FirstOrderTrendSurface(x, y, terrainPoints);
         }
     }
 

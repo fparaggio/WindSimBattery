@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestSettings name="Local" id="eb81c12a-8305-4cba-b7bb-96eeeb8fc251" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
+  <Deployment>
+    <DeploymentItem filename="C:\Users\WindSim\Documents\Visual Studio 2010\Projects\dll francesco\Ionic.Zip.dll" />
+  </Deployment>
   <Execution>
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">

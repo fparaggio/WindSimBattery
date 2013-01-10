@@ -86,12 +86,36 @@ namespace WindSim.Batch.Core
                 //0.000000E+00 0.000000E+00-9.000000E+00 1.152580E+05 0.000000E+00 0.000000E+00
                         line = tr.ReadLine();
                         //Console.WriteLine(line);
-                        rinner = Double.Parse(line.Substring(0, 13), phidataFormat);
-                        f_nprphi = Double.Parse(line.Substring(13, 13), phidataFormat);
-                        rnfPWV = Double.Parse(line.Substring(26, 13), phidataFormat);
-                        f_nfmak2 = Double.Parse(line.Substring(39, 13), phidataFormat);
-                        rdmat1 = Double.Parse(line.Substring(52, 13), phidataFormat);
-                        f_idmat2 = Double.Parse(line.Substring(65, 13), phidataFormat);
+                        try
+                        {
+                            rinner = Double.Parse(line.Substring(0, 13), phidataFormat);
+                        }
+                        catch { }
+                        try
+                        {
+                            f_nprphi = Double.Parse(line.Substring(13, 13), phidataFormat);
+                        }
+                        catch { }
+                        try
+                        {
+                            rnfPWV = Double.Parse(line.Substring(26, 13), phidataFormat);
+                        }
+                        catch { }
+                        try
+                        {
+                            f_nfmak2 = Double.Parse(line.Substring(39, 13), phidataFormat);
+                        }
+                        catch { }
+                        try
+                        {
+                            rdmat1 = Double.Parse(line.Substring(52, 13), phidataFormat);
+                        }
+                        catch { }
+                        try
+                        {
+                            f_idmat2 = Double.Parse(line.Substring(65, 13), phidataFormat);
+                        }
+                        catch { }
                 //    line 5: (NAME(I),I=1,NPHI) (format 1X, 19A4).
                 //P1  P2  U1  nul V1  nul W1  nul R1  R2  nul KE  EP  nul nul nul nul nul nul 
                 //nul nul nul nul nul nul nul nul nul nul nul nul nul nul nul GR  WADDTREFYCEN
@@ -299,38 +323,43 @@ namespace WindSim.Batch.Core
                         int ny_index = 0;
                         int nz_index = 0;
                         bool close_loop = false;
-                        while ((line = tr.ReadLine()) != null)
+                        while ((line = tr.ReadLine()) != null )
                         {
-                            for (element = 0; element < 6; element++)
+                            if (line.Length == 78)
                             {
-                                // verifica se c'e' un elemento
-                                if (line.Length > 13 * element)
+
+                                for (element = 0; element < 6; element++)
                                 {
-                                    vars_phi[nx_index, ny_index, nz_index, var_index] = Double.Parse(line.Substring(13 * element, 13), phidataFormat);                                   
-                                   ny_index++;
-                                    if (ny_index == ny)
+                                    // verifica se c'e' un elemento
+                                    if (line.Length > 13 * element)
                                     {
-                                        ny_index = 0;
-                                        nx_index++;
-                                        if (nx_index == nx)
+                                        vars_phi[nx_index, ny_index, nz_index, var_index] = Double.Parse(line.Substring(13 * element, 13), phidataFormat);
+                                        ny_index++;
+                                        if (ny_index == ny)
                                         {
-                                            nx_index = 0;
-                                            var_index++;
-                                            if (var_index == var_to_store)
+                                            ny_index = 0;
+                                            nx_index++;
+                                            if (nx_index == nx)
                                             {
-                                                var_index = 0;
-                                                nz_index++;
-                                                if (nz_index == nz)
+                                                nx_index = 0;
+                                                var_index++;
+                                                if (var_index == var_to_store)
                                                 {
-                                                    close_loop = true;
-                                                    break;
+                                                    var_index = 0;
+                                                    nz_index++;
+                                                    if (nz_index == nz)
+                                                    {
+                                                        close_loop = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    if (close_loop) break;
                                 }
-                                if (close_loop) break;
-                            }                           
+                            }
+                            else { break; }
                         }
                         //for (var_index = 0; var_index < var_to_store; var_index++)
                         //{
@@ -414,7 +443,135 @@ namespace WindSim.Batch.Core
 
         }
 
+        public double value(PhiFileDataType type, int x, int y, int z)
+        {
+            string type_string;
 
+            #region switch PhiFileDataType.type
+            switch (type)
+            {
+                case PhiFileDataType.Ep:
+                    type_string = "EP";
+                    break;
+                case PhiFileDataType.Ke:
+                    type_string = "KE";
+                    break;
+                case PhiFileDataType.P1:
+                    type_string = "P1";
+                    break;
+                case PhiFileDataType.Tem1:
+                    type_string = "TEM1";
+                    break;
+                case PhiFileDataType.Ucrt:
+                    type_string = "UCRT";
+                    break;
+                case PhiFileDataType.Vcrt:
+                    type_string = "VCRT";
+                    break;
+                case PhiFileDataType.Wcrt:
+                    type_string = "WCRT";
+                    break;
+                case PhiFileDataType.Xcen:
+                    type_string = "XCEN";
+                    break;
+                case PhiFileDataType.Ycen:
+                    type_string = "YCEN";
+                    break;
+                case PhiFileDataType.Zcen:
+                    type_string = "ZCEN";
+                    break;
+                case PhiFileDataType.U1:
+                    type_string = "U1";
+                    break;
+                case PhiFileDataType.V1:
+                    type_string = "V1";
+                    break;
+                case PhiFileDataType.W1:
+                    type_string = "W1";
+                    break;
+                case PhiFileDataType.Epke:
+                    type_string = "EPKE";
+                    break;
+                case PhiFileDataType.Gr:
+                    type_string = "GR";
+                    break;
+                case PhiFileDataType.Wadd:
+                    type_string = "WADD";
+                    break;
+                case PhiFileDataType.Tref:
+                    type_string = "TREF";
+                    break;
+                case PhiFileDataType.Rho1:
+                    type_string = "RHO1";
+                    break;
+                case PhiFileDataType.Vpor:
+                    type_string = "VPOR";
+                    break;
+                case PhiFileDataType.Epor:
+                    type_string = "EPOR";
+                    break;
+                case PhiFileDataType.Npor:
+                    type_string = "NPOR";
+                    break;
+                case PhiFileDataType.Hpor:
+                    type_string = "HPOR";
+                    break;
+                case PhiFileDataType.Roug:
+                    type_string = "ROUG";
+                    break;
+                case PhiFileDataType.Enut:
+                    type_string = "ENUT";
+                    break;
+                default:
+                    type_string = "UCRT";
+                    break;
+            }
+            #endregion
+
+            int index = Array.IndexOf(variables_name, type_string);
+            double result;
+            if (index >= 0)
+            {
+                result = vars_phi[x, y, z, index];
+            }
+            else { result = Double.NaN; }
+            return result;
+        }
+
+    }
+
+    public enum PhiFileDataType
+    {
+        P1, 
+        Ke, 
+        Ep,
+        Tem1, 
+        Wcrt, 
+        Vcrt, 
+        Ucrt,
+        Xcen,
+        Ycen,
+        Zcen,
+        U1,
+        V1,
+        W1,
+        Epke,
+        Gr,
+        Wadd,
+        Tref,
+        Rho1,
+        Vpor,
+        Epor,
+        Npor,
+        Hpor,
+        Roug,
+        Enut
+    }
+
+    public enum PhiFileType 
+    { 
+        reduced,
+        notReduced
     }
 }
 

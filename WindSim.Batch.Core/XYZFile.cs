@@ -77,8 +77,6 @@ namespace WindSim.Batch.Core
             }
         }
 
-  
-
         private bool Equal_dimensions(XYZFile other)//(object obj) 
         {
             return (FileName.FullName == other.FileName.FullName) &&
@@ -120,8 +118,31 @@ namespace WindSim.Batch.Core
 
     public class XYZObject
     {
-        public double X;
-        public double Y;
-        public double Z;
+        private double _x, _y, _z;
+
+        public double X
+        {
+            get { return _x; }
+        }
+        public double Y
+        {
+            get { return _y; }
+        } 
+        public double Z
+        {
+            get { return _z; }
+        }
+
+        public XYZObject(double x, double y, double z) 
+        {
+            _x = x;
+            _y = y;
+            _z = z;
+        }
+
+        public double[] toArray() 
+        {
+            return new double[] { X, Y, Z };
+        }
     }
 }
