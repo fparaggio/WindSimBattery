@@ -1,7 +1,7 @@
 # WindSimBattery
 #### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
 
-Software developed during the 5 month Intership period ad [WindSim](www.windsim.com)
+Software developed during the 5 month Intership period ad [WindSim](http://www.windsim.com)
 
 Master Thesis Project: 
 [Development of an automatic grid for the CFD model WindSim](https://github.com/fparaggio/WindSimBattery/wiki/Development-of-an-automatic-grid-for-the-CFD-model-WindSim)
