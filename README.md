@@ -1,4 +1,5 @@
 # WindSimBattery
+#### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
 
 Software developed during the 5 month Intership period ad [WindSim](www.windsim.com)
 
@@ -7,9 +8,10 @@ Master Thesis Project:
 
 A general description of the code is [here](https://github.com/fparaggio/WindSimBattery/wiki/Code-Description)
 
-#### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
+
 #### Author: 
-Francesco Paraggio fparaggio@gmail.com
+
+Francesco Paraggio - Feel free to contact me at this email fparaggio (at) gmail.com
 
 #### This file is part of WindSimBattery
 
@@ -22,4 +24,3 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
 The usage of a range of years within a copyright statement contained within this distribution should be interpreted as being equivalent to a list of years including the first and last year specified and all consecutive years between them. For example, a copyright statement that reads 'Copyright (c) 2005, 2007- 2009, 2011-2012' should be interpreted as being identical to a statement that reads 'Copyright (c) 2005, 2007, 2008, 2009, 2011, 2012' and a copyright statement that reads "Copyright (c) 2005-2012' should be interpreted as being identical to a statement that reads 'Copyright (c) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012'."
-
