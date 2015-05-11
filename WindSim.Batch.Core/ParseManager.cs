@@ -14,8 +14,7 @@ namespace WindSim.Batch.Core
         
         public FileGws ParseGws(string filepath)
         {
-            NumberStyles floatdataFormat = NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent | NumberStyles.AllowLeadingWhite | NumberStyles.AllowDecimalPoint;
-            NumberStyles floatdecimalFormat = NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint;
+   
             FileGws gws=null;
             if (File.Exists(filepath))
             {
@@ -49,25 +48,30 @@ namespace WindSim.Batch.Core
                         if (uncommented.Replace(" ", "").Length > 0) 
                         {
                             a = uncommented.Substring(0, 20).Replace(" ", "").Replace(":", "");
-                            if (a == "WindSimversion") { windSimversion = uncommented.Substring(21, a.Length).Replace(" ", ""); }
-                            else if (a == "areaname") { areaname = uncommented.Substring(21, a.Length).Trim(); }
+                            if (a == "WindSimversion") { windSimversion = uncommented.Substring(21, uncommented.Length - 21).Replace(" ", ""); }
+                            else if (a == "areaname") { areaname = uncommented.Substring(21, uncommented.Length - 21).Trim(); }
                             else if (a == "#nodesnxpnyp") 
                                                         {
-                                                            string[] nodesnxpnyp = Regex.Split(uncommented.Substring(21, a.Length).Trim(), @"\D+");  
+                                                            string[] nodesnxpnyp = Regex.Split(uncommented.Substring(21, uncommented.Length - 21).Trim(), @"\D+");  
                                                             nxp = Convert.ToInt32(nodesnxpnyp[0]);
                                                             nyp = Convert.ToInt32(nodesnxpnyp[1]);
                                                         }
                             else if (a == "co-ordinatesystem") {
-                                coordinatesystem = Convert.ToInt32(uncommented.Substring(21, a.Length).Trim());
+                                coordinatesystem = Convert.ToInt32(uncommented.Substring(21, uncommented.Length - 21).Trim());
                                                                }
                             else if (a == "ext.xminxmax") {
-                                xmin = Double.Parse(uncommented.Substring(21, 10).Trim(), floatdecimalFormat);
-                                xmax = Double.Parse(uncommented.Substring(31, 10).Trim(), floatdecimalFormat);
+
+                                string[] xminxmax = Regex.Split(uncommented.Substring(21, uncommented.Length - 21).Trim(), @"[^\d.-]+");
+                                xmin = double.Parse(xminxmax[0], CultureInfo.InvariantCulture);
+                                xmax = double.Parse(xminxmax[1], CultureInfo.InvariantCulture);
+
                             }
                             else if (a == "ext.yminymax") 
                             {
-                                ymin = Double.Parse(uncommented.Substring(21, 10).Trim(), floatdecimalFormat);
-                                ymax = Double.Parse(uncommented.Substring(31, 10).Trim(), floatdecimalFormat);
+                                string[] yminymax = Regex.Split(uncommented.Substring(21, uncommented.Length - 21).Trim(), @"[^\d.-]+");
+                                ymin = double.Parse(yminymax[0], CultureInfo.InvariantCulture);
+                                ymax = double.Parse(yminymax[1], CultureInfo.InvariantCulture);
+    
 
                             }
                             //else if (a == "ext.zminzmax") { }
@@ -79,7 +83,7 @@ namespace WindSim.Batch.Core
                                              
                     }
                     //Inizializzo il file con le dimensioni ed i parametri...
-                    gws = new FileGws(nxp, nyp, xmin, xmax, ymin, ymax, windSimversion, areaname, coordinatesystem);
+                    gws = new FileGws(nxp, nyp, xmin, xmax, ymin, ymax, windSimversion, areaname, coordinatesystem, filepath);
                     //Riempo l'array delle height..
                     double nxrows = nxp / 10.0;
                     int nx_index = 0, ny_index = 0;
@@ -93,7 +97,9 @@ namespace WindSim.Batch.Core
                             for (int element = 0; element < 10 && nx_index < nxp ; element++) 
                             {
                                 GwsNode node = new GwsNode();
-                                node.height = Double.Parse(line.Substring(14 * element, 14), floatdataFormat);
+
+                                node.height = double.Parse(line.Substring(14 * element, 14).Trim(), CultureInfo.InvariantCulture);
+                                
                                 gws.data[nx_index,ny_index] = node;
                                 nx_index++;
                             }
@@ -113,7 +119,7 @@ namespace WindSim.Batch.Core
                             for (int element = 0; element < 10 && nx_index < nxp; element++)
                             {
 
-                                gws.data[nx_index, ny_index].rough = Double.Parse(line.Substring(14 * element, 14), floatdataFormat);
+                                gws.data[nx_index, ny_index].rough = double.Parse(line.Substring(14 * element, 14).Trim(), CultureInfo.InvariantCulture);
                                  
                                 nx_index++;
                             }

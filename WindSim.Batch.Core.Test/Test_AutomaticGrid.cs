@@ -8,10 +8,10 @@ using System.IO;
 namespace WindSim.Batch.Core.Test
 {
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\test.gws")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\5x5.gws")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\3x3.gws")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\project1", "project1")]
+    [DeploymentItem("TestFiles\\test.gws")]
+    [DeploymentItem("TestFiles\\5x5.gws")]
+    [DeploymentItem("TestFiles\\3x3.gws")]
+    [DeploymentItem("TestFiles\\project1", "project1")]
     public class Test_AutomaticGrid
     {
         static string gwsFileName = "test.gws";
@@ -467,6 +467,7 @@ namespace WindSim.Batch.Core.Test
         #endregion
 
         #region maxGroungHeight
+        
         [TestMethod]
         public void test_maxGroungHeight_to_be_verified()
         {
@@ -477,6 +478,7 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(6.25, Math.Round(result.maxGroungHeight,2));
        
         }
+        
         #endregion
         
 
@@ -492,7 +494,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory()
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -508,7 +510,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory_aritm()
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -525,7 +527,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_load_proper_bws_file_name_project_parameters()
         {
             WSProject project = new WSProject(project_file.FullName);

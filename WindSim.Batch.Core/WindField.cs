@@ -12,7 +12,11 @@ namespace WindSim.Batch.Core
     {
         private PhiFile _phi = null;
         private XYZFile _xyz = null;
-        
+        private bool _isReduced;
+        public bool IsReduced
+        {
+            get { return _isReduced; }
+        }   
         public PhiFile phi
          {
             get { return _phi;}
@@ -148,11 +152,13 @@ namespace WindSim.Batch.Core
             // inistialize phi and xyz
             string phi_file;
             string xyz_file;
+        
             switch (phifileType)
             {
                 case PhiFileType.reduced:
                     phi_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
                     xyz_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.xyz";
+                    this._isReduced = true;
                     break;
                 case PhiFileType.notReduced:
                     string phi_file_zipped = project.file.DirectoryName + "\\windfield\\" + settore + ".phi.Z";
@@ -163,10 +169,12 @@ namespace WindSim.Batch.Core
                     Tools.UnZipFile(xyz_file_zipped, xyz_file_check_zipped.DirectoryName + "\\unzip\\");
                     phi_file = phi_file_check_zipped.DirectoryName + "\\unzip\\" + settore + ".phi";
                     xyz_file = xyz_file_check_zipped.DirectoryName + "\\unzip\\" + settore + ".xyz";
+                    this._isReduced = false;
                     break;
                 default:
                     phi_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
                     xyz_file = project.file.DirectoryName + "\\windfield\\" + settore + "_red.xyz";
+                    this._isReduced = true;
                     break;
             }
 
@@ -191,7 +199,12 @@ namespace WindSim.Batch.Core
                             WindFieldCell cell = new WindFieldCell(phi.value(PhiFileDataType.P1, i, j, k), phi.value(PhiFileDataType.Ke, i, j, k), phi.value(PhiFileDataType.Ep, i, j, k), phi.value(PhiFileDataType.Wcrt, i, j, k), phi.value(PhiFileDataType.Vcrt, i, j, k), phi.value(PhiFileDataType.Ucrt, i, j, k));
                             
                             //centro
-                            cell.AddPoint(WindFieldCell.PointPosition.Center,new XYZObject(phi.value(PhiFileDataType.Xcen, i, j, k),phi.value(PhiFileDataType.Ycen, i, j, k),phi.value(PhiFileDataType.Zcen, i, j, k)));
+                            
+
+                            
+                            XYZObject center = new XYZObject(phi.value(PhiFileDataType.Xcen, i, j, k),phi.value(PhiFileDataType.Ycen, i, j, k),phi.value(PhiFileDataType.Zcen, i, j, k));
+
+                            cell.AddPoint(WindFieldCell.PointPosition.Center, center);
                             cell.AddTem1(phi.value(PhiFileDataType.Tem1, i, j, k));
 
                              //          NWU+--------------------+NEU 
@@ -300,18 +313,25 @@ namespace WindSim.Batch.Core
         {
 
             // it finds the value of k such that Field[i,j,k].Cen.Z <= height <= Field[i,j,k+1].Cen.Z
-            
-            double[] array = new double[phi.nz];
-            for (int k = 0; k < array.Length; k++)
+            if (!this.IsReduced)
             {
-                array[k] = Field[i, j, k].Cen.Z;
+                double[] array = new double[phi.nz];
+                for (int k = 0; k < array.Length; k++)
+                {
+                    array[k] = Field[i, j, k].Cen.Z;
+                }
+                return MyMath.FindClosestLowerIndex(heigth, array);
             }
-            return MyMath.FindClosestLowerIndex(heigth, array);
+            else throw new System.ArgumentException("WindField should be not reduced", "original");
+
         }
 
         public double interpolationForAutomaticGrid(double x, double y, double heightAboveGround, WindFieldCell.WindFieldCellDataType type) 
         {
-            
+            if (this.IsReduced) 
+            {
+                throw new System.ArgumentException("WindField cannot be reduced", "original");
+            }
             double result = 0.0;
             int[] SouthWest = LowerCenterXY(x, y);
             int i = SouthWest[0];
@@ -389,12 +409,46 @@ namespace WindSim.Batch.Core
             double NwDist = MyMath.distance(Field[NwX, NwY, NwZ].Cen, point);
             double NeDist = MyMath.distance(Field[NeX, NeY, NeZ].Cen, point);
 
-            ////Inserire cil calcolo del result. 
+            ////    Inserire cil calcolo del result. 
 
+            double InvSwDist = 1 / SwDist;
+            double InvSeDist = 1 / SeDist;
+            double InvNwDist = 1 / NwDist;
+            double InvNeDist = 1 / NeDist;
+            double TotalInvDist = InvSwDist + InvSeDist + InvNwDist + InvNeDist;
+            double InvSwDistNorm = InvSwDist / TotalInvDist;
+            double InvSeDistNorm = InvSeDist / TotalInvDist;
+            double InvNwDistNorm = InvNwDist / TotalInvDist;
+            double InvNeDistNorm = InvNeDist / TotalInvDist;
+            result = InvSwDistNorm * SwInterpVal + InvSeDistNorm * SeInterpVal + InvNwDistNorm * NwInterpVal + InvNeDistNorm * NeInterpVal;
             return result;
         
         }
 
+        public double xyzSpeed(double x, double y,double heightAboveGround) 
+        {
+            //Speed scalar XYZ - wind speed scalar in 3D space, SQRT(UCRT2+VCRT2+WCRT2) 
+            double ucrt = this.interpolationForAutomaticGrid(x, y, heightAboveGround, WindFieldCell.WindFieldCellDataType.Ucrt);
+            double vcrt = this.interpolationForAutomaticGrid(x, y, heightAboveGround, WindFieldCell.WindFieldCellDataType.Vcrt);
+            double wcrt = this.interpolationForAutomaticGrid(x, y, heightAboveGround, WindFieldCell.WindFieldCellDataType.Wcrt);
+            return Math.Sqrt(Math.Pow(ucrt, 2) + Math.Pow(vcrt, 2) + Math.Pow(wcrt, 2));
+        }
+
+        public double xySpeed(double x, double y, double heightAboveGround)
+        {
+            //Speed scalar XY - wind speed scalar in horizontal plane, SQRT(UCRT2+VCRT2) (m/s).
+            double ucrt = this.interpolationForAutomaticGrid(x, y, heightAboveGround, WindFieldCell.WindFieldCellDataType.Ucrt);
+            double vcrt = this.interpolationForAutomaticGrid(x, y, heightAboveGround, WindFieldCell.WindFieldCellDataType.Vcrt);
+            return Math.Sqrt(Math.Pow(ucrt, 2) + Math.Pow(vcrt, 2));
+        }
+
+        public double inflowAngle(double x, double y, double heighAboveGround)
+        {
+            //Inflow angle - angle with respect to the horizontal, ATAN(WCRT/Speed_2D) (deg)
+            double wcrt = this.interpolationForAutomaticGrid(x, y, heighAboveGround, WindFieldCell.WindFieldCellDataType.Wcrt);
+            double xy = this.xySpeed(x, y, heighAboveGround);
+            return Math.Atan(wcrt/xy);
+        }
 
     }
     
@@ -601,33 +655,33 @@ namespace WindSim.Batch.Core
         public double value(WindFieldCellDataType type)
         {
 
+
             switch (type)
             {
-                case WindFieldCellDataType.Ep:
+                case WindFieldCellDataType.Ep :
                     return this.Ep;
-                    break;
-                case WindFieldCellDataType.Ke:
+
+                case WindFieldCellDataType.Ke :
                     return this.Ke;
-                    break;
-                case WindFieldCellDataType.P1:
-                    return this.P1;
-                    break;
-                case WindFieldCellDataType.Tem1:
-                    return this.Tem1;
-                    break;
-                case WindFieldCellDataType.Ucrt:
+
+                case WindFieldCellDataType.P1 :
+                    return this.P1;         
+
+                case WindFieldCellDataType.Tem1 :
+                    return this.Tem1;              
+
+                case WindFieldCellDataType.Ucrt :
                     return this.Ucrt;
-                    break;
-                case WindFieldCellDataType.Vcrt:
+
+                case WindFieldCellDataType.Vcrt :
                     return this.Vcrt;
-                    break;
-                case WindFieldCellDataType.Wcrt:
+
+                case WindFieldCellDataType.Wcrt :
                     return this.Wcrt;
-                    break;
-                default:
+
+                default :
                     return this.Ucrt;
-                    break;
-            }
+           }
 
         }
 
@@ -659,6 +713,10 @@ namespace WindSim.Batch.Core
 
         public double lowerSurfaceInterpolation(double x, double y) 
         {
+            //if ((x > this.Sel.X) || (x < this.Swl.X) || (y > this.Nwl.X) || (y < this.Swl.Y))
+            //{
+            //    throw new System.ArgumentException("(x,y) cannot be outside the square swl sel nwl nel", "original");
+            //}
             double[][] terrainPoints = new double[][] { this.Swl.toArray(), this.Nwl.toArray(), this.Nel.toArray(), this.Sel.toArray() };
             return MyMath.FirstOrderTrendSurface(x, y, terrainPoints);
         }

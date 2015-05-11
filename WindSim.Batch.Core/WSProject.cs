@@ -25,7 +25,7 @@ namespace WindSim.Batch.Core
         private double altezzaMaxTem1 = 0.0;
 
         // Constructors
-        public WSProject(string file_path)
+        public WSProject(string file_path, PhiFileType type = PhiFileType.notReduced)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(ProjectParameters));
             TextReader textReader = new StreamReader(file_path);
@@ -33,7 +33,7 @@ namespace WindSim.Batch.Core
             textReader.Close();
             file = new FileInfo(file_path);
             // inizializzo i phifile
-            this.load_windfields();
+            this.load_windfields(type);
 
             //inizializzo il layout
             layout = new Layout[1];
@@ -130,18 +130,28 @@ namespace WindSim.Batch.Core
             textWriter.Close();
         }
 
-        public void load_windfields()
+        public void load_windfields(PhiFileType type = PhiFileType.notReduced)
         {
             WField.Clear();
 
             foreach (int settore in parameters.WindField.Sector)
             {
                 
-                string sector_phifile = file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
-                FileInfo sector_phifile_check = new FileInfo(sector_phifile);
-                if (sector_phifile_check.Exists)
+                string sector_phifile_reduced = file.DirectoryName + "\\windfield\\" + settore + "_red.phi";
+                string sector_phifile_not_reduced = file.DirectoryName + "\\windfield\\" + settore + ".phi.Z";
+
+                FileInfo sector_phifile_check_reduced = new FileInfo(sector_phifile_reduced);
+                
+                FileInfo sector_phifile_check_not_reduced = new FileInfo(sector_phifile_not_reduced);
+
+                if (sector_phifile_check_not_reduced.Exists && type == PhiFileType.notReduced)
                 {
-                    WindField sector_windfield = new WindField(this,settore);
+                    WindField sector_windfield = new WindField(this,settore, PhiFileType.notReduced);
+                    WField.Add(settore, sector_windfield);
+                }
+                else if (sector_phifile_check_reduced.Exists && type == PhiFileType.reduced)
+                {
+                    WindField sector_windfield = new WindField(this, settore, PhiFileType.reduced);
                     WField.Add(settore, sector_windfield);
                 }
                 else
@@ -153,7 +163,7 @@ namespace WindSim.Batch.Core
             }
         }
 
-        public double[] run_windfield_z0_conv(double threshold, int sweeps, int cycle_to_be_checked, int monitoring_node_x, int monitoring_node_y, bool restart, int max_cycles = 15, double z0 = 0.0)
+        public double[] run_windfield_z0_conv(double threshold, int sweeps, int cycle_to_be_checked, int monitoring_node_x, int monitoring_node_y, bool restart, int max_cycles = 30, double z0 = 0.0)
         {
             
             
@@ -164,6 +174,7 @@ namespace WindSim.Batch.Core
             // INITIALIZE EXCEL FILE
             Workbook workbook = new Workbook();
             Worksheet worksheet = new Worksheet("z0 convergence monitor");
+            workbook.Worksheets.Add(worksheet);
             string status = "new";
             if (restart == true) 
             { 
@@ -192,7 +203,7 @@ namespace WindSim.Batch.Core
             worksheet.Cells[5,5] = new Cell("sigma");
             worksheet.Cells[5, 6] = new Cell("sigmaz0");
             worksheet.Cells[5,7] = new Cell("elapsed time [s]");
-
+            workbook.Save(excelfile_path);
             // SWEEPS CYCLE
             DateTime windfield_z0_conv_startTime = DateTime.Now;
             int cycle = 0;
@@ -259,7 +270,9 @@ namespace WindSim.Batch.Core
                 worksheet.Cells[6 + cycle, 5] = new Cell(z0stim[2]);
                 worksheet.Cells[6 + cycle, 6] = new Cell(z0stim[4]);
                 worksheet.Cells[6 + cycle, 7] = new Cell(cycle_timespan.TotalSeconds);
+                workbook.Save(excelfile_path);
                 }
+
                 // check convergence criteria
                 if (cycle > cycle_to_be_checked - 1)
                 {
@@ -296,7 +309,7 @@ namespace WindSim.Batch.Core
             
 
             // saving the excel file
-            workbook.Worksheets.Add(worksheet);
+
             workbook.Save(excelfile_path);
             return this.WField[this.parameters.WindField.Sector[0]].z0(monitoring_node_x, monitoring_node_y);
 
@@ -391,8 +404,264 @@ namespace WindSim.Batch.Core
             this.parameters.DTM.YMax = Convert.ToInt32(sheet.Cells[4, 3].Value);
         }
 
+        public AskerveinConvergenceResult run_windfield_askervein_conv(double threshold, int sweeps, int cycle_to_be_checked, bool restart, Anemometer[] sensors, int max_cycles = 15)
+        {
+
+
+            int anemometers = sensors.Length;
+            // INITIALIZE EXCEL FILE
+            Workbook workbook = new Workbook();
+            Worksheet worksheet = new Worksheet("Askervein convergence monitor");
+            workbook.Worksheets.Add(worksheet);
+
+            string status = "new";
+            if (restart == true)
+            {
+                status = "restart";
+            }
+            string excelfile_path = file.Directory.FullName + @"\Askervein_conv_monitoring_" + status + ".xls";
+            workbook.Save(excelfile_path);
+            // write header
+            // this cycle add some null cells because when on Windows 7 Office need at least 6000byte files.
+            //----------------------------------------------
+            for (var k = 0; k < 200; k++)
+                worksheet.Cells[k, 0] = new Cell(null);
+            // ---------------------------------------------
+            worksheet.Cells[1, 1] = new Cell("Project");
+            worksheet.Cells[1, 2] = new Cell(name);
+            worksheet.Cells[2, 1] = new Cell("Sweeps each cycle");
+            worksheet.Cells[2, 2] = new Cell(sweeps);
+            worksheet.Cells[3, 1] = new Cell("Threshold value (z0stim-z0)/z0");
+            worksheet.Cells[3, 2] = new Cell(threshold);
+            worksheet.Cells[4, 1] = new Cell("X");
+            worksheet.Cells[4, 2] = new Cell("Y");
+            worksheet.Cells[4, 3] = new Cell("zAbGround");
+
+            for (int i=0; i<anemometers; i++){
+                worksheet.Cells[5 + i, 1] = new Cell(sensors[i].x);
+                worksheet.Cells[5 + i, 2] = new Cell(sensors[i].y);
+                worksheet.Cells[5 + i, 3] = new Cell(sensors[i].height);
+            }
+           
+            
+
+            // SWEEPS CYCLE
+            DateTime askervein_conv_startTime = DateTime.Now;
+            int cycle = 0;
+            bool exit = false;
+            bool last = false;
+            double[][] last_cycles_vel = new double[cycle_to_be_checked][];
+            double[][] last_cycles_conv = new double[cycle_to_be_checked][];
+            double[] cycles_max_speedVariation = new double[cycle_to_be_checked];
+            double[] speeds = new double[anemometers];     
+            double[] temp_speed_variation = new double[anemometers];
+            
+            while (!exit)
+            {
+                DateTime cycle_startTime = DateTime.Now;
+                if (cycle == 0)
+                {
+                    // First run
+                    if (restart == true)
+                    {
+                        parameters.WindField.UseInputPreviousRun = true;
+                    }
+                    else if (restart == false)
+                    {
+                        parameters.WindField.UseInputPreviousRun = false;
+                    }
+                    parameters.WindField.Sweep = sweeps;
+                    save();
+                    run(2);
+                }
+                else if (cycle == 1)
+                {
+                    parameters.WindField.UseInputPreviousRun = true;
+                    parameters.WindField.Sweep = sweeps;
+                    save();
+                }
+
+                if (cycle > 0)
+                {
+                    if (last == false)
+                    {
+                        run(2, "pre"); // if time it too much set no graphics no others...
+                    }
+                    else
+                    {
+                        parameters.WindField.UseInputPreviousRun = true;
+                        parameters.WindField.Sweep = 1;
+                        save();
+                        run(2);
+                        exit = true;
+                    }
+                }
+
+
+                // IT WORKS ONLY WITH ONE SECTOR, THE FIRST ONE!!!!
+                if (last == false)
+                {
+                    
+
+                    for (int i = 0; i < anemometers; i++)
+                    {
+
+                        speeds[i] = this.WField[this.parameters.WindField.Sector[0]].xyzSpeed(sensors[i].x, sensors[i].y, sensors[i].height);
+                        worksheet.Cells[4, 4 + cycle] = new Cell(cycle);
+                        worksheet.Cells[5 + i, 4 + cycle] = new Cell(speeds[i]);
+                        if (cycle > 0)
+                        {
+                            int last_cycle = cycle - 1;
+                            temp_speed_variation[i] = (Math.Abs(speeds[i] - last_cycles_conv[last_cycle % cycle_to_be_checked][i])) / speeds[i];
+                        }
+
+                    }
+
+
+                    last_cycles_conv[cycle % cycle_to_be_checked] = speeds;
+                    cycles_max_speedVariation[cycle % cycle_to_be_checked] = MyMath.Max(temp_speed_variation);
+                 
+                    DateTime cycle_stopTime = DateTime.Now;
+                    TimeSpan cycle_timespan = cycle_stopTime - cycle_startTime;
+
+                    worksheet.Cells[5 + anemometers, 4 + cycle] = new Cell(cycles_max_speedVariation[cycle % cycle_to_be_checked]);
+                    worksheet.Cells[6 + anemometers, 4 + cycle] = new Cell(cycle_timespan.TotalSeconds);
+                    workbook.Save(excelfile_path);
+                }
+
+                // check convergence criteria
+                if (cycle > cycle_to_be_checked - 1)
+                {
+
+                    if (MyMath.Max(cycles_max_speedVariation) < threshold) last = true;
+                    if (cycle == max_cycles) last = true;
+                }
+
+                cycle++;
+            }
+  
+            DateTime windfield_askervein_conv_stopTime = DateTime.Now;
+            TimeSpan windfield_askervein_conv_elapsedTime = windfield_askervein_conv_stopTime - askervein_conv_startTime;
+            
+            worksheet.Cells[1, 3] = new Cell("Total Time [s]");
+            worksheet.Cells[1, 4] = new Cell(windfield_askervein_conv_elapsedTime.TotalSeconds);
+            
+             
+
+            bool criteriaReached;
+
+            if (cycle == max_cycles)
+            {
+                worksheet.Cells[2, 3] = new Cell("MAX CYCLES REACHED");
+                criteriaReached = false;
+            }
+            else
+            {
+                worksheet.Cells[2, 3] = new Cell("CONVERGENCE CRITERIA REACHED");
+                criteriaReached = true;
+            }
+
+            // saving the excel file
+
+            workbook.Save(excelfile_path);
+            FileInfo excelFile = new FileInfo(excelfile_path);
+            AskerveinConvergenceResult risultati = new AskerveinConvergenceResult(sensors, speeds, cycle, windfield_askervein_conv_elapsedTime, criteriaReached, threshold, sweeps, cycle_to_be_checked, excelFile);
+            return risultati;
+
+        }
+
+        
     }
 
+    public class AskerveinConvergenceResult
+    {
+        private bool _criteriaReached;
+        private int _cycles;
+        private TimeSpan _totaltime;
+        private Anemometer[] _sensors;
+        private double[] _speeds;
+        private List<string> _messaggi;
+        private double _threshold;
+        private int _sweeps;
+        private int _cycle_to_be_checked;
+        private DateTime _lastRun;
+        private bool _error;
+        private FileInfo _excelFile;
+
+        public bool criteriaReached
+        {
+            get { return _criteriaReached; }
+        }
+        public int cycles
+        {
+            get { return _cycles; }
+        }
+        public TimeSpan totaltime
+        {
+            get { return _totaltime; }
+        }
+        public Anemometer[] sensors
+        {
+            get { return _sensors; }
+        }
+        public double[] speeds
+        {
+            get { return _speeds; }
+        }
+        public List<string> messaggi
+        {
+            get { return _messaggi; }
+        }
+        public double threshold
+        {
+            get { return _threshold; }
+        }
+        public int sweeps
+        {
+            get { return _sweeps; }
+        }
+        public int cycle_to_be_checked
+        {
+            get { return _cycle_to_be_checked; }
+        }
+        public DateTime lastRun
+        {
+            get { return _lastRun; }
+        }
+        private bool error
+        {
+            get { return _error; }
+        }
+        private FileInfo excelFile
+        {
+            get { return _excelFile; }
+        }
+
+        public AskerveinConvergenceResult(Anemometer[] sensors, double[] speeds, int cycles, TimeSpan totaltime, bool criteriaReached, double threshold, int sweeps, int cycle_to_be_checked, FileInfo excelFile)
+        {
+            if (sensors.Length == speeds.Length)
+            {
+                _sensors = sensors;
+                _speeds = speeds;
+                _cycles = cycles;
+                _totaltime = totaltime;
+                _criteriaReached = criteriaReached;
+                _threshold = threshold;
+                _sweeps = sweeps;
+                _cycle_to_be_checked = cycle_to_be_checked;
+                _lastRun = DateTime.Now;
+                _error = false;
+                _excelFile = excelFile;
+            }
+            else
+            {
+                _messaggi.Add("sensors.lenght not equal to speeds.lenght !!!!");
+                _error = true;
+            }
+
+        }
+
+    }
 }
 
     

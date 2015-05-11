@@ -5,9 +5,9 @@ using WindSim.Batch.Core;
 namespace WindSim.Batch.Core.Test
 {
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\test.gws")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\5x5.gws")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\3x3.gws")]
+    [DeploymentItem("TestFiles\\test.gws")]
+    [DeploymentItem("TestFiles\\5x5.gws")]
+    [DeploymentItem("TestFiles\\3x3.gws")]
     public class Test_FileGws
     {
         static string gwsFileName = "test.gws";

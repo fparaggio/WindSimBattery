@@ -39,8 +39,6 @@ namespace WindSim.Batch.Core
         //          of the NPHI possible ones are stored in the file, format 1X, 79L1).
         public string[] variables_name;
         public double[, , ,] vars_phi;
-        NumberStyles integerFormat = NumberStyles.AllowLeadingSign;
-        NumberStyles phidataFormat = NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent | NumberStyles.AllowLeadingWhite | NumberStyles.AllowDecimalPoint;
         public PhiFile(string fileName) 
         { 
             if (File.Exists(fileName))
@@ -88,32 +86,32 @@ namespace WindSim.Batch.Core
                         //Console.WriteLine(line);
                         try
                         {
-                            rinner = Double.Parse(line.Substring(0, 13), phidataFormat);
+                            rinner = double.Parse(line.Substring(0, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                         try
                         {
-                            f_nprphi = Double.Parse(line.Substring(13, 13), phidataFormat);
+                            f_nprphi = double.Parse(line.Substring(13, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                         try
                         {
-                            rnfPWV = Double.Parse(line.Substring(26, 13), phidataFormat);
+                            rnfPWV = double.Parse(line.Substring(26, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                         try
                         {
-                            f_nfmak2 = Double.Parse(line.Substring(39, 13), phidataFormat);
+                            f_nfmak2 = double.Parse(line.Substring(39, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                         try
                         {
-                            rdmat1 = Double.Parse(line.Substring(52, 13), phidataFormat);
+                            rdmat1 = double.Parse(line.Substring(52, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                         try
                         {
-                            f_idmat2 = Double.Parse(line.Substring(65, 13), phidataFormat);
+                            f_idmat2 = double.Parse(line.Substring(65, 13), CultureInfo.InvariantCulture);
                         }
                         catch { }
                 //    line 5: (NAME(I),I=1,NPHI) (format 1X, 19A4).
@@ -186,7 +184,7 @@ namespace WindSim.Batch.Core
                             //Console.WriteLine(row);
                             for (element = 0; element < 6; element++)
                             {
-                                x_east_cell_face[row_counter*6 + element] = Double.Parse(row.Substring(13*element, 13), phidataFormat);
+                                x_east_cell_face[row_counter * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }                      
                         // parse all the last row if one. it has less elements than the others.
@@ -195,7 +193,7 @@ namespace WindSim.Batch.Core
                             row = tr.ReadLine();
                             for (element = 0; element < x_element_to_parse; element++)
                             {
-                                x_east_cell_face[x_first_rows_to_parse * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                x_east_cell_face[x_first_rows_to_parse * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
 
@@ -216,7 +214,8 @@ namespace WindSim.Batch.Core
                             //Console.WriteLine(row);
                             for (element = 0; element < 6; element++)
                             {
-                                y_north_cell_face[row_counter * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+
+                                y_north_cell_face[row_counter * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
 
@@ -226,7 +225,7 @@ namespace WindSim.Batch.Core
                             row = tr.ReadLine();
                             for (element = 0; element < y_element_to_parse; element++)
                             {
-                                y_north_cell_face[y_first_rows_to_parse * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                y_north_cell_face[y_first_rows_to_parse * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
                         //for (element = 0; element < ny; element++)
@@ -246,7 +245,7 @@ namespace WindSim.Batch.Core
                             //Console.WriteLine(row);
                             for (element = 0; element < 6; element++)
                             {
-                                z_high_cell_face[row_counter * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                z_high_cell_face[row_counter * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
 
                         }
@@ -256,7 +255,7 @@ namespace WindSim.Batch.Core
                             row = tr.ReadLine();
                             for (element = 0; element < z_element_to_parse; element++)
                             {
-                                z_high_cell_face[z_first_rows_to_parse * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                z_high_cell_face[z_first_rows_to_parse * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
                         //for (element = 0; element < nz; element++)
@@ -274,7 +273,7 @@ namespace WindSim.Batch.Core
                             //Console.WriteLine(row);
                             for (element = 0; element < 6; element++)
                             {
-                                slab_mean_pressure_correction[row_counter * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                slab_mean_pressure_correction[row_counter * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
                        // parse all the last row if one. it has less elements than the others.
@@ -283,7 +282,7 @@ namespace WindSim.Batch.Core
                             row = tr.ReadLine();
                             for (element = 0; element < z_element_to_parse; element++)
                             {
-                                slab_mean_pressure_correction[z_first_rows_to_parse * 6 + element] = Double.Parse(row.Substring(13 * element, 13), phidataFormat);
+                                slab_mean_pressure_correction[z_first_rows_to_parse * 6 + element] = double.Parse(row.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                             }
                         }
                 //    line 10: (STORE(I),I=1,NPHI) ( ie. NPHI logicals indicating which
@@ -325,15 +324,17 @@ namespace WindSim.Batch.Core
                         bool close_loop = false;
                         while ((line = tr.ReadLine()) != null )
                         {
-                            if (line.Length == 78)
-                            {
+                            //if (line.length == 78)
+                            //{
 
                                 for (element = 0; element < 6; element++)
                                 {
                                     // verifica se c'e' un elemento
-                                    if (line.Length > 13 * element)
+                                //    if (line.Length > 13 * element)
+                                  //  {
+                                    try
                                     {
-                                        vars_phi[nx_index, ny_index, nz_index, var_index] = Double.Parse(line.Substring(13 * element, 13), phidataFormat);
+                                        vars_phi[nx_index, ny_index, nz_index, var_index] = double.Parse(line.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                                         ny_index++;
                                         if (ny_index == ny)
                                         {
@@ -356,10 +357,18 @@ namespace WindSim.Batch.Core
                                             }
                                         }
                                     }
-                                    if (close_loop) break;
+                                    catch
+                                    {
+                                        break;
+                                    }
+                              //      }
+                              
+
                                 }
-                            }
-                            else { break; }
+                                if (close_loop)
+                                    break;
+                            //}
+                            //else { break; }
                         }
                         //for (var_index = 0; var_index < var_to_store; var_index++)
                         //{

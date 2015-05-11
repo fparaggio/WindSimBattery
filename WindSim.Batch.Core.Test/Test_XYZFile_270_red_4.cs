@@ -13,7 +13,7 @@ namespace WindSim.Batch.Core.Test
     ///to contain all XYZFileTest Unit Tests
     ///</summary>
     [TestClass()]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\270_red_4.xyz")]
+    [DeploymentItem("TestFiles\\270_red_4.xyz")]
     public class Test_XYZFile_270_red_4
     {
         static string fileName = "270_red_4.xyz";

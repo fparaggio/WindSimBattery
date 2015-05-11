@@ -10,8 +10,6 @@ namespace WindSim.Batch.Core
     {
         public Wec[] wecs;
         public string file;
-        private string p;
-        private DirectoryInfo directoryInfo;
         
         // contructor
         public Layout(string layout_file, DirectoryInfo project_dir) 

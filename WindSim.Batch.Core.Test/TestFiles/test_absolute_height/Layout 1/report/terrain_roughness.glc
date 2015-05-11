@@ -1,0 +1,22 @@
+readgeometry ..\..\dtm\dtm.geo
+color    1   1   0 100   0
+smooth   1   1
+addgeo ..\..\dtm\dtm_sea.geo
+color    2   2   0  75 150
+addgeo ..\..\dtm\dtm_box.geo
+color    3   3   0   0   0
+backgr 255 255 255
+light 0 0 0 0 0 1
+nooutlinemesh
+noinfo
+
+readscalar "..\..\dtm\dtm_roughness.scl"
+fringes 1 1
+nofringeshade 1 1
+nocontours
+legend
+texturefringes
+tfcolors 255 255 255 255 255 255 255 255 125 255 255 125 255 255 0  255 255 0 255 190 0 255 190 0 255 125 0 255 125 0 255  60 0 255 60 0 255 0  0 255 0 0 125 0 0 125 0 0
+source "..\..\dtm\default.vif"
+textcolor 0 0 0
+winposition 100 100 560  560 

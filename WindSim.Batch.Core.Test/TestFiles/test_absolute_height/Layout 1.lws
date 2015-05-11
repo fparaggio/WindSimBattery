@@ -1,0 +1,84 @@
+<?xml version="1.0" standalone="yes"?>
+<LayoutParameters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="LayoutParameters.xsd">
+  <Layout LastChanged="2013-01-14T14:01:52.7412624+01:00">
+    <TextureFile />
+  </Layout>
+  <Objects LastChanged="2013-01-15T09:47:59.6122443+01:00">
+    <HashCodeLastRun>-2147483648</HashCodeLastRun>
+    <Noise>
+      <Calculation>Disregard</Calculation>
+      <Temperature>15</Temperature>
+      <Humidity>70</Humidity>
+      <AttenuationCoefficient>0.005</AttenuationCoefficient>
+      <Height>2</Height>
+      <BackgroundNoise>30</BackgroundNoise>
+      <WindSpeed>5</WindSpeed>
+      <WindDirection>0</WindDirection>
+      <WindSpeedHeight>30</WindSpeedHeight>
+      <WindConditionsCoord>3</WindConditionsCoord>
+      <WindConditionsXpos>327362</WindConditionsXpos>
+      <WindConditionsYpos>7186191</WindConditionsYpos>
+    </Noise>
+  </Objects>
+  <NormalisedResults LastChanged="2013-01-15T09:47:59.4402345+01:00">
+    <HashCodeLastRun>-2147483648</HashCodeLastRun>
+  </NormalisedResults>
+  <WindResources LastChanged="2013-01-14T14:01:52.3622407+01:00">
+    <ExportSurfer>false</ExportSurfer>
+    <WindResourcesClassificationAreas>false</WindResourcesClassificationAreas>
+    <LegendMin>0</LegendMin>
+    <LegendMax>0</LegendMax>
+    <ExportWAsPRSF>false</ExportWAsPRSF>
+    <WindResourcesWakeModel>0</WindResourcesWakeModel>
+    <WindResourcesWakeRoughness>-1</WindResourcesWakeRoughness>
+    <WindResourcesMultipleWakesModel>1</WindResourcesMultipleWakesModel>
+    <WindResourcesWakeTI>-1</WindResourcesWakeTI>
+    <WindResourcesInterpolation>true</WindResourcesInterpolation>
+    <WindResourcesWakeSectorSubCycle>5</WindResourcesWakeSectorSubCycle>
+    <WindResourcesWakeRotorDiameterMin>1</WindResourcesWakeRotorDiameterMin>
+    <WindResourcesWakeRotorDiameterMax>10</WindResourcesWakeRotorDiameterMax>
+    <HashCodeLastRun>-2147483648</HashCodeLastRun>
+    <WindResourcesHeight>50</WindResourcesHeight>
+    <Bin>7</Bin>
+    <Bin>7.5</Bin>
+    <Bin>8</Bin>
+    <Bin>8.5</Bin>
+    <Area>1</Area>
+    <Area>4</Area>
+    <Area>9</Area>
+    <Area>16</Area>
+  </WindResources>
+  <Energy LastChanged="2013-01-15T09:47:38.958063+01:00">
+    <AirDensityCorrection>0</AirDensityCorrection>
+    <Density>1</Density>
+    <DensityCorrectionMethod>0</DensityCorrectionMethod>
+    <EnergyWakeModel>0</EnergyWakeModel>
+    <EnergyWakeRoughness>-1</EnergyWakeRoughness>
+    <EnergyMultipleWakesModel>1</EnergyMultipleWakesModel>
+    <EnergyWakeTI>-1</EnergyWakeTI>
+    <EnergyInterpolation>true</EnergyInterpolation>
+    <EnergyWakeSectorSubCycle>5</EnergyWakeSectorSubCycle>
+    <EnergyWakeRotorDiameterMin>1</EnergyWakeRotorDiameterMin>
+    <EnergyWakeRotorDiameterMax>10</EnergyWakeRotorDiameterMax>
+    <ExportVerticalProfiles>false</ExportVerticalProfiles>
+    <HashCodeLastRun>-300006286</HashCodeLastRun>
+    <ExportRotor>false</ExportRotor>
+    <ExportPowerHistory>false</ExportPowerHistory>
+    <IECCompliance>false</IECCompliance>
+    <BinWidth15ms>1</BinWidth15ms>
+  </Energy>
+  <Report>
+    <Title>WindSim - test_absolute_height; Layout: Layout 1</Title>
+    <Revision>0.0.1</Revision>
+    <Language>2</Language>
+    <LanguageCode>en</LanguageCode>
+    <CoordsysText>UTM zone 33, EUREF 89</CoordsysText>
+    <StatusTerrain>1</StatusTerrain>
+    <StatusWindField>3</StatusWindField>
+    <StatusObjects>0</StatusObjects>
+    <StatusResults>0</StatusResults>
+    <StatusWindResources>0</StatusWindResources>
+    <StatusEnergy>0</StatusEnergy>
+    <NetUser xsi:nil="true" />
+  </Report>
+</LayoutParameters>

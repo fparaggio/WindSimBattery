@@ -66,6 +66,7 @@ namespace WindSim.Batch.Core
                         {
                             for (int j = 0; j < y; j++)
                             {
+                                //temp.Add(data[i, j].nodes[z]);                                
                                 temp.Add(data[i, j].nodes[z]);
                             }
                         }
@@ -77,9 +78,15 @@ namespace WindSim.Batch.Core
             public Geometrical(FileGws gws, double threshold, double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, double totalH, int numOfL)
             {
                 slabs= numOfL;
+                MyMath.DoubleMap origin = MyMath.SmoothedMap(HFirstCell(gws.Map(FileGws.MapType.Rough)), threshold);
 
-                firstCellHeightMap = MyMath.interpolatedMap(iXmin, iXmax, iYmin, iYmax, iXcells, iYcells, MyMath.SmoothedMap(HFirstCell(gws.Map(FileGws.MapType.Rough)), threshold));
+   
+
+                firstCellHeightMap = MyMath.interpolatedMap(iXmin, iXmax, iYmin, iYmax, iXcells, iYcells, origin);
+
+              
                 GroundHeightMap = MyMath.interpolatedMap(iXmin, iXmax, iYmin, iYmax, iXcells, iYcells, gws.Map(FileGws.MapType.Height));
+
               
                 xmin = iXmin;
                 xmax = iXmax;
@@ -102,8 +109,15 @@ namespace WindSim.Batch.Core
             }
 
 
-            public static MyMath.DoubleMap HFirstCell(MyMath.DoubleMap roughnessMap, double a = 3.1175, double b = -0.396)
+            public static MyMath.DoubleMap HFirstCell(MyMath.DoubleMap roughnessMap)
             {
+                
+
+
+
+                double[] referenceRoughness = { 0.0002,	0.001,	0.003,	0.005,	0.008,	0.01,	0.02,	0.03,	0.05,	0.1,	0.2,	0.3,	0.4};
+                double[] referenceHeightFirstCell = { 0.002150465,	0.011685445,	0.029689704,	0.044532067,	0.063955782,	0.075744759,	0.127681869,	0.171777567,	0.256662426,	0.441828036,	0.770591238,	1.071989608,	1.359466305};
+                
                 int x = roughnessMap.Npx;
                 int y = roughnessMap.Npy;
                 double[,] dataset = new double[x, y];
@@ -111,7 +125,13 @@ namespace WindSim.Batch.Core
                 {
                     for (int j = 0; j < y; j++)
                     {
-                        dataset[i, j] = roughnessMap.data[i, j][2] * a * Math.Pow(roughnessMap.data[i, j][2], b);
+                        dataset[i, j] = MyMath.LinearInterpolation(referenceRoughness, referenceHeightFirstCell, roughnessMap.data[i, j][2]);
+                        if (dataset[i, j] <=0)
+                        {
+                            double dato = dataset[i, j];
+                            double rough = roughnessMap.data[i, j][2];
+                            Console.WriteLine("cazzo! ... " + dataset[i, j].ToString());
+                        }
                     }
                 }
 
@@ -148,11 +168,15 @@ namespace WindSim.Batch.Core
                     terrainHeight = terrainH;
                     xCoord = x;
                     yCoord = y;
-                    expansionFactor = MyMath.NewtonRaphsonMethod(expansionFactorNonLinearEquationFunction, expansionFactorNonLinearEquationFunctionPrime, 5.0, 0.000000001);
+                    expansionFactor = MyMath.NewtonRaphsonMethod(expansionFactorNonLinearEquationFunction, expansionFactorNonLinearEquationFunctionPrime, 2.0, 0.001);
+                    if (expansionFactor==1)
+                    {
+                        string a = "cazzo!";
+                    };
                     nodes = new double[numbersOfVericalLayer];
                     for (int i = 1; i < numbersOfVericalLayer + 1; i++)
                     {
-                        nodes[i - 1] = heightFirstLayer * (Math.Pow(expansionFactor, i) - 1) / (expansionFactor - 1); 
+                       nodes[i - 1] = heightFirstLayer * (Math.Pow(expansionFactor, i) - 1) / (expansionFactor - 1);              
                     }
 
                 }
@@ -220,11 +244,10 @@ namespace WindSim.Batch.Core
                 for (int k = 0; k < numberOfSlabs; k++)
                 {
                     layer_height = maxSlabHeight[k];
-                    sb.AppendFormat("{0,30}{1,7}{2,11}{3,13:0.0}{4}", k+1, 0, "1.000", layer_height, Environment.NewLine);
+                    sb.AppendFormat("{0,30}{1,7}{2,11}{3,13:0.00}{4}", k+1, 0, "1.000", layer_height, Environment.NewLine);
                 }
                 sb.AppendLine("");
             }
-
 
             private void junctions(StringBuilder sb, int ni, int nj)
             {
@@ -251,7 +274,7 @@ namespace WindSim.Batch.Core
                     {
                         for (int i = 1; i < ni + 1; i++)
                         {
-                            sb.AppendFormat("{0,30}{1,8}{2,8}{3,8}{4,10:0.0}{5,10:0.0}{6,10:0.0}{7}", i, j, k+2, 3, data[i - 1, j - 1].xCoord, data[i - 1, j - 1].yCoord, data[i - 1, j - 1].nodes[k], Environment.NewLine);
+                            sb.AppendFormat("{0,30}{1,8}{2,8}{3,8}{4,10:0.0}{5,10:0.0}{6,10:0.000}{7}", i, j, k+2, 3, data[i - 1, j - 1].xCoord, data[i - 1, j - 1].yCoord, data[i - 1, j - 1].nodes[k], Environment.NewLine);
                         }
                     }
                 }

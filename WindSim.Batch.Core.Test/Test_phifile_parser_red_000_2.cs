@@ -11,7 +11,7 @@ namespace WindSim.Batch.Core.Test
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\000_red_2.phi")]
+    [DeploymentItem("TestFiles\\000_red_2.phi")]
     public class Test_phifile_parser_red_000_2
     {
         static string fileName = "000_red_2.phi";

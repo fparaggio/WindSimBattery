@@ -589,13 +589,137 @@ namespace WindSim.Batch.Core.Test
         public void Test_FindClosestLowerIndex5()
         {
             double[] array = new double[4] { 1, 2, 3, 4 };
-            Assert.AreEqual(-1, MyMath.FindClosestLowerIndex(4.5, array));
+            Assert.AreEqual(3, MyMath.FindClosestLowerIndex(4.5, array));
         }
         [TestMethod]
         public void Test_FindClosestLowerIndex6()
         {
             double[] array = new double[4] { 1, 2, 3, 4 };
             Assert.AreEqual(2, MyMath.FindClosestLowerIndex(4, array));
+        }
+
+        [TestMethod]
+        public void Test_FindClosestLowerIndex7()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestLowerIndex(0.5, array));
+        }
+
+        [TestMethod]
+        public void Test_FindClosestLowerIndex8()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestLowerIndex(-1200, array));
+        }
+
+
+        [TestMethod]
+        public void Test_FindClosestLowerIndex9()
+        {
+            double[] array = new double[4] { 1, 2, 4, 3 };
+            try
+            {
+                int i = MyMath.FindClosestLowerIndex(-1200, array);
+                Assert.Fail(); // If it gets to this line, no exception was thrown
+            }
+            catch (Exception) 
+            { 
+            Assert.IsTrue(true);
+            }
+
+        }
+
+        #endregion
+
+        #region FindClosestUpperIndex
+        [TestMethod]
+        public void Test_FindClosestUpperIndex()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(3, MyMath.FindClosestUpperIndex(3.5, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestUpperIndex2()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(1, MyMath.FindClosestUpperIndex(1, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestUpperIndex3()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(2, MyMath.FindClosestUpperIndex(2, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestUpperIndex4()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(1, MyMath.FindClosestUpperIndex(1.9999999, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestUpperIndex5()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(3, MyMath.FindClosestUpperIndex(4.5, array));
+        }
+        [TestMethod]
+        public void Test_FindClosestUpperIndex6()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(3, MyMath.FindClosestUpperIndex(4, array));
+        }
+
+        [TestMethod]
+        public void Test_FindClosestUpperIndex7()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestUpperIndex(0.5, array));
+        }
+
+        [TestMethod]
+        public void Test_FindClosestUpperIndex8()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.AreEqual(0, MyMath.FindClosestUpperIndex(-1200, array));
+        }
+
+        [TestMethod]
+        public void Test_FindClosestUpperIndex9()
+        {
+            double[] array = new double[4] { 1, 2, 4, 3 };
+            try
+            {
+                int i = MyMath.FindClosestUpperIndex(-1200, array);
+                Assert.Fail(); // If it gets to this line, no exception was thrown
+            }
+            catch (Exception)
+            {
+                Assert.IsTrue(true);
+            }
+
+        }
+        #endregion
+
+        #region OrderedArray
+        [TestMethod]
+        public void Test_OrderedArray()
+        {
+            double[] array = new double[4] { 1, 2, 3, 4 };
+            Assert.IsTrue(MyMath.OrderedArray(array));
+        }
+
+        [TestMethod]
+        public void Test_OrderedArray_2()
+        {
+            double[] array = new double[4] { 1, 2, 2, 4 };
+            Assert.IsTrue(MyMath.OrderedArray(array));
+        }
+
+        [TestMethod]
+        public void Test_OrderedArray_3()
+        {
+            double[] array = new double[4] { 1, 5, 3, 4 };
+            Assert.IsFalse(MyMath.OrderedArray(array));
         }
         #endregion
 
@@ -647,5 +771,55 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(6.0, MyMath.MaxOfBidimensionalDoubleArray(BidimensionalArray));
         }
         #endregion
+
+        [TestMethod]
+        public void Test_distance()
+        {
+            XYZObject point1 = new XYZObject(0, 0, 0);
+            XYZObject point2 = new XYZObject(Math.Sqrt(2)/2, Math.Sqrt(2)/2, 1);
+            Assert.AreEqual(Math.Sqrt(2), MyMath.distance(point1, point2));
+        }
+
+        [TestMethod]
+        public void Test_distance_2()
+        {
+            XYZObject point1 = new XYZObject(0, 0, 0);
+            XYZObject point2 = new XYZObject(-1*Math.Sqrt(2) / 2, -1*Math.Sqrt(2) / 2, -1);
+            Assert.AreEqual(Math.Sqrt(2), MyMath.distance(point1, point2));
+        }
+
+        [TestMethod]
+        public void Test_linear_interpolation()
+        {
+            double[] x = new double[]{0,1};
+            double[] y = new double[]{0,1};
+            
+            Assert.AreEqual(0.5, MyMath.LinearInterpolation(x,y,0.5));
+        }
+
+        [TestMethod]
+        public void Test_linear_interpolation_min()
+        {
+            double[] x = new double[] { 2, 3 };
+            double[] y = new double[] { 4, 5 };
+
+            Assert.AreEqual(4, MyMath.LinearInterpolation(x, y, -1));
+        }
+
+        [TestMethod]
+        public void Test_linear_interpolation_maxnn()
+        {
+            double[] x = { 0.0002, 0.001, 0.003, 0.005, 0.008, 0.01, 0.02, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4 };
+            double[] y = { 0.002150465, 0.011685445, 0.029689704, 0.044532067, 0.063955782, 0.075744759, 0.127681869, 0.171777567, 0.256662426, 0.441828036, 0.770591238, 1.071989608, 1.359466305 };
+            Assert.AreEqual(1.359466305, MyMath.LinearInterpolation(x, y, 0.4));
+        }
+
+        [TestMethod]
+        public void Test_linear_interpolation_maxnn2()
+        {
+            double[] x = { 0.0002, 0.001, 0.003, 0.005, 0.008, 0.01, 0.02, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4 };
+            double[] y = { 0.002150465, 0.011685445, 0.029689704, 0.044532067, 0.063955782, 0.075744759, 0.127681869, 0.171777567, 0.256662426, 0.441828036, 0.770591238, 1.071989608, 1.359466305 };
+            Assert.AreEqual(1.359466305, MyMath.LinearInterpolation(x, y, 0.5));
+        }
     }
 }

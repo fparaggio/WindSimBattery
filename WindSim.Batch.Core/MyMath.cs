@@ -138,6 +138,9 @@ namespace WindSim.Batch.Core
                 x -= f0/fprime(x);
                 f0 = f(x);
             }
+            if (x == 0 || x == 1.0) 
+            { 
+            }
             return x;
         }
 
@@ -365,14 +368,69 @@ namespace WindSim.Batch.Core
 
         public static int FindClosestLowerIndex(double value, double[] array) 
         {
-            for (int i = 0; i < array.Length - 1; i++) 
+            int index = 0;
+            if (!OrderedArray(array))
             {
-                if (value >= array[i] && value <= array[i + 1]) 
+                throw new System.ArgumentException("Array have to be ordered", "original");
+            }
+
+            if (value >= array[0] && value <= array[array.Length - 1])
+            {
+                for (int i = 0; i < array.Length - 1; i++)
                 {
-                    return i;
+
+                    if (value >= array[i] && value <= array[i + 1])
+                    {
+                        return i;
+                    }
                 }
             }
-            return -1;
+            else if (value > array.Length - 1)
+            {
+                    return array.Length - 1;
+            }
+            
+            return index;
+        }
+
+        public static int FindClosestUpperIndex(double value, double[] array)
+        {
+            
+           int index = 0;
+
+           if (!OrderedArray(array))
+           {
+               throw new System.ArgumentException("Array have to be ordered", "original");
+           }
+
+           if (value >= array[0] && value <= array[array.Length - 1])
+           {
+
+               for (int i = array.Length - 1; i > 0; i--)
+               {
+
+                   if (value >= array[i - 1] && value <= array[i])
+                   {
+                       return i;
+                   }
+               }
+           } 
+           
+           if (value > array.Length - 1)
+           {
+               return array.Length - 1;
+           }
+
+           return index;
+        }
+
+        public static bool OrderedArray(double[] array) 
+        {
+            for (int i = 0; i < array.Length - 1; i++) 
+            {
+                if (array[i] > array[i + 1]) return false;
+            }
+            return true;
         }
 
         public static double[,] extractArrayFromJagged(double[,][] origin, int jaggedIndex) 
@@ -412,6 +470,16 @@ namespace WindSim.Batch.Core
         public static double LinearInterpolation(double[] x, double[] y, double xval)
         {
             double yval = 0.0;
+            if (xval < x[0])
+            {
+                return y[0];
+            }
+
+            if (xval >= x[x.Length -1])
+            {
+                return y[x.Length - 1];
+            }
+
             for (int i = 0; i < x.Length - 1; i++)
             {
                 if (xval >= x[i] && xval < x[i + 1])
@@ -497,13 +565,37 @@ namespace WindSim.Batch.Core
                     }
                 }
             }
+
+            public double min
+            {
+                get 
+                { 
+                    List<double> prova = new List<double>();
+                    int maxi = Npx - 1;
+                    int maxj = Npy - 1;
+                    for (int i = 0; i < maxi; i++)
+                    {
+                        for (int j = 0; j < maxj; j++)
+                        {
+                        prova.Add(data[i,j][2]);
+                        }
+                    }
+                    return prova.Min();
+                }
+            }
+
+
         }
 
         public static DoubleMap interpolatedMap(double iXmin, double iXmax, double iYmin, double iYmax, int iXcells, int iYcells, DoubleMap origin)
         {
             // SE non sono nei confini del gws
             //    return null per ora...
-            if (iXmin < origin.xmin || iXmax > origin.xmax || iYmin < origin.ymin || iYmax > origin.ymax) { return null; }
+            if (iXmin < origin.xmin || iXmax > origin.xmax || iYmin < origin.ymin || iYmax > origin.ymax) 
+            {
+                throw new System.ArgumentException("Boundaries bigger than origin map", "original"); 
+            }
+
             DoubleMap result = new DoubleMap(iXmin, iXmax, iYmin, iYmax, iXcells, iYcells);
 
             // Ora sono nei confini del gws
@@ -531,29 +623,49 @@ namespace WindSim.Batch.Core
                     double[] BwsPoint = new double[3];
                     BwsPoint[0] = iXmin + i * bwsStepX;
                     BwsPoint[1] = iYmin + j * bwsStepY;
-                    int Xindex = MyMath.FindClosestLowerIndex(BwsPoint[0], gwsXcoord);
-                    int Yindex = MyMath.FindClosestLowerIndex(BwsPoint[1], gwsYcoord);
-                    double[][] closestPoints = new double[4][];
-                    closestPoints[0] = new double[3];
-                    closestPoints[0][0] = gwsXcoord[Xindex];
-                    closestPoints[0][1] = gwsYcoord[Yindex];
-                    closestPoints[1] = new double[3];
-                    closestPoints[1][0] = gwsXcoord[Xindex + 1];
-                    closestPoints[1][1] = gwsYcoord[Yindex];
-                    closestPoints[2] = new double[3];
-                    closestPoints[2][0] = gwsXcoord[Xindex + 1];
-                    closestPoints[2][1] = gwsYcoord[Yindex + 1];
-                    closestPoints[3] = new double[3];
-                    closestPoints[3][0] = gwsXcoord[Xindex];
-                    closestPoints[3][1] = gwsYcoord[Yindex + 1];
+                    int Xindex_min = MyMath.FindClosestLowerIndex(BwsPoint[0] - bwsStepX/2, gwsXcoord);
+                    int Yindex_min = MyMath.FindClosestLowerIndex(BwsPoint[1] - bwsStepY/2, gwsYcoord);
+                    int Xindex_max = MyMath.FindClosestUpperIndex(BwsPoint[0] + bwsStepX / 2, gwsXcoord);
+                    int Yindex_max = MyMath.FindClosestUpperIndex(BwsPoint[1] + bwsStepY / 2, gwsYcoord);
+                    int numberOfPoints = (Xindex_max - Xindex_min + 1)*(Yindex_max - Yindex_min + 1);
+                    double[][] closestPoints = new double[numberOfPoints][];
+
+                    int pointsCounter = 0;
+                    for (int countx = Xindex_min; countx < Xindex_max + 1; countx++)
+                    {
+                        for (int county = Yindex_min; county < Yindex_max + 1; county++)
+                        {
+                            closestPoints[pointsCounter] = new double[3];
+                            closestPoints[pointsCounter][0] = gwsXcoord[countx];
+                            closestPoints[pointsCounter][1] = gwsYcoord[county];
+                            closestPoints[pointsCounter][2] = origin.data[countx, county][2];
+                            pointsCounter++;
+                        }
                     
-                    closestPoints[0][2] = origin.data[Xindex, Yindex][2];
-                    closestPoints[1][2] = origin.data[Xindex + 1, Yindex][2];
-                    closestPoints[2][2] = origin.data[Xindex + 1, Yindex + 1][2];
-                    closestPoints[3][2] = origin.data[Xindex, Yindex + 1][2];
+                    }
+                    //closestPoints[0] = new double[3];
+                    //closestPoints[0][0] = gwsXcoord[Xindex];
+                    //closestPoints[0][1] = gwsYcoord[Yindex];
+                    //closestPoints[1] = new double[3];
+                    //closestPoints[1][0] = gwsXcoord[Xindex + 1];
+                    //closestPoints[1][1] = gwsYcoord[Yindex];
+                    //closestPoints[2] = new double[3];
+                    //closestPoints[2][0] = gwsXcoord[Xindex + 1];
+                    //closestPoints[2][1] = gwsYcoord[Yindex + 1];
+                    //closestPoints[3] = new double[3];
+                    //closestPoints[3][0] = gwsXcoord[Xindex];
+                    //closestPoints[3][1] = gwsYcoord[Yindex + 1];
+                    
+                    //closestPoints[0][2] = origin.data[Xindex, Yindex][2];
+                    //closestPoints[1][2] = origin.data[Xindex + 1, Yindex][2];
+                    //closestPoints[2][2] = origin.data[Xindex + 1, Yindex + 1][2];
+                    //closestPoints[3][2] = origin.data[Xindex, Yindex + 1][2];
                  
                     // calcolo il valore e lo schiaffo nell'array del result.
                     BwsPoint[2] = MyMath.FirstOrderTrendSurface(BwsPoint[0], BwsPoint[1], closestPoints);
+                    if (BwsPoint[2] < 0)
+                    { 
+                    }
                     result.data[i, j] = BwsPoint;
                 }
             }
@@ -607,6 +719,12 @@ namespace WindSim.Batch.Core
 
             DoubleMap result = new DoubleMap(origin.xmin, origin.xmax, origin.ymin, origin.ymax, dataset);
             return result;
+        }
+
+        public static int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
         }
     }
 }

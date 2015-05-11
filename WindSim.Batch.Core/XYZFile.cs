@@ -12,7 +12,6 @@ namespace WindSim.Batch.Core
         public double[,,,] values;
         public int ni, nj, nk;
         FileInfo FileName;
-        NumberStyles floatdataFormat = NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent | NumberStyles.AllowLeadingWhite | NumberStyles.AllowDecimalPoint;
         public XYZFile(string filename)
         {
             if (File.Exists(filename))
@@ -38,7 +37,7 @@ namespace WindSim.Batch.Core
                         for (element = 0; element < 5; element++)
                         {
 
-                                values[ni_index, nj_index, nk_index, xyz_index] = Double.Parse(line.Substring(13 * element, 13), floatdataFormat);
+                            values[ni_index, nj_index, nk_index, xyz_index] = double.Parse(line.Substring(13 * element, 13), CultureInfo.InvariantCulture);
                                 nj_index++;
 
                                 if (nj_index == nj) 

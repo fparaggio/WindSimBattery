@@ -42,6 +42,8 @@ namespace WindSim.Batch.Core
         {
             get { return Math.Sqrt(Math.Pow(Dx, 2) + Math.Pow(Dy, 2)); }
         }
+
+        public string filepath;
         
         public MyMath.DoubleMap Map(MapType type)
         {
@@ -73,7 +75,7 @@ namespace WindSim.Batch.Core
             return result;
         }
 
-        public FileGws(int nx, int ny, double xMin, double xMax, double yMin, double yMax, string windsimVer, string areaName, int coordinatesyst) 
+        public FileGws(int nx, int ny, double xMin, double xMax, double yMin, double yMax, string windsimVer, string areaName, int coordinatesyst, string gws_filepath) 
         {
             data = new GwsNode[nx, ny];
             WindsimVersion= windsimVer;
@@ -82,7 +84,8 @@ namespace WindSim.Batch.Core
             xmin = xMin; 
             xmax = xMax;
             ymin = yMin;
-            ymax = yMax; 
+            ymax = yMax;
+            filepath = gws_filepath;
         }
 
     }

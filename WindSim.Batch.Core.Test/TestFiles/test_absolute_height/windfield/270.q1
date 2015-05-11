@@ -1,0 +1,911 @@
+TALK=F;RUN( 1, 1);VDU=X11-TERM
+  ************************************************************
+  Group 1. Run Title
+  *
+  * q1 filename ID: 480.q1
+  *
+  ************************************************************
+TEXT(Wind Field, Sector =270                  * PHOENICS - 2008)
+INTEGER(RESTART,GRBET,TWOINLET,MSVX,MSVY,NESTING,NODES)
+REAL(PI,ANGLE,SPEED,SPEED1,SPEED2,DUMMY,UIN,VIN,KEIN,EPIN,$
+OMEGIN,LAT, CMU)
+REAL(BLHH,REFH, OBUK, REFS,OBUKHOV,NOD)
+REAL(DEN_A,P1RELAX,FAKTOR,DTF_VEL,DTF_TUR,RELX,HEIGHT,BLHEIGHT)
+REAL(t0,tgrad,r_sin,r_cos)
+
+
+
+  *
+  * ANGLE    - wind direction, 0 degrees from north, positive direction clockwise
+  * SPEED    - wind speed at inlet
+  * SPEED1   - wind speed perpendicular to inlet 1
+  * SPEED2   - wind speed perpendicular to inlet 2
+  * UIN      - inlet speed, u-comp. - along 1-axis
+  * VIN      - inlet speed, v-comp. - along 2-axis
+  * KEIN     - initial value for turbulent kinetic energy based on inlet wind speed; KEIN = (0.05*SPEED)**2
+  * EPIN     - initial value for turbulent dissipation rate based on KE; EPIN = KEIN**1.5/const.
+  * OMEGIN   - initial value for turbulent specific dissipation rate OMEGIN = (KEIN**1.5/10)/(0.09*((0.05*SPEED)**2))
+  * LAT      - latitude (degrees)
+  * DEN_A    - air density
+  * P1RELAX  - under relaxation pressure
+  * FAKTOR   - factor use for the false time step relaxation, factor is an averaged horizontal cell size
+  * RELX     - factor use for the false time step relaxation
+  * DTF_VEL  - false time step relaxation for the velocities
+  * DTF_TUR  - false time step relaxation for the turbulence
+  * RESTART  - restart:
+  *            RESTART=0 no restart
+  *            RESTART=1 restart with INIT_gr,
+  *            RESTART=2 restart with INPR,
+  * GRBET    - boundary conditions.:
+  *            GRBET=1 constant profile
+  *            GRBET=2 profile set in ground
+  *            GRBET=3 nesting
+  * TWOINLET - specification of two inlets, all wind directions except 0,90,180,270 will give two inlets
+  * MSVX     - Monitoring Spot Value Xpos
+  * MSVY     - Monitoring Spot Value Ypos
+  * RG(1)    - transfer to ground Monitoring Field Value
+  * RG(30)   - transfer to ground CMUCD
+  * RG(31)   - transfer to ground ANGLE
+  * RG(32)   - transfer to ground GRBET
+  * RG(33)   - transfer to ground of temperature/mesoscale activation
+  * RG(33) = 0 default WindSim without mesoscale coupling and temperature
+  * RG(33) = 1 with mesoscale coupling but without temperature
+  * RG(33) = 2 with mesoscale coupling and with temperature
+  * RG(33) = 3 without mesoscale coupling and with temperature; stability defined by Monin-OBUKhov length
+  * RG(33) = 4 without mesoscale coupling and with temperature; stability defined by temperature gradient
+
+
+PI       = 3.141593
+ANGLE    =    270
+SPEED    =      10.00
+DUMMY    = ((PI*ANGLE)/180.0)
+UIN      = -SPEED*SIN(DUMMY)
+VIN      = -SPEED*COS(DUMMY)
+KEIN     = (0.05*SPEED)**2
+EPIN     = KEIN**1.5/10
+!OMEGIN   = (KEIN**1.5/10)/(0.09*((0.05*SPEED)**2))
+OMEGIN   = EPIN/0.02973/KEIN
+LAT      =      45.00
+DEN_A    =      1.225
+P1RELAX  = 0.5
+FAKTOR   =      5.000
+RELX     = 0.10
+DTF_VEL  = RELX*FAKTOR/SPEED
+DTF_TUR  = 0.5*RELX*FAKTOR/SPEED
+RESTART  =      1
+GRBET    =      2
+MSVX     =      5
+MSVY     =      5
+RG(1)    =     12
+RG(31)   = ANGLE
+RG(32)   = GRBET
+NPHI     = 50
+RG(33)   =      0
+t0       =    288.000
+tgrad    =     0.000000
+r_sin    = sin(DUMMY)
+r_cos    = cos(DUMMY)
+NODES    =          1
+RG(2)    =       1.00
+REFH     =     500.00
+REFS     =      10.00
+BLHH     = 500.000000
+NESTING  =      0
+OBUK     = 10000.000
+CMU      = 0.09
+
+
+  *
+  * key setting written to the screen
+  *
+MESG(
+MESG( Restart                   = :RESTART:
+MESG( Boundary condition        = :GRBET:
+MESG( Wind direction            = :ANGLE:
+MESG( Wind speed                = :SPEED:
+MESG( Wind speed, u-comp.       = :UIN:
+MESG( Wind speed, v-comp.       = :VIN:
+MESG( Turbulent kinetic energy  = :KEIN:
+MESG( Turbulent dissipation     = :EPIN:
+MESG( Turb Spec Diss Rate	= :OMEGIN:
+MESG( False time step vel.      = :DTF_VEL:
+MESG( False time step turb.     = :DTF_TUR:
+MESG(
+
+
+  ************************************************************
+  Group 2. Transience
+STEADY  =    T
+  ************************************************************
+  Group 6. Body-Fitted coordinates
+BFC     =    T
+
+  *
+  * Taking into account non-in-face velocities
+  * for highly skewd BFC grids
+  *
+NONORT  =    T
+READCO(grid)
+  ************************************************************
+  Group 7. Variables: STOREd,SOLVEd,NAMEd
+SOLVE(P1  ,U1  ,V1  ,W1)
+  *
+  *  setting pripor to 4.5 with forest model
+  *  STORE(ENUT,UCRT,VCRT,WCRT,ROUG)
+  *
+  STORE(ENUT,UCRT,VCRT,WCRT,ROUG,HPOR,NPOR,EPOR,VPOR)
+  *  in 4.8.0 possibility to extract the density (RHO1, kg/m^3)
+
+STORE(ENUT,UCRT,VCRT,WCRT,ROUG,HPOR,NPOR,EPOR,VPOR,RHO1)
+STORE(ZCEN,XCEN,YCEN,TREF,WADD,GR)
+IF(NODES.GT.1)THEN
+STORE(X0,X1,X3,XH,PSIA,PSIM, PSIS,PSI,spem,ust,spee, X,kee, epp, ANG,r_h)
+ENDIF
+
+   STORE(GENK)         ! to include for k-omega
+
+  * Activation of turbulence model
+TURMOD(KEMODL)
+    TURMOD(KEMODL)
+    TURMOD(KEMODL-YAP)
+    TURMOD(KERNG)
+    TURMOD(KOMODL)
+YPLS    =    T
+
+  *
+  * Additional solver options
+  *
+  * 1) stored
+  * 2) solved
+  * 3) whole-field
+  * 4) point-by-point
+  * 5) explicit
+  * 6) harmonic averaging
+  *
+  * default (VAR,N,N,N,N,N,N)
+  * default if SOLVE (VAR,Y,Y,N,N,N,N)
+  *
+SOLUTN(P1,Y,Y,Y,N,N,Y)
+
+  ************************************************************
+  Group 8. Terms & Devices
+  *
+  * Activation/deactivation of terms in transport equation
+  *
+  * 1) built-in source
+  * 2) convection
+  * 3) diffusion
+  * 4) transient
+  * 5) first phase variable
+  * 6) interphase transport
+  *
+  * The following deactivation of the built-in source terms in the
+  * KE and EP eq. are set by default when TURMOD(KEMODL)
+  *
+  * TERMS (KE  ,N,Y,Y,Y,Y,N)
+  * TERMS (EP  ,N,Y,Y,Y,Y,N)
+  * TERMS (OMEG  ,N,Y,Y,Y,Y,N)
+
+
+  *
+  * NEWENT = T activates recalculation of turbulent viscosity after
+  * each slab, default = T, set F for economy
+  *
+NEWENT  =    T
+  *
+  * iteration frequency of block adjustment in linear equation
+  * solver for all variables not solved for point by point
+  * ISOLn > 0 for n-direction when n is the main flow direction
+  * default = -1 gives correction at first iteration of each sweep
+  *
+ISOLX   =   -1
+ISOLY   =   -1
+ISOLZ   =   -1
+  ************************************************************
+  Group 9. Properties
+PRT(TEM1) = 0.7
+RHO1    = DEN_A
+
+  *
+  * EL1 = GRND4 select mixing length scale, len1 = (CD*KE**1.5)/EP
+  * ENUT= GRND3 select turbulent viscosity, NUt = Cmu*len1*KE**0.5
+  *       giving NUt = 0.09*KE**2/EP
+  *
+  * EL1     = GRND4
+  * ENUT    = GRND3
+
+ENUL    = 1.544E-05
+  *
+  * modified k-e version, modified CMUCD and PRT(EP)
+  *           standard   modified
+  * CMUCD   = 0.0900     0.0324
+  * PRT(EP) = 1.3140     1.8500
+  * (CMUCD is not a PIL varible and therefore it is transfered to
+  * ground in RG(30), deactivation is obtained by setting
+  * RG(30) = 0)
+  *
+  * Standard k-eps
+RG(30)  = 0.0000
+PRT(EP) = 1.3140
+  * Modified k-eps
+    RG(30)  = 0.0324
+    PRT(EP) = 1.8500
+  *
+  * FOR K-OMEGA MODEL WITH ATMOSPHERIC BOUNDARY LAYER
+
+  *RG(30) = 0.02973
+  *SPEDAT(KECONST,CMUCD,R,0.02973)
+  *PRT(EP) = 1.93333
+
+  * WALLA > 0, activates the use of roughness extracted from DFAD
+  * WALLA = 0, no roughness activated
+  *
+WALLA   = 1.0
+
+  ************************************************************
+  Group 11.Initialise Var/Porosity Fields
+
+IF(RESTART.EQ.0) THEN
++ FIINIT(U1  ) =  UIN
++ FIINIT(V1  ) =  VIN
++ FIINIT(KE  ) =  KEIN
++ FIINIT(EP  ) =  EPIN
++ FIINIT(OMEG ) = OMEGIN
+ENDIF
+  *
+  * Values for the analytical profiles at the inlet
+  *
+PATCH (WHOLE,PHASEM,1,NX,1,ny,1,NZ,1,LSTEP)
+IF(NODES.GT.1)THEN
+IF(OBUK.GT.0)THEN
+IF(OBUK.LT.10000)THEN
+(STORED OF X  AT WHOLE IS REFH)
+(STORED OF X1 AT WHOLE IS 0.03)
+(STORED OF X3 AT WHOLE IS BLHH)
+(STORED OF PSIM AT WHOLE IS (-4.7*((ZCEN-GR)/OBUK - ROUG/OBUK)))
+(STORED OF PSIS AT WHOLE IS (-4.7*((X3)/OBUK - ROUG/OBUK)))
+(STORED OF PSIA AT WHOLE IS (-4.7*((X)/OBUK - X1/OBUK)))
+(STORED OF PSI  AT WHOLE IS (-4.7*((X3)/OBUK - X1/OBUK)))
+(STORED OF UST  AT WHOLE IS (REFS*0.41)/(LOGE((REFH)/0.03)-PSIA))
+(STORED OF SPEM AT WHOLE IS ((UST/0.41)*(LOGE((BLHH)/0.03)-PSI)))
+(STORED OF UST  AT WHOLE IS ((SPEM*0.41)/(LOGE((BLHH)/ROUG)-PSIS)))
+(STORED OF EPP  AT WHOLE IS ((UST^3/0.41)*(1.0/(ZCEN-GR))))
+ENDIF
+ENDIF
+
+IF(OBUK.LT.0)THEN
+
+(STORED OF X  AT WHOLE IS ((1.0 - 15.0 * (ZCEN-GR)/OBUK)^0.25))
+(STORED OF X0 AT WHOLE IS ((1.0 - 15.0 * ROUG/OBUK     )^0.25))
+(STORED OF X1 AT WHOLE IS ((1.0 - 15.0 * REFH/OBUK     )^0.25))
+(STORED OF X3 AT WHOLE IS ((1.0 - 15.0 * 0.03/OBUK     )^0.25))
+(STORED OF XH AT WHOLE IS ((1.0 - 15.0 * BLHH/OBUK     )^0.25))
+(STORED OF PSIM AT WHOLE IS (2.0 * LOGE((1.0+X)/(1.0+X0))+ $
+LOGE((1.0+X * X )/(1.0+X0*X0))-2.0*ATAN(X )+2.0*ATAN(X0)))
+(STORED OF PSIS AT WHOLE IS (2.0 * LOGE((1.0+XH)/(1.0+X0))+ $
+LOGE((1.0+XH*XH)/(1.0+X0*X0))-2.0*ATAN(XH)+2.0*ATAN(X0)))
+(STORED OF PSIA AT WHOLE IS (2.0 * LOGE((1.0+X1)/(1.0+X3))+ $
+LOGE((1.0+X1*X1)/(1.0+X3*X3))-2.0*ATAN(X1)+2.0*ATAN(X3)))
+(STORED OF PSI  AT WHOLE IS (2.0 * LOGE((1.0+XH)/(1.0+X3))+ $
+LOGE((1.0+XH*XH)/(1.0+X3*X3))-2.0*ATAN(XH)+2.0*ATAN(X3)))
+(STORED OF UST  AT WHOLE IS (REFS*0.41)/(LOGE((REFH)/0.03)-PSIA))
+(STORED OF SPEM AT WHOLE IS ((UST/0.41)*(logE((BLHH)/0.03)-PSI)))
+(STORED OF UST  AT WHOLE IS ((SPEM*0.41)/(LOGE((BLHH)/ROUG)-PSIS)))
+(STORED OF EPP  AT WHOLE IS ((UST^3/0.41)*(1.0/(ZCEN-GR))))
+ENDIF
+
+IF(OBUK.EQ.10000)THEN
+
+(STORED OF PSIM AT WHOLE IS 0.0)
+(STORED OF PSIS AT WHOLE IS 0.0)
+(STORED OF PSI  AT WHOLE IS 0.0)
+(STORED OF PSIA AT WHOLE IS 0.0)
+(STORED OF X    AT WHOLE IS REFS)
+(STORED OF X3   AT WHOLE IS BLHH)
+(STORED OF UST  AT WHOLE IS ((X*0.41)/LOGE((X3)/ROUG)))
+(STORED OF SPEM AT WHOLE IS X)
+(STORED OF EPP  AT WHOLE IS ((UST^3/0.41)*((1.0/(ZCEN-GR)) $
++(4.0/10000.0))))
+ENDIF
+
+(STORED OF SPEE AT WHOLE IS ((UST/0.41)* $
+(LOGE((ZCEN-GR)/ROUG)-PSIM)) WITH IF((ZCEN-GR).LT.BLHH))
+(STORED OF SPEE AT WHOLE IS (SPEM) WITH IF((ZCEN-GR).GT.BLHH))
+(STORED OF KEE  AT WHOLE IS (UST^2/(CMU)^0.5)* $
+((1-((ZCEN-GR)/BLHH))^2.0) WITH IF((ZCEN-GR).LT.BLHH))
+(STORED OF KEE  AT WHOLE IS 0.0 WITH IF((ZCEN-GR).GT.BLHH))
+(STORED OF ANG  AT WHOLE IS R_COS)
+ENDIF
+  *
+  * Initial values are not additive when INIADD = F
+  *
+INIADD  =    F
+  *
+  * a forest could could be established as any combination of the
+  * following three models:
+  *
+  * 1) porosity
+  *
+  * porous variables HPOR, NPOR, EPOR and VPOR
+  * EPOR=NPOR=HPOR and EPOR=1-(1-VPOR)**(2/3)
+  * e.g. if VPOR=0.5 => EPOR=0.37
+  *
+  * PATCH(V0001,INIVAL, NXS,NXE, NYS,  NYE, NZS,  NZE,   1,  TLAST)
+  * INIT(V0001,HPOR, 0.000000E+00, 0.37)
+  * INIT(V0001,NPOR, 0.000000E+00, 0.37)
+  * INIT(V0001,EPOR, 0.000000E+00, 0.37)
+  * INIT(V0001,VPOR, 0.000000E+00, 0.50)
+  *
+  * if porosity = 0 then the following setting is used:
+  *
+  * CONPOR(B001 , 0.00,CELL  ,-NXS,-NXE,-NYS,-NYE,-NZS,-NZE)
+  *
+  * 2) resistive force proportional to speed (darcy law)
+  * + convective and diffusive term activated
+  *
+  * DARCON = 1.002E-02; DARCON is a real variable,
+  * default value 1.0E4, which should be set to
+  * (laminar viscosity/permeability)
+  *
+  * TERMS (U1,Y,Y,Y,N,Y,N)
+  * TERMS (V1,Y,Y,Y,N,Y,N)
+  * TERMS (W1,Y,Y,Y,N,Y,N)
+  * PATCH(DARCY ,PHASEM ,33, NX,   1,   NY,   1,   10,   1,   TLAST)
+  * COVAL(DARCY ,U1 , DARCON, 0.0)
+  * COVAL(DARCY ,V1 , DARCON, 0.0)
+  * COVAL(DARCY ,W1 , DARCON, 0.0)
+  *
+  * 3) resistive force proportional to the square of the velocity
+  *
+  * activeted by a COVAL command with a negative constant
+  * COVAL(patch_name,PHI,-C,V)
+  *
+  * PATCH(RESFORCE ,PHASEM ,33, NX,   1,   NY,   1,   10,   1,   TLAST)
+  * COVAL(RESFORCE ,U1 ,-C, 0.0)
+  * COVAL(RESFORCE ,V1 ,-C, 0.0)
+  * COVAL(RESFORCE ,W1 ,-C, 0.0)
+  *
+  * Possible obstacles
+  ************************************************************
+  Group 13. Boundary & Special Sources
+  *
+  ************************************************************
+  * Activation of CORIOLIS
+  ************************************************************
+  *
+  * conversion from degrees to radians
+  *
+  LAT = LAT*2.0*PI/360.0
+  *
+  * CORIOL is the Coriolis parameter
+  *
+  CORIOL = 2*2*PI/24/60/60*sin(LAT)
+  ************************************************************
+  * Activation of CORIOLIS END
+  ************************************************************
+  * Boundary conditions for mesoscale coupling
+  * Default boundary conditions
+IF(ANGLE.EQ.0.OR.ANGLE.EQ.360) THEN
++ INLET (IN1     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I11     ,NORTH  ,1,NX,NY-1,NY-1,1,NZ,#1,#1)
++ PATCH (I1      ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT1     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 = -VIN
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,-SPEE))
+(SOURCE of U1 at IN1 is 0.0)
+(SOURCE of P1 at IN1 is coval(FIXFLU,(SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I11     ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.GT.0.AND.ANGLE.LT.90) THEN
++ INLET (IN1     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ INLET (IN2     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I11     ,NORTH ,1,NX,NY-1,NY-1,1,NZ,#1,#1)
++ PATCH (I1      ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I22     ,EAST  ,NX-1,NX-1,1,NY,1,NZ,#1,#1)
++ PATCH (I2      ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1    ,NORTH ,1,NX,NY,NY,1,NZ,#1,#1)
++ PATCH (INA2     ,EAST  ,NX,NX,1,NY-1,1,NZ,#1,#1)
++ PATCH (UT1     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT2     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 = -VIN
++ SPEED2 = -UIN
++ TWOINLET = 1
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN1 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN1 is coval(FIXFLU,(r_cos*SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+
+(SOURCE of V1 at IN2 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN2 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN2 is coval(FIXFLU,(r_sin*SPEE*RHO1)))
+(SOURCE of KE at IN2 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN2 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I11     ,V1,  FIXVAL  , SAME )
++ COVAL (I22     ,U1,  FIXVAL  , SAME)
++ COVAL (I2      ,V1,  FIXVAL  , SAME )
+ENDIF
+ENDIF
+
+IF(ANGLE.EQ.90) THEN
++ INLET (IN1     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I11     ,EAST  ,NX-1,NX-1,1,NY,1,NZ,#1,#1)
++ PATCH (I1      ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT1     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 = -UIN
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of U1 at IN1 is coval(ONLYMS,-SPEE))
+(SOURCE of V1 at IN1 is 0.0)
+(SOURCE of P1 at IN1 is coval(FIXFLU,(SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I11     ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.GT.90.AND.ANGLE.LT.180) THEN
++ INLET (IN1     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ INLET (IN2     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I11     ,EAST  ,NX-1,NX-1,1,NY,1,NZ,#1,#1)
++ PATCH (I1      ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I22     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I2      ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1    ,EAST  ,NX,NX,2,NY,1,NZ,#1,#1)
++ PATCH (INA2    ,SOUTH ,1,NX,1,1,1,NZ,#1,#1)
++ PATCH (UT1     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT2     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 = -UIN
++ SPEED2 =  VIN
++ TWOINLET = 1
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN1 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN1 is coval(FIXFLU,(r_sin*SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+
+(SOURCE of V1 at IN2 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN2 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN2 is coval(FIXFLU,(-r_cos*SPEE*RHO1)))
+(SOURCE of KE at IN2 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN2 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I11     ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
++ COVAL (I2      ,U1,  FIXVAL  , SAME)
++ COVAL (I2      ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.EQ.180) THEN
++ INLET (IN1     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I1      ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT1     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 =  VIN
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,SPEE))
+(SOURCE of U1 at IN1 is 0.0)
+(SOURCE of P1 at IN1 is coval(FIXFLU,(SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.GT.180.AND.ANGLE.LT.270) THEN
++ INLET (IN1     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ INLET (IN2     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I1      ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I2      ,WEST ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1    ,SOUTH ,1,NX,1,1,1,NZ,#1,#1)
++ PATCH (INA2    ,WEST  ,1,1,2,NY,1,NZ,#1,#1)
++ PATCH (UT1     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT2     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 =  VIN
++ SPEED2 =  UIN
++ TWOINLET = 1
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN1 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN1 is coval(FIXFLU,(-r_cos*SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+
+(SOURCE of V1 at IN2 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN2 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN2 is coval(FIXFLU,(-r_sin*SPEE*RHO1)))
+(SOURCE of KE at IN2 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN2 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
++ COVAL (I2      ,U1,  FIXVAL  , SAME)
++ COVAL (I2      ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.EQ.270) THEN
++ INLET (IN1     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I1      ,WEST ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1    ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT1     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 =  UIN
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of U1 at IN1 is coval(ONLYMS,SPEE))
+(SOURCE of V1 at IN1 is 0.0)
+(SOURCE of P1 at IN1 is coval(FIXFLU,(SPEE*RHO1)) )
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+IF(ANGLE.GT.270.AND.ANGLE.LT.360) THEN
++ INLET (IN1     ,WEST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ INLET (IN2     ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I11     ,WEST ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I1      ,WEST ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (I22     ,NORTH ,1,NX,NY-1,NY-1,1,NZ,#1,#1)
++ PATCH (I2      ,NORTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (INA1    ,WEST  ,1,1,1,NY,1,NZ,#1,#1)
++ PATCH (INA2    ,NORTH ,2,NX,NY,NY,1,NZ,#1,#1)
++ PATCH (UT1     ,EAST  ,#1,#1,#1,#1,#1,#1,#1,#1)
++ PATCH (UT2     ,SOUTH ,#1,#1,#1,#1,#1,#1,#1,#1)
++ SPEED1 =  UIN
++ SPEED2 = -VIN
++ TWOINLET = 1
+IF(NODES.GT.1.AND.NESTING.EQ.0)THEN
+(SOURCE of V1 at IN1 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN1 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN1 is coval(FIXFLU,(-r_sin*SPEE*RHO1)))
+(SOURCE of KE at IN1 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN1 is 0.0)
+
+(SOURCE of V1 at IN2 is coval(ONLYMS,-r_cos*SPEE))
+(SOURCE of U1 at IN2 is coval(ONLYMS,-r_sin*SPEE))
+(SOURCE of P1 at IN2 is coval(FIXFLU,(r_cos*SPEE*RHO1)))
+(SOURCE of KE at IN2 is coval(ONLYMS,KEE))
+(SOURCE of W1 at IN2 is 0.0)
+ENDIF
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,U1,  FIXVAL  , SAME)
++ COVAL (I1      ,V1,  FIXVAL  , SAME)
++ COVAL (I2      ,U1,  FIXVAL  , SAME)
++ COVAL (I22     ,V1,  FIXVAL  , SAME)
+ENDIF
+ENDIF
+
+
+IF(NODES.EQ.1)THEN
+IF(GRBET.EQ.1)THEN
++ VALUE (IN1     ,P1  , RHO1*SPEED1)
++ VALUE (IN1     ,U1  , UIN  )
++ VALUE (IN1     ,V1  , VIN  )
++ VALUE (IN1     ,W1  , 0.0  )
++ VALUE (IN1     ,KE  , KEIN )
++ VALUE (IN1     ,EP  , EPIN )
++ VALUE (IN1	 ,OMEG  ,OMEGIN )
++ IF(TWOINLET.EQ.1)THEN
++   VALUE (IN2     ,P1  , RHO1*SPEED2)
++   VALUE (IN2     ,U1  , UIN  )
++   VALUE (IN2     ,V1  , VIN  )
++   VALUE (IN2     ,W1  , 0.0  )
++   VALUE (IN2     ,KE  , KEIN )
++   VALUE (IN2     ,EP  , EPIN )
++   VALUE (IN2	   ,OMEG  ,OMEGIN )
++ ENDIF
+ELSE
++ VALUE (IN1     ,P1  , GRND )
++ VALUE (IN1     ,U1  , GRND )
++ VALUE (IN1     ,V1  , GRND )
++ VALUE (IN1     ,W1  , GRND )
++ VALUE (IN1     ,KE  , GRND )
++ VALUE (IN1     ,EP  , GRND )
++ IF(TWOINLET.EQ.1)THEN
++   VALUE (IN2     ,P1  , GRND )
++   VALUE (IN2     ,U1  , GRND )
++   VALUE (IN2     ,V1  , GRND )
++   VALUE (IN2     ,W1  , GRND )
++   VALUE (IN2     ,KE  , GRND )
++   VALUE (IN2     ,EP  , GRND )
++ ENDIF
+ENDIF
+ELSE
+IF(NODES.GT.1.AND.NESTING.GE.1) THEN
++ COVAL (I1      ,P1,  1.E3*FIXP  , 0.0)
++ COVAL (I1      ,EP,  FIXVAL     , SAME)
++ COVAL (I1      ,KE,  FIXVAL     , SAME)
++ COVAL (I1      ,OMEG,  FIXVAL     , SAME)
++ COVAL (I1      ,W1,  FIXVAL     , SAME)
++ IF(TWOINLET.EQ.1)THEN
++ COVAL (I2     ,P1  , 1.E3*FIXP  , 0.0)
++ COVAL (I2     ,W1  ,  FIXVAL    , SAME)
++ COVAL (I2     ,KE  ,  FIXVAL    , SAME)
++ COVAL (I2     ,EP  ,  FIXVAL    , SAME)
++ COVAL (I2     ,OMEG  ,  FIXVAL    , SAME)
++ ENDIF
+ENDIF
+ENDIF
+
+!----------this is needed for k-omega ---------
+!COVAL(IN1     ,OMEG, 0.000000E+00, EPIN/0.02973/KEIN  )
+!COVAL(IN2     ,OMEG, 0.000000E+00, EPIN/0.02973/KEIN  )
+!COVAL(IN1     ,OMEG, 0.000000E+00, 1.4119 )
+!COVAL(IN2     ,OMEG, 0.000000E+00, 1.4119 )
+!----------------------------------------------
+
+  * e-mail 16.02.05 from Mike Malin:
+  *
+  * The unphysical velocity profile occurs at the outlet boundary
+  * because the outlet pressure coefficient is too small a value
+  * (unity) to fix the pressure close to zero. Consequently,
+  * because the pressure is allowed to float too much,
+  * a pressure gradient is produced at the outlet plane,
+  * thereby distorting the flow. I attach a q1 file that cures
+  * the problem by using a coefficient of 1e3.
+  *
+  * Please note that I do not recommend the use of SAME for the
+  * velocities at the outlet boundary, as this can sometimes lead
+  * to divergence or non-physical results. It is better to use zero,
+  * i.e. in the event of inflow, PHOENICS will convect zero momentum
+  * from the external surroundings rather than the in-cell momentum
+  * per unit mass (velocity).
+
+COVAL (UT1     ,P1  , 1.E3*FIXP  , 0.0  )
+COVAL (UT1     ,U1  , ONLYMS,  0.0 )
+COVAL (UT1     ,V1  , ONLYMS,  0.0 )
+COVAL (UT1     ,W1  , ONLYMS,  0.0 )
+COVAL (UT1     ,KE  , ONLYMS, SAME )
+COVAL (UT1     ,EP  , ONLYMS, SAME )
+IF(TWOINLET.EQ.1)THEN
++ COVAL (UT2     ,P1  , 1.E3*FIXP  , 0.0  )
++ COVAL (UT2     ,U1  , ONLYMS,  0.0 )
++ COVAL (UT2     ,V1  , ONLYMS,  0.0 )
++ COVAL (UT2     ,W1  , ONLYMS,  0.0 )
++ COVAL (UT2     ,KE  , ONLYMS, SAME )
++ COVAL (UT2     ,EP  , ONLYMS, SAME )
+ENDIF
+  * setting in pre 450
+  *
+  * COVAL (UT1     ,P1  , FIXP  , 0.0  )
+  * COVAL (UT1     ,U1  , ONLYMS, SAME )
+  * COVAL (UT1     ,V1  , ONLYMS, SAME )
+  * COVAL (UT1     ,W1  , ONLYMS, SAME )
+  * COVAL (UT1     ,KE  , ONLYMS, SAME )
+  * COVAL (UT1     ,EP  , ONLYMS, SAME )
+  * COVAL (UT1     ,OMEG  , ONLYMS, SAME )
+  * IF(TWOINLET.EQ.1)THEN
+  * + COVAL (UT2     ,P1  , FIXP  , 0.0  )
+  * + COVAL (UT2     ,U1  , ONLYMS, SAME )
+  * + COVAL (UT2     ,V1  , ONLYMS, SAME )
+  * + COVAL (UT2     ,W1  , ONLYMS, SAME )
+  * + COVAL (UT2     ,KE  , ONLYMS, SAME )
+  * + COVAL (UT2     ,EP  , ONLYMS, SAME )
+  * + COVAL (UT2     ,OMEG  , ONLYMS, SAME )
+  * ENDIF
+  * Default boundary conditions end
+  ************************************************************
+  * Activation of no-friction wall at top
+  ************************************************************
+PATCH (TOPP    ,HIGH  ,#1,#1,#1,#1,#1,#1,#1,#1)
+COVAL (TOPP    ,P1  , FIXP  , 0.0  )
+COVAL (TOPP    ,U1  , ONLYMS, SAME )
+COVAL (TOPP    ,V1  , ONLYMS, SAME )
+COVAL (TOPP    ,W1  , ONLYMS, SAME )
+COVAL (TOPP    ,KE  , ONLYMS, SAME )
+!COVAL (TOPP    ,KE  , 1.0 , 0.0)        ! for K-Omega low Re model
+COVAL (TOPP    ,EP  , ONLYMS, SAME )
+COVAL (TOPP    ,OMEG  , ONLYMS, SAME )
+
+  ************************************************************
+  * Activation of no-friction wall at top END
+  ************************************************************
+
+PATCH (BUNN    ,LWALL ,#1,#1,#1,#1,#1,#1,#1,#1)
+COVAL (BUNN    ,U1  , GRND2 , 0.0  )
+COVAL (BUNN    ,V1  , GRND2 , 0.0  )
+COVAL (BUNN    ,KE  , GRND2 , GRND2)	! for K-Epsilon as well as K-Omega models
+! COVAL (BUNN    ,KE  , 1.0 , 0.0)       ! for  K-Omega low Re model
+COVAL (BUNN    ,EP  , GRND2 , GRND2)
+COVAL (BUNN    ,OMEG  , GRND2 , GRND2)  ! for K-O models -- GRND2 accounts for the wall roughness in the wall function
+! COVAL (BUNN    ,LTLS  , 1.0, 0.0)	! for LVEL model
+
+PATCH (KESOURCE,PHASEM,#1,#1,#1,#1,#1,#1,#1,#1)
+COVAL (KESOURCE,KE  , GRND4    , GRND4    )
+COVAL (KESOURCE,EP  , GRND4    , GRND4    )
+
+
+  *
+  * BFCA is used to cary the density of the incoming fluid at the
+  * boundary of a BFC case
+  *
+BFCA    = DEN_A
+
+  ************************************************************
+  Group 15. Terminate Sweeps
+IF(RESTART.EQ.0) THEN
++ LSWEEP =    100
+ELSE
++ LSWEEP =    100
+ENDIF
+
+IF(RESTART.EQ.2)THEN
++ SELREF  = F
++ RESREF(P1) = 1.0
++ RESREF(U1) = 1.0
++ RESREF(V1) = 1.0
++ RESREF(W1) = 1.0
++ RESREF(KE) = 1.0
++ RESREF(EP) = 1.0
++ RESREF(OMEG) = 1.0
+ELSE
++ SELREF  = T
+ENDIF
+
+RESFAC  = 1.000E-02
+
+  ************************************************************
+  Group 16. Terminate Iterations
+LITER(P1)=20
+LITER(U1)=10
+LITER(V1)=10
+LITER(W1)=10
+LITER(KE)=20
+LITER(EP)=20
+LITER(OMEG)=20
+LITER(UC1)=10
+LITER(VC1)=10
+LITER(WC1)=10
+
+ENDIT (P1  ) =  1.000E-03 ;ENDIT (U1  ) =  1.000E-03
+ENDIT (V1  ) =  1.000E-03 ;ENDIT (W1  ) =  1.000E-03
+ENDIT (KE  ) =  1.000E-03 ;ENDIT (EP  ) =  1.000E-03
+ENDIT (OMEG ) = 1.000E-03
+  ************************************************************
+  Group 17. Relaxation
+RELAX(P1  ,LINRLX, P1RELAX)
+RELAX(U1  ,FALSDT, DTF_VEL)
+RELAX(V1  ,FALSDT, DTF_VEL)
+RELAX(W1  ,FALSDT, DTF_VEL)
+RELAX(KE  ,FALSDT, DTF_TUR)
+RELAX(EP  ,FALSDT, DTF_TUR)
+VARMIN(KE)=1.0E-08
+VARMIN(EP)=1.0E-08
+VARMIN(OMEG)=1.0E-08
+  *
+  * KELIN determine which type of linearization used in the
+  * source terms of the KE and EP eq., default = 0
+  *
+!!!!!KELIN   =  0
+  ************************************************************
+  Group 18. Limits
+  ************************************************************
+  Group 19. EARTH Calls To GROUND Station
+  *
+  * GENK activates the contribution of all spatial derivatives in
+  * the production term of turbulent energy, default GENK = F
+  *
+!!!!!GENK    = T
+  ************************************************************
+  Group 20. Preliminary Printout
+ECHO    = T
+  ************************************************************
+  Group 21. Print-out of Variables
+  *
+  * utskrift result fil
+  *
+  * 1) field print-out
+  * 2) correction-equation monitor print-out
+  * 3) selective dumping
+  * 4) whole-field residual (utskrift skjerm under runear)
+  * 5) Spot value table and/or plot
+  * 6) Residual value table and/or plot
+  *
+  * default (VAR,N,N,N,N,N,N)
+  * default if SOLVE (VAR,Y,N,N,Y,Y,Y)
+  * default if STORE (VAR,Y,N,N,N,N,N)
+  *
+OUTPUT(P1  ,Y,N,N,Y,Y,Y)
+OUTPUT(U1  ,Y,N,N,Y,Y,Y)
+OUTPUT(V1  ,Y,N,N,Y,Y,Y)
+OUTPUT(W1  ,Y,N,N,Y,Y,Y)
+OUTPUT(UCRT,Y,N,N,Y,Y,Y)
+OUTPUT(VCRT,Y,N,N,Y,Y,Y)
+OUTPUT(WCRT,Y,N,N,Y,Y,Y)
+OUTPUT(KE  ,Y,N,N,Y,Y,Y)
+OUTPUT(EP  ,Y,N,N,Y,Y,Y)
+OUTPUT(OMEG,Y,N,N,Y,Y,Y)
+OUTPUT(ENUT,N,N,N,Y,Y,Y)
+  ************************************************************
+  Group 22. Monitor Print-Out
+  *
+  * Position of the Monitoring Spot Values transferred from WS
+  *
+IXMON   = MSVX
+IYMON   = MSVY
+IZMON   = 1
+TSTSWP  = -1
+  ************************************************************
+  Group 23.Field Print-Out & Plot Control
+  *
+  * Spot and residual value tables
+  *
+ITABL   = 2
+  ************************************************************
+  Group 24. Dumps For Restarts
+IF(RESTART.EQ.1) THEN
++ NAMFI=INIT
++ RESTRT(U1,V1,W1,KE,EP,ROUG,GR)
+ENDIF
+IF(RESTART.EQ.2) THEN
++ NAMFI=INPR
++ RESTRT(ALL)
+ENDIF
+  ************************************************************
+  * Possible Orthogonalize
+  ************************************************************
+  FIXDOM(1,1,NX,1,NY,1,1)
+  MSWP=3
+  MAGIC(L)
+  LJK=T; LIK=F; MSWP=3
+  MAGIC(L)
+  SLIDH=T
+  SLIDE=T
+  SLIDS=T
+  SLIDW=Td
+  SLIDN=T
+  ************************************************************
+  * Possible Orthogonalize END
+  ************************************************************
+  * Activation of MIGAL
+  ************************************************************
+KELIN   =  3  
+RELAX(U1  ,FALSDT, 100*DTF_VEL)  
+RELAX(V1  ,FALSDT, 100*DTF_VEL)  
+RELAX(W1  ,FALSDT, 100*DTF_VEL)  
+RELAX(KE  ,FALSDT, 1000*DTF_TUR)  
+RELAX(EP  ,FALSDT, 1000*DTF_TUR)  
+
+SPEDAT(MIGAL,SOLVED1,C,HYDRO)  
+SPEDAT(MIGAL,LINRLX1,R,8.00000E-01)  
+
+
+  ************************************************************
+  * Activation of MIGAL END
+  ************************************************************
+
+  ************************************************************
+  * Activation of CONWIZ
+  ************************************************************
+  CONWIZ = T
+  ************************************************************
+  * Activation of CONWIZ END
+  ************************************************************
+STOP

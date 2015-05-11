@@ -8,8 +8,8 @@ using System.IO;
 namespace WindSim.Batch.Core.Test
 {
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\project1", "project1")]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\Ionic.Zip.dll")]
+    [DeploymentItem("TestFiles\\project1", "project1")]
+    [DeploymentItem("TestFiles\\Ionic.Zip.dll")]
     public class Test_WindField
     {
 
@@ -24,7 +24,8 @@ namespace WindSim.Batch.Core.Test
         static WSProject reference_project = new WSProject(project_file.FullName);
         static WindField target =new WindField(reference_project, 270);
         WindField target2 = new WindField(reference_project, 270, PhiFileType.notReduced);
-        
+        WindField target2_reduced = new WindField(reference_project, 270, PhiFileType.reduced);
+
         public Test_WindField() 
         { 
         
@@ -78,8 +79,6 @@ namespace WindSim.Batch.Core.Test
         //}
         //
         #endregion
-
-
 
         [TestMethod]
         public void WindField_Check_project_directory()
@@ -136,9 +135,7 @@ namespace WindSim.Batch.Core.Test
         {
             Assert.AreEqual(target.phi.vars_phi[2, 1, 1, 5], target.ucrt(3, 2)[1]);
         }
-
-
-        
+  
         [TestMethod]
         public void WindField_ucrt_1_notreduced()
         {
@@ -176,7 +173,6 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(expected_value, target.zcen(2, 2)[0]);
         }
 
-        
         [TestMethod]
         public void WindField_zcen_top()
         {
@@ -392,7 +388,6 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(point, cella.Sel);
         }
 
- 
         //private XYZObject _nwu, _neu, _swu, _seu;
         //private XYZObject _nwl, _nel, _swl, _sel;
         //private XYZObject _cen;
@@ -508,21 +503,6 @@ namespace WindSim.Batch.Core.Test
             CollectionAssert.AreEqual(target.Field[1, 1, 1].Sel.toArray(), new double[] { target.xyz.values[2, 1, 1, 0], target.xyz.values[2, 1, 1, 1], target.xyz.values[2, 1, 1, 2] });
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [TestMethod]
         public void WindField_NotReduced_field_P1()
         {
@@ -577,8 +557,8 @@ namespace WindSim.Batch.Core.Test
         //          |   |                |   |
         //   Z j+1  |NWL+----------------|---+NEL
         //   ^      |  /                 |  /
-        //   |      | /	                | /
-        //   |      |/		            |/
+        //   |      | /	                 | /
+        //   |      |/		             |/
         // k | j SWL+--------------------+SEL
         //   |     i                       i+1
         //   |  >Y
@@ -658,5 +638,95 @@ namespace WindSim.Batch.Core.Test
             int CellIndex = target2.LowerCenterZ(49, 2, 100);
             Assert.IsTrue(target2.Field[49, 2, CellIndex].Cen.Z <= 100 && target2.Field[49, 2, CellIndex+1].Cen.Z >= 100);
         } 
+
+        [TestMethod]
+        public void WindField_lowerSurfaceInterpolation()
+        {
+            XYZObject point1 = new XYZObject(0, 0, 1);
+            XYZObject point2 = new XYZObject(1, 0, 12.5);
+            XYZObject point3 = new XYZObject(0, 1, 12.5);
+            XYZObject point4 = new XYZObject(1, 1, 2.5);
+            double x = 0.5;
+            double y = 0.5;
+            double[][] arrayOfPoints = new double[4][];
+            arrayOfPoints[0] = point1.toArray();
+            arrayOfPoints[1] = point2.toArray();
+            arrayOfPoints[2] = point3.toArray();
+            arrayOfPoints[3] = point4.toArray();
+            WindFieldCell cell = new WindFieldCell(1, 1, 1, 1, 1, 1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthWestLow, point1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthEastLow, point2);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthWestLow, point3);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthEastLow, point4);
+            double expectedResult = MyMath.FirstOrderTrendSurface(x, y, arrayOfPoints);
+            Assert.AreEqual(expectedResult,cell.lowerSurfaceInterpolation(x,y));
+        }
+
+
+        
+        [TestMethod]
+        public void WindField_contain_true()
+        {
+            XYZObject point1 = new XYZObject(0, 0, 1);
+            XYZObject point2 = new XYZObject(1, 0, 12.5);
+            XYZObject point3 = new XYZObject(0, 1, 12.5);
+            XYZObject point4 = new XYZObject(1, 1, 2.5);
+            //double[][] arrayOfPoints = new double[4][];
+            //arrayOfPoints[0] = point1.toArray();
+            //arrayOfPoints[1] = point2.toArray();
+            //arrayOfPoints[2] = point3.toArray();
+            //arrayOfPoints[3] = point4.toArray();
+            WindFieldCell cell = new WindFieldCell(1, 1, 1, 1, 1, 1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthWestLow, point1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthEastLow, point2);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthWestLow, point3);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthEastLow, point4);
+            //double expectedResult = MyMath.FirstOrderTrendSurface(x, y, arrayOfPoints);
+            Assert.IsTrue(cell.contains(0.5, 0.5));
+        }
+
+        [TestMethod]
+        public void WindField_contain_false()
+        {
+            XYZObject point1 = new XYZObject(0, 0, 1);
+            XYZObject point2 = new XYZObject(1, 0, 12.5);
+            XYZObject point3 = new XYZObject(0, 1, 12.5);
+            XYZObject point4 = new XYZObject(1, 1, 2.5);
+            //double[][] arrayOfPoints = new double[4][];
+            //arrayOfPoints[0] = point1.toArray();
+            //arrayOfPoints[1] = point2.toArray();
+            //arrayOfPoints[2] = point3.toArray();
+            //arrayOfPoints[3] = point4.toArray();
+            WindFieldCell cell = new WindFieldCell(1, 1, 1, 1, 1, 1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthWestLow, point1);
+            cell.AddPoint(WindFieldCell.PointPosition.SouthEastLow, point2);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthWestLow, point3);
+            cell.AddPoint(WindFieldCell.PointPosition.NorthEastLow, point4);
+            //double expectedResult = MyMath.FirstOrderTrendSurface(x, y, arrayOfPoints);
+            Assert.IsFalse(cell.contains(1.5, 0.5));
+        }
+
+
+        [TestMethod]
+        [DeploymentItem("TestFiles\\test_absolute_height", "test_absolute_height")] 
+        public void WindField_test_that_xyz_has_absolute_height()
+        {
+        string ab_dir_name = "test_absolute_height";
+        DirectoryInfo ab_projectdir = new DirectoryInfo(ab_dir_name);
+        string ab_filepath = ab_projectdir.FullName + "\\test_absolute_height.ws";
+        FileInfo ab_project_file = new FileInfo(ab_filepath);
+        //string ab_phi_file270_path = ab_projectdir.FullName + "\\windfield\\270_red.phi";
+        //string ab_xyz_file270_path = ab_projectdir.FullName + "\\windfield\\270_red.xyz";
+        //string ab_phi_file_zipped = ab_projectdir.FullName + "\\windfield\\270.phi.Z";
+        WSProject ab_reference_project = new WSProject(ab_project_file.FullName);
+        WindField ab_target =new WindField(ab_reference_project, 270,PhiFileType.notReduced);
+        //WindField ab_target2 = new WindField(ab_reference_project, 270, PhiFileType.reduced);
+        //Assert.AreEqual(12.0, ab_target.Field[0,0,0].Nwl.Z);
+        int x = ab_target.Field.GetLength(0);
+        int y = ab_target.Field.GetLength(1);
+        Assert.AreEqual(12.0, ab_target.Field[MyMath.RandomNumber(0, x - 1), MyMath.RandomNumber(0, y - 1), 0].Swl.Z);
+        }
+
+
     }
 }

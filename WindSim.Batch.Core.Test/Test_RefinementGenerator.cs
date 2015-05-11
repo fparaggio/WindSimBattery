@@ -14,7 +14,7 @@ namespace WindSim.Batch.Core.Test
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\project1", "project1")]
+    [DeploymentItem("TestFiles\\project1", "project1")]
     public class Test_RefinementGenerator
     {
         public Test_RefinementGenerator()
@@ -90,7 +90,7 @@ namespace WindSim.Batch.Core.Test
 
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory() 
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -105,7 +105,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_write_the_bws_file_in_the_proper_Directory_aritm()
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -120,7 +120,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_load_proper_bws_file_name_project_parameters()
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -134,7 +134,7 @@ namespace WindSim.Batch.Core.Test
 
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_load__proper_bws_type_in_project_parameters()
         {
             WSProject project = new WSProject(project_file.FullName);
@@ -145,7 +145,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_GeometricalGrading()
         {
             RefinementGenerator.GeometricalGrading test_grading = new RefinementGenerator.GeometricalGrading(0.02,1000,20);
@@ -153,7 +153,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_AritmeticalGrading_heightDistributionFactor()
         {
             RefinementGenerator.AritmeticalGrading test_grading = new RefinementGenerator.AritmeticalGrading(1.2,10,10);
@@ -161,7 +161,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_AritmeticalGrading_additiveCostant()
         {
             RefinementGenerator.AritmeticalGrading test_grading = new RefinementGenerator.AritmeticalGrading(1.2, 10, 10);
@@ -169,7 +169,7 @@ namespace WindSim.Batch.Core.Test
         }
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\bws_test.bws")]
+        [DeploymentItem("TestFiles\\bws_test.bws")]
         public void test_RefinementGenerator_AritmeticalGrading_heightFirstLayer()
         {
             RefinementGenerator.AritmeticalGrading test_grading = new RefinementGenerator.AritmeticalGrading(1.2, 10, 10);

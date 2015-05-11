@@ -65,7 +65,7 @@ namespace WindSim.Batch.Core.Test
 
 
         [TestMethod]
-        [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\270.phi.Z", "zipfile")]
+        [DeploymentItem("TestFiles\\270.phi.Z", "zipfile")]
         public void test_ExtractionOfAZipFile()
         {
             string dir_name = "zipfile";

@@ -12,7 +12,8 @@ namespace WindSim.Batch.Core.Test
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\270.phi")]
+    [DeploymentItem("TestFiles\\270.phi")]
+    [DeploymentItem("TestFiles\\error.phi")]
     public class Test_phifileclass
     {
         static string fileName = "270.phi";
@@ -363,5 +364,167 @@ namespace WindSim.Batch.Core.Test
             Assert.AreEqual(27.50000, target.value(PhiFileDataType.Zcen, 0, 0, 0));
         }
 
+
+        [TestMethod]
+        public void Test_errorPhi_1_zcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(24.41625, target.value(PhiFileDataType.Zcen, 11, 11, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_zcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(400.9050, target.value(PhiFileDataType.Zcen, 44, 44, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_zcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(409.8940, target.value(PhiFileDataType.Zcen, 49, 49, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_1_xcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(879.3008, target.value(PhiFileDataType.Xcen, 11, 11, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_xcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(3402.453, target.value(PhiFileDataType.Xcen, 44, 38, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_xcen()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(3784.750, target.value(PhiFileDataType.Xcen, 49, 49, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_1_enut()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(2.083966, target.value(PhiFileDataType.Enut, 11, 11, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_enut()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(31592.87, target.value(PhiFileDataType.Enut, 44, 38, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_enut()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(15578.10, target.value(PhiFileDataType.Enut, 49, 49, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_1_Ucrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(3.371978, target.value(PhiFileDataType.Ucrt, 11, 13, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_Ucrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(-4354.532, target.value(PhiFileDataType.Ucrt, 44, 38, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_Ucrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(-6406.749, target.value(PhiFileDataType.Ucrt, 49, 49, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_1_Vcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(5.630201, target.value(PhiFileDataType.Vcrt, 11, 13, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_Vcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(2449.135, target.value(PhiFileDataType.Vcrt, 44, 38, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_Vcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(442.0277, target.value(PhiFileDataType.Vcrt, 49, 49, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_1_Wcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(-0.005028980, target.value(PhiFileDataType.Wcrt, 11, 13, 7));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_2_Wcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(-12686.50, target.value(PhiFileDataType.Wcrt, 44, 38, 14));
+        }
+
+        [TestMethod]
+        public void Test_errorPhi_3_Wcrt()
+        {
+            string fileName = "error.phi";
+            PhiFile target = new PhiFile(fileName);
+
+            Assert.AreEqual(-4601.597, target.value(PhiFileDataType.Wcrt, 49, 49, 14));
+        }
     }
 }

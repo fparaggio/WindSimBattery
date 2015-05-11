@@ -13,7 +13,7 @@ namespace WindSim.Batch.Core.Test
     ///to contain all XYZFileTest Unit Tests
     ///</summary>
     [TestClass()]
-    [DeploymentItem("WindSim.Batch.Core.Test\\TestFiles\\small_field_test", "test_small")]
+    [DeploymentItem("TestFiles\\small_field_test", "test_small")]
     public class Test_XYZFile_small_field_test
     {
 
@@ -24,6 +24,7 @@ namespace WindSim.Batch.Core.Test
 
         //static string fileName = "270_red.xyz";
         public XYZFile file_xyz = new XYZFile(xyz_filepath);
+        public FileInfo prova_xyz_file = new FileInfo(xyz_filepath);
 
         private TestContext testContextInstance;
 
@@ -76,7 +77,9 @@ namespace WindSim.Batch.Core.Test
         [TestMethod]
         public void test_xyz_sft_FindResourcefile_Test()
         {
-            Assert.IsTrue(System.IO.File.Exists(xyz_filepath));
+            Assert.IsTrue(prova_xyz_file.Exists);
+
+            //Assert.IsTrue(System.IO.File.Exists(xyz_filepath));
         }
 
         [TestMethod()]
