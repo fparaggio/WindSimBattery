@@ -1,14 +1,19 @@
 # WindSimBattery
 
+Software developed during the 5 month Intership period ad [WindSim](www.windsim.com)
+
+Master Thesis Project: 
 [Developing of an automatic grid for the CFD model WindSim](https://github.com/fparaggio/WindSimBattery/wiki/Development-of-an-automatic-grid-for-the-CFD-model-WindSim)
 
 A general description of the code is [here](https://github.com/fparaggio/WindSimBattery/wiki/Code-Description)
 
-### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
-### Author: Francesco Paraggio fparaggio@gmail.com
-### This file is part of WindSimBattery
+#### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
+#### Author: 
+Francesco Paraggio fparaggio@gmail.com
 
-### WindSimBattery is free software: 
+#### This file is part of WindSimBattery
+
+#### WindSimBattery is free software: 
 
 you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
