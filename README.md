@@ -3,7 +3,7 @@
 Software developed during the 5 month Intership period ad [WindSim](www.windsim.com)
 
 Master Thesis Project: 
-[Developing of an automatic grid for the CFD model WindSim](https://github.com/fparaggio/WindSimBattery/wiki/Development-of-an-automatic-grid-for-the-CFD-model-WindSim)
+[Development of an automatic grid for the CFD model WindSim](https://github.com/fparaggio/WindSimBattery/wiki/Development-of-an-automatic-grid-for-the-CFD-model-WindSim)
 
 A general description of the code is [here](https://github.com/fparaggio/WindSimBattery/wiki/Code-Description)
 
