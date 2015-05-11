@@ -1,4 +1,5 @@
 # WindSimBattery
+#### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
 
 Software developed during the 5 month Intership period ad [WindSim](www.windsim.com)
 
@@ -7,7 +8,7 @@ Master Thesis Project:
 
 A general description of the code is [here](https://github.com/fparaggio/WindSimBattery/wiki/Code-Description)
 
-#### Copyright (c) 2012, 2013, 2014, 2015 Francesco Paraggio.
+
 #### Author: 
 Francesco Paraggio fparaggio@gmail.com
 
