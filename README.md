@@ -10,7 +10,8 @@ A general description of the code is [here](https://github.com/fparaggio/WindSim
 
 
 #### Author: 
-Francesco Paraggio fparaggio@gmail.com
+
+Francesco Paraggio - Feel free to contact me at this email fparaggio (at) gmail.com
 
 #### This file is part of WindSimBattery
 
